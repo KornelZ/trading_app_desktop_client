@@ -61,6 +61,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -79,6 +81,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuyOffer.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DicCondition.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DicGenre.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DicOfferStatus.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DicProductType.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DicTransactionStatus.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MainDatabase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Product.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SellOffer.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transactions.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Users.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAuthetication.cs">
+      <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -86,6 +126,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainDatabase.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainDatabase.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MainDatabase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -110,6 +160,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="MainDatabase.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MainDatabase.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="MainDatabase.edmx.diagram">
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -121,8 +178,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MainDatabase.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
+      <LastGenOutput>MainDatabase.Context.cs</LastGenOutput>
+    </Content>
     <Content Include="mainDatabase.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MainDatabase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
+      <LastGenOutput>MainDatabase.cs</LastGenOutput>
     </Content>
     <Content Include="mainDatabase_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -140,6 +207,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
