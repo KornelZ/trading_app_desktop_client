@@ -81,42 +81,42 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BuyOffer.cs">
+    <Compile Include="Model\BuyOffer.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DicCondition.cs">
+    <Compile Include="Model\DicCondition.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DicGenre.cs">
+    <Compile Include="Model\DicGenre.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DicOfferStatus.cs">
+    <Compile Include="Model\DicOfferStatus.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DicProductType.cs">
+    <Compile Include="Model\DicProductType.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="DicTransactionStatus.cs">
+    <Compile Include="Model\DicTransactionStatus.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="MainDatabase.cs">
+    <Compile Include="Model\MainDatabase.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Product.cs">
+    <Compile Include="Model\Product.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="SellOffer.cs">
+    <Compile Include="Model\SellOffer.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Transactions.cs">
+    <Compile Include="Model\Transactions.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Users.cs">
+    <Compile Include="Model\Users.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="UsersAuthetication.cs">
+    <Compile Include="Model\UsersAuthetication.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -127,12 +127,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainDatabase.Context.cs">
+    <Compile Include="Model\MainDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MainDatabase.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="MainDatabase.Designer.cs">
+    <Compile Include="Model\MainDatabase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MainDatabase.edmx</DependentUpon>
@@ -160,11 +160,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="MainDatabase.edmx">
+    <EntityDeploy Include="Model\MainDatabase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MainDatabase.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="MainDatabase.edmx.diagram">
+    <None Include="Model\MainDatabase.edmx.diagram">
       <DependentUpon>MainDatabase.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
@@ -178,7 +178,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MainDatabase.Context.tt">
+    <Content Include="Model\MainDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MainDatabase.edmx</DependentUpon>
       <LastGenOutput>MainDatabase.Context.cs</LastGenOutput>
@@ -186,7 +186,7 @@
     <Content Include="mainDatabase.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MainDatabase.tt">
+    <Content Include="Model\MainDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MainDatabase.edmx</DependentUpon>
       <LastGenOutput>MainDatabase.cs</LastGenOutput>
@@ -210,6 +210,10 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\ModelWrappers\" />
+    <Folder Include="Utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
