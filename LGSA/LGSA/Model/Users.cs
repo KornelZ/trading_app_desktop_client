@@ -12,67 +12,67 @@ namespace LGSA.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class users
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
+        public users()
         {
-            this.BuyOffer = new HashSet<BuyOffer>();
-            this.BuyOffer1 = new HashSet<BuyOffer>();
-            this.DicCondition = new HashSet<DicCondition>();
-            this.DicGenre = new HashSet<DicGenre>();
-            this.DicOfferStatus = new HashSet<DicOfferStatus>();
-            this.DicProductType = new HashSet<DicProductType>();
-            this.DicTransactionStatus = new HashSet<DicTransactionStatus>();
-            this.Product = new HashSet<Product>();
-            this.SellOffer = new HashSet<SellOffer>();
-            this.SellOffer1 = new HashSet<SellOffer>();
-            this.Transactions = new HashSet<Transactions>();
-            this.Transactions1 = new HashSet<Transactions>();
-            this.Transactions2 = new HashSet<Transactions>();
-            this.UsersAuthetication = new HashSet<UsersAuthetication>();
-            this.UsersAuthetication1 = new HashSet<UsersAuthetication>();
-            this.Users1 = new HashSet<Users>();
+            this.buy_Offer = new HashSet<buy_Offer>();
+            this.buy_Offer1 = new HashSet<buy_Offer>();
+            this.dic_condition = new HashSet<dic_condition>();
+            this.dic_Genre = new HashSet<dic_Genre>();
+            this.dic_Offer_status = new HashSet<dic_Offer_status>();
+            this.dic_Product_type = new HashSet<dic_Product_type>();
+            this.dic_Transaction_status = new HashSet<dic_Transaction_status>();
+            this.product = new HashSet<product>();
+            this.sell_Offer = new HashSet<sell_Offer>();
+            this.sell_Offer1 = new HashSet<sell_Offer>();
+            this.transactions = new HashSet<transactions>();
+            this.transactions1 = new HashSet<transactions>();
+            this.transactions2 = new HashSet<transactions>();
+            this.users_Authetication = new HashSet<users_Authetication>();
+            this.users_Authetication1 = new HashSet<users_Authetication>();
+            this.users1 = new HashSet<users>();
         }
     
-        public int Id { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public System.DateTime UpdateDate { get; set; }
-        public int UpdateWho { get; set; }
+        public int ID { get; set; }
+        public string Last_Name { get; set; }
+        public string First_Name { get; set; }
+        public System.DateTime Update_Date { get; set; }
+        public int Update_Who { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BuyOffer> BuyOffer { get; set; }
+        public virtual ICollection<buy_Offer> buy_Offer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BuyOffer> BuyOffer1 { get; set; }
+        public virtual ICollection<buy_Offer> buy_Offer1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DicCondition> DicCondition { get; set; }
+        public virtual ICollection<dic_condition> dic_condition { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DicGenre> DicGenre { get; set; }
+        public virtual ICollection<dic_Genre> dic_Genre { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DicOfferStatus> DicOfferStatus { get; set; }
+        public virtual ICollection<dic_Offer_status> dic_Offer_status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DicProductType> DicProductType { get; set; }
+        public virtual ICollection<dic_Product_type> dic_Product_type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DicTransactionStatus> DicTransactionStatus { get; set; }
+        public virtual ICollection<dic_Transaction_status> dic_Transaction_status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<product> product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SellOffer> SellOffer { get; set; }
+        public virtual ICollection<sell_Offer> sell_Offer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SellOffer> SellOffer1 { get; set; }
+        public virtual ICollection<sell_Offer> sell_Offer1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transactions> Transactions { get; set; }
+        public virtual ICollection<transactions> transactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transactions> Transactions1 { get; set; }
+        public virtual ICollection<transactions> transactions1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transactions> Transactions2 { get; set; }
+        public virtual ICollection<transactions> transactions2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UsersAuthetication> UsersAuthetication { get; set; }
+        public virtual ICollection<users_Authetication> users_Authetication { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UsersAuthetication> UsersAuthetication1 { get; set; }
+        public virtual ICollection<users_Authetication> users_Authetication1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users1 { get; set; }
-        public virtual Users Users2 { get; set; }
+        public virtual ICollection<users> users1 { get; set; }
+        public virtual users users2 { get; set; }
     }
 }

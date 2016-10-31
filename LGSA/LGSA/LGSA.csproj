@@ -81,44 +81,68 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\BuyOffer.cs">
+    <Compile Include="Model\buy_Offer.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DicCondition.cs">
+    <Compile Include="Model\dic_condition.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DicGenre.cs">
+    <Compile Include="Model\dic_Genre.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DicOfferStatus.cs">
+    <Compile Include="Model\dic_Offer_status.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DicProductType.cs">
+    <Compile Include="Model\dic_Product_type.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DicTransactionStatus.cs">
+    <Compile Include="Model\dic_Transaction_status.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MainDatabase.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainDatabase.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MainDatabase.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Product.cs">
+    <Compile Include="Model\MainDatabase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ModelWrappers\BuyOfferWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\ConditionWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\GenreWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\OfferStatusWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\ProductTypeWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\ProductWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\SellOfferWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\TransactionStatusWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\TransactionWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\UserAuthenticationWrapper.cs" />
+    <Compile Include="Model\ModelWrappers\UserWrapper.cs" />
+    <Compile Include="Model\product.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\SellOffer.cs">
+    <Compile Include="Model\sell_Offer.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Transactions.cs">
+    <Compile Include="Model\transactions.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Users.cs">
+    <Compile Include="Model\users.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\UsersAuthetication.cs">
+    <Compile Include="Model\users_Authetication.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utility\BindableBase.cs" />
+    <Compile Include="Utility\BindableCollection.cs" />
+    <Compile Include="Utility\RelayCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,16 +150,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\MainDatabase.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabase.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\MainDatabase.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -178,22 +192,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="mainDatabase.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mainDatabase_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>mainDatabase.mdf</DependentUpon>
+    </Content>
     <Content Include="Model\MainDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MainDatabase.edmx</DependentUpon>
       <LastGenOutput>MainDatabase.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="mainDatabase.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Model\MainDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MainDatabase.edmx</DependentUpon>
       <LastGenOutput>MainDatabase.cs</LastGenOutput>
-    </Content>
-    <Content Include="mainDatabase_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>mainDatabase.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -211,10 +225,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\ModelWrappers\" />
-    <Folder Include="Utility\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

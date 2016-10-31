@@ -12,21 +12,21 @@ namespace LGSA.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class DicProductType
+    public partial class dic_Product_type
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DicProductType()
+        public dic_Product_type()
         {
-            this.Product = new HashSet<Product>();
+            this.product = new HashSet<product>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public System.DateTime UpdateDate { get; set; }
-        public int UpdateWho { get; set; }
+        public int ID { get; set; }
+        public string name { get; set; }
+        public System.DateTime Update_Date { get; set; }
+        public int Update_Who { get; set; }
     
-        public virtual Users Users { get; set; }
+        public virtual users users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<product> product { get; set; }
     }
 }

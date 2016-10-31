@@ -20,7 +20,7 @@ WriteHeader(codeStringGenerator, fileManager);
 
 foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection))
 {
-    fileManager.StartNewFile(PascalCase(entity.Name) + ".cs");
+    fileManager.StartNewFile(entity.Name + ".cs");
     BeginNamespace(code);
 #>
 <#=codeStringGenerator.UsingDirectives(inHeader: false)#>
@@ -35,20 +35,20 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     {
 #>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public <#=code.Escape(PascalCase(entity))#>()
+    public <#=code.Escape(entity)#>()
     {
 <#
         foreach (var edmProperty in propertiesWithDefaultValues)
         {
 #>
-        this.<#=code.Escape(PascalCase(edmProperty))#> = <#=typeMapper.CreateLiteral(edmProperty.DefaultValue)#>;
+        this.<#=code.Escape(edmProperty)#> = <#=typeMapper.CreateLiteral(edmProperty.DefaultValue)#>;
 <#
         }
 
         foreach (var navigationProperty in collectionNavigationProperties)
         {
 #>
-        this.<#=code.Escape(PascalCase(navigationProperty))#> = new HashSet<<#=PascalCase(typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType()))#>>();
+        this.<#=code.Escape(navigationProperty)#> = new HashSet<<#=typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType())#>>();
 <#
         }
 
@@ -115,11 +115,11 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 
 foreach (var complex in typeMapper.GetItemsToGenerate<ComplexType>(itemCollection))
 {
-    fileManager.StartNewFile(PascalCase(complex.Name) + ".cs");
+    fileManager.StartNewFile(complex.Name + ".cs");
     BeginNamespace(code);
 #>
 <#=codeStringGenerator.UsingDirectives(inHeader: false, includeCollections: false)#>
-<#=Accessibility.ForType(complex)#> partial class <#=code.Escape(PascalCase(complex))#>
+<#=Accessibility.ForType(complex)#> partial class <#=code.Escape(complex)#>
 {
 <#
     var complexProperties = typeMapper.GetComplexProperties(complex);
@@ -128,7 +128,7 @@ foreach (var complex in typeMapper.GetItemsToGenerate<ComplexType>(itemCollectio
     if (propertiesWithDefaultValues.Any() || complexProperties.Any())
     {
 #>
-    public <#=code.Escape(PascalCase(complex))#>()
+    public <#=code.Escape(complex)#>()
     {
 <#
         foreach (var edmProperty in propertiesWithDefaultValues)
@@ -181,7 +181,7 @@ foreach (var complex in typeMapper.GetItemsToGenerate<ComplexType>(itemCollectio
 
 foreach (var enumType in typeMapper.GetEnumItemsToGenerate(itemCollection))
 {
-    fileManager.StartNewFile(PascalCase(enumType.Name) + ".cs");
+    fileManager.StartNewFile(enumType.Name + ".cs");
     BeginNamespace(code);
 #>
 <#=codeStringGenerator.UsingDirectives(inHeader: false, includeCollections: false)#>
@@ -288,7 +288,7 @@ public class CodeStringGenerator
             "{0} {1} {2} {{ {3}get; {4}set; }}",
             Accessibility.ForProperty(edmProperty),
             _typeMapper.GetTypeName(edmProperty.TypeUsage),
-            _code.Escape(PascalCase(edmProperty)),
+            _code.Escape(edmProperty),
             _code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
             _code.SpaceAfter(Accessibility.ForSetter(edmProperty)));
     }
@@ -300,8 +300,8 @@ public class CodeStringGenerator
             CultureInfo.InvariantCulture,
             "{0} {1} {2} {{ {3}get; {4}set; }}",
             AccessibilityAndVirtual(Accessibility.ForNavigationProperty(navProp)),
-            navProp.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many ? ("ICollection<" + PascalCase(endType) + ">") : PascalCase(endType),
-            _code.Escape(PascalCase(navProp)),
+            navProp.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many ? ("ICollection<" + endType + ">") : endType,
+            _code.Escape(navProp),
             _code.SpaceAfter(Accessibility.ForGetter(navProp)),
             _code.SpaceAfter(Accessibility.ForSetter(navProp)));
     }
@@ -318,7 +318,7 @@ public class CodeStringGenerator
             "{0} {1}partial class {2}{3}",
             Accessibility.ForType(entity),
             _code.SpaceAfter(_code.AbstractOption(entity)),
-            _code.Escape(PascalCase(entity)),
+            _code.Escape(entity),
             _code.StringBefore(" : ", _typeMapper.GetTypeName(entity.BaseType)));
     }
     
@@ -729,54 +729,5 @@ public static void ArgumentNotNull<T>(T arg, string name) where T : class
     {
         throw new ArgumentNullException(name);
     }
-}
-
-
-public static string PascalCase(StructuralType type)
-{
-	if (type == null)
-	{
-		return null;
-	}
-
-	return PascalCase(type.Name);
-}
-
-public static string PascalCase(EdmMember member)
-{
-	if (member == null)
-	{
-		return null;
-	}
-
-	return PascalCase(member.Name);
-}
-
-public static string PascalCase(string name)
-{
-	name = name.ToLowerInvariant();
-
-	string result = null;
-	bool upperCase = false;
-
-	result = string.Empty;
-	for (int i = 0; i < name.Length; i++)
-	{
-		if (name[i] == ' ' || name[i] == '_')
-		{
-			upperCase = true;
-		}
-		else if (i == 0 || upperCase)
-		{
-			result += name[i].ToString().ToUpperInvariant();
-			upperCase = false;
-		}
-		else
-		{
-			result += name[i];
-		}
-	}
-
-	return result;
 }
 #>

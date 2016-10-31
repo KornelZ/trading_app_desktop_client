@@ -12,33 +12,31 @@ namespace LGSA.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class product
+    public partial class buy_Offer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public product()
+        public buy_Offer()
         {
-            this.buy_Offer = new HashSet<buy_Offer>();
-            this.sell_Offer = new HashSet<sell_Offer>();
+            this.transactions = new HashSet<transactions>();
         }
     
         public int ID { get; set; }
-        public string Name { get; set; }
-        public Nullable<double> rating { get; set; }
-        public int stock { get; set; }
+        public int buyer_id { get; set; }
+        public Nullable<double> price { get; set; }
+        public int amount { get; set; }
+        public Nullable<System.DateTime> last_sell_date { get; set; }
+        public string name { get; set; }
         public int sold_copies { get; set; }
-        public Nullable<int> genre_id { get; set; }
-        public Nullable<int> product_type_id { get; set; }
-        public Nullable<int> condition_id { get; set; }
+        public int product_id { get; set; }
+        public int status_id { get; set; }
         public System.DateTime Update_Date { get; set; }
         public int Update_Who { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<buy_Offer> buy_Offer { get; set; }
-        public virtual dic_condition dic_condition { get; set; }
-        public virtual dic_Genre dic_Genre { get; set; }
-        public virtual dic_Product_type dic_Product_type { get; set; }
         public virtual users users { get; set; }
+        public virtual product product { get; set; }
+        public virtual dic_Offer_status dic_Offer_status { get; set; }
+        public virtual users users1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<sell_Offer> sell_Offer { get; set; }
+        public virtual ICollection<transactions> transactions { get; set; }
     }
 }

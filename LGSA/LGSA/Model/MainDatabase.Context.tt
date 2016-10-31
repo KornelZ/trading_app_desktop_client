@@ -310,8 +310,8 @@ public class CodeStringGenerator
             CultureInfo.InvariantCulture,
             "{0} virtual DbSet<{1}> {2} {{ get; set; }}",
             Accessibility.ForReadOnlyProperty(entitySet),
-            PascalCase(_typeMapper.GetTypeName(entitySet.ElementType)),
-            PascalCase(_code.Escape(entitySet)));
+            _typeMapper.GetTypeName(entitySet.ElementType),
+            _code.Escape(entitySet));
     }
 
     public string DbSetInitializer(EntitySet entitySet)
@@ -632,53 +632,5 @@ public static void ArgumentNotNull<T>(T arg, string name) where T : class
     {
         throw new ArgumentNullException(name);
     }
-}
-
-public static string PascalCase(StructuralType type)
-{
-	if (type == null)
-	{
-		return null;
-	}
-
-	return PascalCase(type.Name);
-}
-
-public static string PascalCase(EdmMember member)
-{
-	if (member == null)
-	{
-		return null;
-	}
-
-	return PascalCase(member.Name);
-}
-
-public static string PascalCase(string name)
-{
-	name = name.ToLowerInvariant();
-
-	string result = null;
-	bool upperCase = false;
-
-	result = string.Empty;
-	for (int i = 0; i < name.Length; i++)
-	{
-		if (name[i] == ' ' || name[i] == '_')
-		{
-			upperCase = true;
-		}
-		else if (i == 0 || upperCase)
-		{
-			result += name[i].ToString().ToUpperInvariant();
-			upperCase = false;
-		}
-		else
-		{
-			result += name[i];
-		}
-	}
-
-	return result;
 }
 #>

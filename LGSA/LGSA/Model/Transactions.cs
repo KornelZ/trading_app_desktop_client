@@ -12,23 +12,23 @@ namespace LGSA.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Transactions
+    public partial class transactions
     {
-        public int Id { get; set; }
-        public int SellerId { get; set; }
-        public int BuyerId { get; set; }
-        public int BuyOfferId { get; set; }
-        public int SellOfferId { get; set; }
-        public System.DateTime TransactionDate { get; set; }
-        public int StatusId { get; set; }
-        public System.DateTime UpdateDate { get; set; }
-        public int UpdateWho { get; set; }
+        public int ID { get; set; }
+        public int seller_id { get; set; }
+        public int buyer_id { get; set; }
+        public int buy_offer_id { get; set; }
+        public int sell_offer_id { get; set; }
+        public System.DateTime transaction_Date { get; set; }
+        public int status_id { get; set; }
+        public System.DateTime Update_Date { get; set; }
+        public int Update_Who { get; set; }
     
-        public virtual BuyOffer BuyOffer { get; set; }
-        public virtual DicTransactionStatus DicTransactionStatus { get; set; }
-        public virtual SellOffer SellOffer { get; set; }
-        public virtual Users Users { get; set; }
-        public virtual Users Users1 { get; set; }
-        public virtual Users Users2 { get; set; }
+        public virtual buy_Offer buy_Offer { get; set; }
+        public virtual dic_Transaction_status dic_Transaction_status { get; set; }
+        public virtual sell_Offer sell_Offer { get; set; }
+        public virtual users users { get; set; }
+        public virtual users users1 { get; set; }
+        public virtual users users2 { get; set; }
     }
 }

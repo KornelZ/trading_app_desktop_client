@@ -12,15 +12,15 @@ namespace LGSA.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class UsersAuthetication
+    public partial class users_Authetication
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public string Password { get; set; }
-        public System.DateTime UpdateDate { get; set; }
-        public int UpdateWho { get; set; }
+        public int ID { get; set; }
+        public int User_id { get; set; }
+        public string password { get; set; }
+        public System.DateTime Update_Date { get; set; }
+        public int Update_Who { get; set; }
     
-        public virtual Users Users { get; set; }
-        public virtual Users Users1 { get; set; }
+        public virtual users users { get; set; }
+        public virtual users users1 { get; set; }
     }
 }

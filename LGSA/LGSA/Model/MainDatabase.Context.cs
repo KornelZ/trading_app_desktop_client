@@ -25,16 +25,16 @@ namespace LGSA.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<BuyOffer> BuyOffer { get; set; }
-        public virtual DbSet<DicCondition> DicCondition { get; set; }
-        public virtual DbSet<DicGenre> DicGenre { get; set; }
-        public virtual DbSet<DicOfferStatus> DicOfferStatus { get; set; }
-        public virtual DbSet<DicProductType> DicProductType { get; set; }
-        public virtual DbSet<DicTransactionStatus> DicTransactionStatus { get; set; }
-        public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<SellOffer> SellOffer { get; set; }
-        public virtual DbSet<Transactions> Transactions { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<UsersAuthetication> UsersAuthetication { get; set; }
+        public virtual DbSet<buy_Offer> buy_Offer { get; set; }
+        public virtual DbSet<dic_condition> dic_condition { get; set; }
+        public virtual DbSet<dic_Genre> dic_Genre { get; set; }
+        public virtual DbSet<dic_Offer_status> dic_Offer_status { get; set; }
+        public virtual DbSet<dic_Product_type> dic_Product_type { get; set; }
+        public virtual DbSet<dic_Transaction_status> dic_Transaction_status { get; set; }
+        public virtual DbSet<product> product { get; set; }
+        public virtual DbSet<sell_Offer> sell_Offer { get; set; }
+        public virtual DbSet<transactions> transactions { get; set; }
+        public virtual DbSet<users> users { get; set; }
+        public virtual DbSet<users_Authetication> users_Authetication { get; set; }
     }
 }

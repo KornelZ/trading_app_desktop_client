@@ -12,25 +12,22 @@ namespace LGSA.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class DicOfferStatus
+    public partial class dic_Genre
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DicOfferStatus()
+        public dic_Genre()
         {
-            this.BuyOffer = new HashSet<BuyOffer>();
-            this.SellOffer = new HashSet<SellOffer>();
+            this.product = new HashSet<product>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string OfferStatusDescription { get; set; }
-        public System.DateTime UpdateDate { get; set; }
-        public int UpdateWho { get; set; }
+        public int ID { get; set; }
+        public string name { get; set; }
+        public string genre_description { get; set; }
+        public System.DateTime Update_Date { get; set; }
+        public int Update_Who { get; set; }
     
+        public virtual users users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BuyOffer> BuyOffer { get; set; }
-        public virtual Users Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SellOffer> SellOffer { get; set; }
+        public virtual ICollection<product> product { get; set; }
     }
 }
