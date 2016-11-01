@@ -16,6 +16,7 @@ namespace LGSA.Model.ModelWrappers
         }
         public UserWrapper(users u)
         {
+            user = u;
             LastName = u.Last_Name;
             FirstName = u.First_Name;
         }
