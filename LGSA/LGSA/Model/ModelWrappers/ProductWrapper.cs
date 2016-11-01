@@ -18,6 +18,15 @@ namespace LGSA.Model.ModelWrappers
             get { return product; }
             set { product = value; Notify(); }
         }
+
+        public ProductWrapper(product p)
+        {
+            product = p;
+            Name = p.Name;
+            Rating = p.rating;
+            Stock = p.stock;
+            SoldCopies = p.sold_copies;
+        }
         public int Id
         {
             get { return product.ID; }

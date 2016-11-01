@@ -14,7 +14,12 @@ namespace LGSA.Model.ModelWrappers
             get { return dicGenre; }
             set { dicGenre = value; }
         }
-
+        public GenreWrapper(dic_Genre g)
+        {
+            dicGenre = g;
+            Name = g.name;
+            GenreDescription = g.genre_description;
+        }
         public int Id
         {
             get { return dicGenre.ID; }

@@ -19,6 +19,11 @@ namespace LGSA.Model.ModelWrappers
             get { return transaction; }
             set { transaction = value; Notify(); }
         }
+        public TransactionWrapper(transactions t)
+        {
+            transaction = t;
+            TransactionDate = t.transaction_Date;
+        }
         public int Id
         {
             get { return transaction.ID; }

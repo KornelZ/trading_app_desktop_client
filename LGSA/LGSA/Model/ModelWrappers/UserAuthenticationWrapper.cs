@@ -15,7 +15,10 @@ namespace LGSA.Model.ModelWrappers
             get { return userAuthentication; }
             set { userAuthentication = value; Notify(); }
         }
-
+        public UserAuthenticationWrapper(users_Authetication u)
+        {
+            userAuthentication = u;
+        }
         public int Id
         {
             get { return userAuthentication.ID; }

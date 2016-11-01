@@ -14,6 +14,11 @@ namespace LGSA.Model.ModelWrappers
             get { return dicProductType; }
             set { dicProductType = value; Notify(); }
         }
+        public ProductTypeWrapper(dic_Product_type p)
+        {
+            dicProductType = p;
+            Name = p.name;
+        }
         public int Id
         {
             get { return dicProductType.ID; }

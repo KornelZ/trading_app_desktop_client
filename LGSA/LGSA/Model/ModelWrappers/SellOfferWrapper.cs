@@ -18,6 +18,15 @@ namespace LGSA.Model.ModelWrappers
             get { return sellOffer; }
             set { sellOffer = value; Notify(); }
         }
+        public SellOfferWrapper(sell_Offer s)
+        {
+            sellOffer = s;
+            Price = (decimal?)s.price;
+            Amount = s.amount;
+            LastSellDate = s.last_sell_date;
+            Name = s.name;
+            BoughtCopies = s.buyed_copies;
+        }
         public int Id
         {
             get { return sellOffer.ID; }
@@ -26,10 +35,10 @@ namespace LGSA.Model.ModelWrappers
         {
             get { return sellOffer.seller_id; }
         }
-        public Nullable<double> Price
+        public Nullable<decimal> Price
         {
-            get { return sellOffer.price; }
-            set { sellOffer.price = value; Notify(); }
+            get { return (decimal?)sellOffer.price; }
+            set { sellOffer.price = (double?)value; Notify(); }
         }
         public int Amount
         {
@@ -46,7 +55,7 @@ namespace LGSA.Model.ModelWrappers
             get { return sellOffer.name; }
             set { sellOffer.name = value; Notify(); }
         }
-        public int BuyedCopies
+        public int BoughtCopies
         {
             get { return sellOffer.buyed_copies; }
             set { sellOffer.buyed_copies = value; Notify(); }

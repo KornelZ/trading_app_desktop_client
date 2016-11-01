@@ -14,6 +14,12 @@ namespace LGSA.Model.ModelWrappers
             get { return dicOfferStatus; }
             set { dicOfferStatus = value; Notify(); }
         }
+        public OfferStatusWrapper(dic_Offer_status o)
+        {
+            dicOfferStatus = o;
+            Name = o.name;
+            OfferStatusDescription = o.offer_status_description;
+        }
         public int Id
         {
             get { return dicOfferStatus.ID; }

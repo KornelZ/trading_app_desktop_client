@@ -18,7 +18,14 @@ namespace LGSA.Model.ModelWrappers
             get { return buyOffer; }
             set { buyOffer = value; Notify(); }
         }
-
+        public BuyOfferWrapper(buy_Offer b)
+        {
+            buyOffer = b;
+            Price = (decimal?)b.price;
+            Amount = b.amount;
+            Name = b.name;
+            SoldCopies = b.sold_copies;
+        }
         public int Id
         {
             get { return buyOffer.ID; }
@@ -29,8 +36,8 @@ namespace LGSA.Model.ModelWrappers
         }
         public Nullable<decimal> Price
         {
-            get { return (decimal)buyOffer.price; }
-            set { buyOffer.price = (double)value; Notify(); }
+            get { return (decimal?)buyOffer.price; }
+            set { buyOffer.price = (double?)value; Notify(); }
         }
         public int Amount
         {

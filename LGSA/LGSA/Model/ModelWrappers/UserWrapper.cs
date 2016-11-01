@@ -14,6 +14,11 @@ namespace LGSA.Model.ModelWrappers
             get { return user; }
             set { user = value; Notify(); }
         }
+        public UserWrapper(users u)
+        {
+            LastName = u.Last_Name;
+            FirstName = u.First_Name;
+        }
         public int Id
         {
             get { return user.ID; }
