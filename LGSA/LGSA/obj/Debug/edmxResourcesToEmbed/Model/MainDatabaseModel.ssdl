@@ -1,0 +1,578 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MainDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="buy_Offer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="buyer_id" Type="int" Nullable="false" />
+    <Property Name="price" Type="float" />
+    <Property Name="amount" Type="int" Nullable="false" />
+    <Property Name="last_sell_date" Type="datetime" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="sold_copies" Type="int" Nullable="false" />
+    <Property Name="product_id" Type="int" Nullable="false" />
+    <Property Name="status_id" Type="int" Nullable="false" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dic_condition">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dic_Genre">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="genre_description" Type="varchar" MaxLength="255" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dic_Offer_status">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="offer_status_description" Type="varchar" MaxLength="255" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dic_Product_type">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dic_Transaction_status">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="offer_transaction_description" Type="varchar" MaxLength="255" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product_owner" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="rating" Type="float" />
+    <Property Name="stock" Type="int" Nullable="false" />
+    <Property Name="sold_copies" Type="int" Nullable="false" />
+    <Property Name="genre_id" Type="int" />
+    <Property Name="product_type_id" Type="int" />
+    <Property Name="condition_id" Type="int" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sell_Offer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="seller_id" Type="int" Nullable="false" />
+    <Property Name="price" Type="float" />
+    <Property Name="amount" Type="int" Nullable="false" />
+    <Property Name="last_sell_date" Type="datetime" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="buyed_copies" Type="int" Nullable="false" />
+    <Property Name="product_id" Type="int" Nullable="false" />
+    <Property Name="status_id" Type="int" Nullable="false" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="transactions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="seller_id" Type="int" Nullable="false" />
+    <Property Name="buyer_id" Type="int" Nullable="false" />
+    <Property Name="buy_offer_id" Type="int" Nullable="false" />
+    <Property Name="sell_offer_id" Type="int" Nullable="false" />
+    <Property Name="transaction_Date" Type="datetime" Nullable="false" />
+    <Property Name="status_id" Type="int" Nullable="false" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Last_Name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="First_Name" Type="varchar" MaxLength="255" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users_Authetication">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="255" />
+    <Property Name="Update_Date" Type="datetime" Nullable="false" />
+    <Property Name="Update_Who" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="buy_offer_buyer_id_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="buy_Offer" Type="Self.buy_Offer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="buy_Offer">
+        <PropertyRef Name="buyer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="buy_offer_product_id_fk">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="buy_Offer" Type="Self.buy_Offer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="buy_Offer">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="buy_offer_status_id_fk">
+    <End Role="dic_Offer_status" Type="Self.dic_Offer_status" Multiplicity="1" />
+    <End Role="buy_Offer" Type="Self.buy_Offer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dic_Offer_status">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="buy_Offer">
+        <PropertyRef Name="status_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="buy_offer_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="buy_Offer" Type="Self.buy_Offer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="buy_Offer">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="dic_condition_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="dic_condition" Type="Self.dic_condition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="dic_condition">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="dic_genre_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="dic_Genre" Type="Self.dic_Genre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="dic_Genre">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="dic_offer_status_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="dic_Offer_status" Type="Self.dic_Offer_status" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="dic_Offer_status">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="dic_product_type_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="dic_Product_type" Type="Self.dic_Product_type" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="dic_Product_type">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="dic_transaction_status_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="dic_Transaction_status" Type="Self.dic_Transaction_status" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="dic_Transaction_status">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Product_condition_fk">
+    <End Role="dic_condition" Type="Self.dic_condition" Multiplicity="0..1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dic_condition">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="condition_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Product_genre_fk">
+    <End Role="dic_Genre" Type="Self.dic_Genre" Multiplicity="0..1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dic_Genre">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="genre_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Product_product_owner_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="product_owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Product_product_type_fk">
+    <End Role="dic_Product_type" Type="Self.dic_Product_type" Multiplicity="0..1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dic_Product_type">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="product_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Product_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="sell_offer_product_id_fk">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="sell_Offer" Type="Self.sell_Offer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="sell_Offer">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="sell_offer_seller_id_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="sell_Offer" Type="Self.sell_Offer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="sell_Offer">
+        <PropertyRef Name="seller_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="sell_offer_status_id_fk">
+    <End Role="dic_Offer_status" Type="Self.dic_Offer_status" Multiplicity="1" />
+    <End Role="sell_Offer" Type="Self.sell_Offer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dic_Offer_status">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="sell_Offer">
+        <PropertyRef Name="status_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="sell_offer_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="sell_Offer" Type="Self.sell_Offer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="sell_Offer">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Transaction_buy_offer_fk">
+    <End Role="buy_Offer" Type="Self.buy_Offer" Multiplicity="1" />
+    <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="buy_Offer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="transactions">
+        <PropertyRef Name="buy_offer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Transaction_buyer_id_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="transactions">
+        <PropertyRef Name="buyer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Transaction_sell_offer_fk">
+    <End Role="sell_Offer" Type="Self.sell_Offer" Multiplicity="1" />
+    <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="sell_Offer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="transactions">
+        <PropertyRef Name="sell_offer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Transaction_seller_id_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="transactions">
+        <PropertyRef Name="seller_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Transaction_status_id_fk">
+    <End Role="dic_Transaction_status" Type="Self.dic_Transaction_status" Multiplicity="1" />
+    <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dic_Transaction_status">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="transactions">
+        <PropertyRef Name="status_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Transaction_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="transactions">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Users_Authentication_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="users_Authetication" Type="Self.users_Authetication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="users_Authetication">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Users_Authentication_user_id">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="users_Authetication" Type="Self.users_Authetication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="users_Authetication">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Users_Update_Who_fk">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="users1" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="users1">
+        <PropertyRef Name="Update_Who" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MainDatabaseModelStoreContainer">
+    <EntitySet Name="buy_Offer" EntityType="Self.buy_Offer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dic_condition" EntityType="Self.dic_condition" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dic_Genre" EntityType="Self.dic_Genre" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dic_Offer_status" EntityType="Self.dic_Offer_status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dic_Product_type" EntityType="Self.dic_Product_type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dic_Transaction_status" EntityType="Self.dic_Transaction_status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sell_Offer" EntityType="Self.sell_Offer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="transactions" EntityType="Self.transactions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users_Authetication" EntityType="Self.users_Authetication" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="buy_offer_buyer_id_fk" Association="Self.buy_offer_buyer_id_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="buy_Offer" EntitySet="buy_Offer" />
+    </AssociationSet>
+    <AssociationSet Name="buy_offer_product_id_fk" Association="Self.buy_offer_product_id_fk">
+      <End Role="product" EntitySet="product" />
+      <End Role="buy_Offer" EntitySet="buy_Offer" />
+    </AssociationSet>
+    <AssociationSet Name="buy_offer_status_id_fk" Association="Self.buy_offer_status_id_fk">
+      <End Role="dic_Offer_status" EntitySet="dic_Offer_status" />
+      <End Role="buy_Offer" EntitySet="buy_Offer" />
+    </AssociationSet>
+    <AssociationSet Name="buy_offer_Update_Who_fk" Association="Self.buy_offer_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="buy_Offer" EntitySet="buy_Offer" />
+    </AssociationSet>
+    <AssociationSet Name="dic_condition_Update_Who_fk" Association="Self.dic_condition_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="dic_condition" EntitySet="dic_condition" />
+    </AssociationSet>
+    <AssociationSet Name="dic_genre_Update_Who_fk" Association="Self.dic_genre_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="dic_Genre" EntitySet="dic_Genre" />
+    </AssociationSet>
+    <AssociationSet Name="dic_offer_status_Update_Who_fk" Association="Self.dic_offer_status_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="dic_Offer_status" EntitySet="dic_Offer_status" />
+    </AssociationSet>
+    <AssociationSet Name="dic_product_type_Update_Who_fk" Association="Self.dic_product_type_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="dic_Product_type" EntitySet="dic_Product_type" />
+    </AssociationSet>
+    <AssociationSet Name="dic_transaction_status_Update_Who_fk" Association="Self.dic_transaction_status_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="dic_Transaction_status" EntitySet="dic_Transaction_status" />
+    </AssociationSet>
+    <AssociationSet Name="Product_condition_fk" Association="Self.Product_condition_fk">
+      <End Role="dic_condition" EntitySet="dic_condition" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="Product_genre_fk" Association="Self.Product_genre_fk">
+      <End Role="dic_Genre" EntitySet="dic_Genre" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="Product_product_owner_fk" Association="Self.Product_product_owner_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="Product_product_type_fk" Association="Self.Product_product_type_fk">
+      <End Role="dic_Product_type" EntitySet="dic_Product_type" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="Product_Update_Who_fk" Association="Self.Product_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="sell_offer_product_id_fk" Association="Self.sell_offer_product_id_fk">
+      <End Role="product" EntitySet="product" />
+      <End Role="sell_Offer" EntitySet="sell_Offer" />
+    </AssociationSet>
+    <AssociationSet Name="sell_offer_seller_id_fk" Association="Self.sell_offer_seller_id_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="sell_Offer" EntitySet="sell_Offer" />
+    </AssociationSet>
+    <AssociationSet Name="sell_offer_status_id_fk" Association="Self.sell_offer_status_id_fk">
+      <End Role="dic_Offer_status" EntitySet="dic_Offer_status" />
+      <End Role="sell_Offer" EntitySet="sell_Offer" />
+    </AssociationSet>
+    <AssociationSet Name="sell_offer_Update_Who_fk" Association="Self.sell_offer_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="sell_Offer" EntitySet="sell_Offer" />
+    </AssociationSet>
+    <AssociationSet Name="Transaction_buy_offer_fk" Association="Self.Transaction_buy_offer_fk">
+      <End Role="buy_Offer" EntitySet="buy_Offer" />
+      <End Role="transactions" EntitySet="transactions" />
+    </AssociationSet>
+    <AssociationSet Name="Transaction_buyer_id_fk" Association="Self.Transaction_buyer_id_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="transactions" EntitySet="transactions" />
+    </AssociationSet>
+    <AssociationSet Name="Transaction_sell_offer_fk" Association="Self.Transaction_sell_offer_fk">
+      <End Role="sell_Offer" EntitySet="sell_Offer" />
+      <End Role="transactions" EntitySet="transactions" />
+    </AssociationSet>
+    <AssociationSet Name="Transaction_seller_id_fk" Association="Self.Transaction_seller_id_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="transactions" EntitySet="transactions" />
+    </AssociationSet>
+    <AssociationSet Name="Transaction_status_id_fk" Association="Self.Transaction_status_id_fk">
+      <End Role="dic_Transaction_status" EntitySet="dic_Transaction_status" />
+      <End Role="transactions" EntitySet="transactions" />
+    </AssociationSet>
+    <AssociationSet Name="Transaction_Update_Who_fk" Association="Self.Transaction_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="transactions" EntitySet="transactions" />
+    </AssociationSet>
+    <AssociationSet Name="Users_Authentication_Update_Who_fk" Association="Self.Users_Authentication_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="users_Authetication" EntitySet="users_Authetication" />
+    </AssociationSet>
+    <AssociationSet Name="Users_Authentication_user_id" Association="Self.Users_Authentication_user_id">
+      <End Role="users" EntitySet="users" />
+      <End Role="users_Authetication" EntitySet="users_Authetication" />
+    </AssociationSet>
+    <AssociationSet Name="Users_Update_Who_fk" Association="Self.Users_Update_Who_fk">
+      <End Role="users" EntitySet="users" />
+      <End Role="users1" EntitySet="users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -10,5 +10,7 @@
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("maindatabase.mdf")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("maindatabase_log.ldf")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("model/maindatabasemodel.context.tt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("model/maindatabasemodel.tt")]
 
 
