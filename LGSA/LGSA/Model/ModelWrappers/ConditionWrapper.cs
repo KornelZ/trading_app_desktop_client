@@ -13,7 +13,7 @@ namespace LGSA.Model.ModelWrappers
         public dic_condition DicCondition
         {
             get { return dicCondition; }
-            set { dicCondition = value; }
+            set { dicCondition = value; Notify(); }
         }
 
         public int Id

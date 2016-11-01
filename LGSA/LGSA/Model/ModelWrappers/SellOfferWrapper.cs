@@ -9,6 +9,10 @@ namespace LGSA.Model.ModelWrappers
     public class SellOfferWrapper : Utility.BindableBase
     {
         private sell_Offer sellOffer;
+        private ProductWrapper product;
+        private UserWrapper offerCreator;
+        private UserWrapper seller;
+        private OfferStatusWrapper offerStatus;
         public sell_Offer SellOffer
         {
             get { return sellOffer; }
@@ -54,6 +58,26 @@ namespace LGSA.Model.ModelWrappers
         public int StatusId
         {
             get { return sellOffer.status_id; }
+        }
+        public ProductWrapper Product
+        {
+            get { return product; }
+            set { product = value; Notify(); }
+        }
+        public UserWrapper OfferCreator
+        {
+            get { return offerCreator; }
+            set { offerCreator = value; }
+        }
+        public UserWrapper Seller
+        {
+            get { return seller; }
+            set { seller = value; Notify(); }
+        }
+        public OfferStatusWrapper OfferStatus
+        {
+            get { return offerStatus; }
+            set { offerStatus = value; Notify(); }
         }
     }
 }

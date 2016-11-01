@@ -22,6 +22,7 @@ namespace LGSA.Model
         }
     
         public int ID { get; set; }
+        public int product_owner { get; set; }
         public string Name { get; set; }
         public Nullable<double> rating { get; set; }
         public int stock { get; set; }
@@ -38,6 +39,7 @@ namespace LGSA.Model
         public virtual dic_Genre dic_Genre { get; set; }
         public virtual dic_Product_type dic_Product_type { get; set; }
         public virtual users users { get; set; }
+        public virtual users users1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<sell_Offer> sell_Offer { get; set; }
     }

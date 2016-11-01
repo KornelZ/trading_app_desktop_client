@@ -9,6 +9,10 @@ namespace LGSA.Model.ModelWrappers
     public class ProductWrapper : Utility.BindableBase
     {
         private product product;
+        private GenreWrapper genre;
+        private ProductTypeWrapper productType;
+        private ConditionWrapper condition;
+        private UserWrapper owner;
         public product Product
         {
             get { return product; }
@@ -49,6 +53,26 @@ namespace LGSA.Model.ModelWrappers
         public Nullable<int> ConditionId
         {
             get { return product.condition_id; }
+        }
+        public GenreWrapper Genre
+        {
+            get { return genre; }
+            set { genre = value; Notify(); }
+        }
+        public ConditionWrapper Condition
+        {
+            get { return condition; }
+            set { condition = value; Notify(); }
+        }
+        public ProductTypeWrapper ProductType
+        {
+            get { return productType; }
+            set { productType = value; Notify(); }
+        }
+        public UserWrapper Owner
+        {
+            get { return owner; }
+            set { owner = value; Notify(); }
         }
     }
 }

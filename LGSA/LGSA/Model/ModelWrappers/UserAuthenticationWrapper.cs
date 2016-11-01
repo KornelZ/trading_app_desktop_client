@@ -9,6 +9,7 @@ namespace LGSA.Model.ModelWrappers
     public class UserAuthenticationWrapper : Utility.BindableBase
     {
         private users_Authetication userAuthentication;
+        private UserWrapper user;
         public users_Authetication UserAuthentication
         {
             get { return userAuthentication; }
@@ -26,6 +27,11 @@ namespace LGSA.Model.ModelWrappers
         public string Password
         {
             get { return userAuthentication.password; }
+        }
+        public UserWrapper User
+        {
+            get { return user; }
+            set { user = value; Notify(); }
         }
     }
 }

@@ -9,6 +9,11 @@ namespace LGSA.Model.ModelWrappers
     public class TransactionWrapper : Utility.BindableBase
     {
         private transactions transaction;
+        private UserWrapper seller;
+        private UserWrapper buyer;
+        private BuyOfferWrapper buyOffer;
+        private SellOfferWrapper sellOffer;
+        private TransactionStatusWrapper transactionStatus;
         public transactions Transaction
         {
             get { return transaction; }
@@ -43,5 +48,32 @@ namespace LGSA.Model.ModelWrappers
         {
             get { return transaction.status_id; }
         }
+
+        public UserWrapper Seller
+        {
+            get { return seller; }
+            set { seller = value; Notify(); }
+        }
+        public UserWrapper Buyer
+        {
+            get { return buyer; }
+            set { buyer = value; Notify(); }
+        }
+        public BuyOfferWrapper BuyOffer
+        {
+            get { return buyOffer; }
+            set { buyOffer = value; Notify(); }
+        }
+        public SellOfferWrapper SellOffer
+        {
+            get { return sellOffer; }
+            set { sellOffer = value; Notify(); }
+        }
+        public TransactionStatusWrapper TransactionStatus
+        {
+            get { return transactionStatus; }
+            set { transactionStatus = value; Notify(); }
+        }
+                
     }
 }

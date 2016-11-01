@@ -25,6 +25,7 @@ namespace LGSA.Model
             this.dic_Product_type = new HashSet<dic_Product_type>();
             this.dic_Transaction_status = new HashSet<dic_Transaction_status>();
             this.product = new HashSet<product>();
+            this.product1 = new HashSet<product>();
             this.sell_Offer = new HashSet<sell_Offer>();
             this.sell_Offer1 = new HashSet<sell_Offer>();
             this.transactions = new HashSet<transactions>();
@@ -57,6 +58,8 @@ namespace LGSA.Model
         public virtual ICollection<dic_Transaction_status> dic_Transaction_status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<product> product { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<product> product1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<sell_Offer> sell_Offer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

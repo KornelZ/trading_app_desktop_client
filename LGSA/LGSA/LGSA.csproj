@@ -82,37 +82,37 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\buy_Offer.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\dic_condition.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\dic_Genre.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\dic_Offer_status.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\dic_Product_type.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\dic_Transaction_status.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MainDatabase.Context.cs">
+    <Compile Include="Model\MainDatabaseModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabase.Context.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MainDatabase.cs">
+    <Compile Include="Model\MainDatabaseModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MainDatabase.Designer.cs">
+    <Compile Include="Model\MainDatabaseModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
+      <DependentUpon>MainDatabaseModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\ModelWrappers\BuyOfferWrapper.cs" />
     <Compile Include="Model\ModelWrappers\ConditionWrapper.cs" />
@@ -126,19 +126,19 @@
     <Compile Include="Model\ModelWrappers\UserAuthenticationWrapper.cs" />
     <Compile Include="Model\ModelWrappers\UserWrapper.cs" />
     <Compile Include="Model\product.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\sell_Offer.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\transactions.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\users.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\users_Authetication.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utility\BindableBase.cs" />
     <Compile Include="Utility\BindableCollection.cs" />
@@ -174,12 +174,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model\MainDatabase.edmx">
+    <EntityDeploy Include="Model\MainDatabaseModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MainDatabase.Designer.cs</LastGenOutput>
+      <LastGenOutput>MainDatabaseModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model\MainDatabase.edmx.diagram">
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
+    <None Include="Model\MainDatabaseModel.edmx.diagram">
+      <DependentUpon>MainDatabaseModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -199,15 +199,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>mainDatabase.mdf</DependentUpon>
     </Content>
-    <Content Include="Model\MainDatabase.Context.tt">
+    <Content Include="Model\MainDatabaseModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
-      <LastGenOutput>MainDatabase.Context.cs</LastGenOutput>
+      <DependentUpon>MainDatabaseModel.edmx</DependentUpon>
+      <LastGenOutput>MainDatabaseModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Model\MainDatabase.tt">
+    <Content Include="Model\MainDatabaseModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
-      <LastGenOutput>MainDatabase.cs</LastGenOutput>
+      <DependentUpon>MainDatabaseModel.edmx</DependentUpon>
+      <LastGenOutput>MainDatabaseModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

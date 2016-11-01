@@ -74,6 +74,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_owner" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="rating" Type="float" />
           <Property Name="stock" Type="int" Nullable="false" />
@@ -263,6 +264,18 @@
             </Principal>
             <Dependent Role="product">
               <PropertyRef Name="genre_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Product_product_owner_fk">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="product_owner" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -502,6 +515,10 @@
             <End Role="dic_Genre" EntitySet="dic_Genre" />
             <End Role="product" EntitySet="product" />
           </AssociationSet>
+          <AssociationSet Name="Product_product_owner_fk" Association="Self.Product_product_owner_fk">
+            <End Role="users" EntitySet="users" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
           <AssociationSet Name="Product_product_type_fk" Association="Self.Product_product_type_fk">
             <End Role="dic_Product_type" EntitySet="dic_Product_type" />
             <End Role="product" EntitySet="product" />
@@ -653,6 +670,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_owner" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="rating" Type="Double" />
           <Property Name="stock" Type="Int32" Nullable="false" />
@@ -666,7 +684,8 @@
           <NavigationProperty Name="dic_condition" Relationship="Self.Product_condition_fk" FromRole="product" ToRole="dic_condition" />
           <NavigationProperty Name="dic_Genre" Relationship="Self.Product_genre_fk" FromRole="product" ToRole="dic_Genre" />
           <NavigationProperty Name="dic_Product_type" Relationship="Self.Product_product_type_fk" FromRole="product" ToRole="dic_Product_type" />
-          <NavigationProperty Name="users" Relationship="Self.Product_Update_Who_fk" FromRole="product" ToRole="users" />
+          <NavigationProperty Name="users" Relationship="Self.Product_product_owner_fk" FromRole="product" ToRole="users" />
+          <NavigationProperty Name="users1" Relationship="Self.Product_Update_Who_fk" FromRole="product" ToRole="users" />
           <NavigationProperty Name="sell_Offer" Relationship="Self.sell_offer_product_id_fk" FromRole="product" ToRole="sell_Offer" />
         </EntityType>
         <EntityType Name="sell_Offer">
@@ -726,7 +745,8 @@
           <NavigationProperty Name="dic_Offer_status" Relationship="Self.dic_offer_status_Update_Who_fk" FromRole="users" ToRole="dic_Offer_status" />
           <NavigationProperty Name="dic_Product_type" Relationship="Self.dic_product_type_Update_Who_fk" FromRole="users" ToRole="dic_Product_type" />
           <NavigationProperty Name="dic_Transaction_status" Relationship="Self.dic_transaction_status_Update_Who_fk" FromRole="users" ToRole="dic_Transaction_status" />
-          <NavigationProperty Name="product" Relationship="Self.Product_Update_Who_fk" FromRole="users" ToRole="product" />
+          <NavigationProperty Name="product" Relationship="Self.Product_product_owner_fk" FromRole="users" ToRole="product" />
+          <NavigationProperty Name="product1" Relationship="Self.Product_Update_Who_fk" FromRole="users" ToRole="product" />
           <NavigationProperty Name="sell_Offer" Relationship="Self.sell_offer_seller_id_fk" FromRole="users" ToRole="sell_Offer" />
           <NavigationProperty Name="sell_Offer1" Relationship="Self.sell_offer_Update_Who_fk" FromRole="users" ToRole="sell_Offer" />
           <NavigationProperty Name="transactions" Relationship="Self.Transaction_buyer_id_fk" FromRole="users" ToRole="transactions" />
@@ -926,6 +946,18 @@
             </Principal>
             <Dependent Role="transactions">
               <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Product_product_owner_fk">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="product_owner" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1133,6 +1165,10 @@
             <End Role="dic_Transaction_status" EntitySet="dic_Transaction_status" />
             <End Role="transactions" EntitySet="transactions" />
           </AssociationSet>
+          <AssociationSet Name="Product_product_owner_fk" Association="Self.Product_product_owner_fk">
+            <End Role="users" EntitySet="users" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
           <AssociationSet Name="Product_Update_Who_fk" Association="Self.Product_Update_Who_fk">
             <End Role="users" EntitySet="users" />
             <End Role="product" EntitySet="product" />
@@ -1258,6 +1294,7 @@
             <EntityTypeMapping TypeName="MainDatabaseModel.product">
               <MappingFragment StoreEntitySet="product">
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="product_owner" ColumnName="product_owner" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="rating" ColumnName="rating" />
                 <ScalarProperty Name="stock" ColumnName="stock" />
