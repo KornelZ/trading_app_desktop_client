@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace LGSA
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for LoginAndRegister.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class LoginAndRegister : Window
     {
-        public MainView()
+        public LoginAndRegister()
         {
             InitializeComponent();
         }
