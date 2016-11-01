@@ -128,6 +128,15 @@
     <Compile Include="Model\product.cs">
       <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Services\AuthenticationService.cs" />
+    <Compile Include="Model\Services\IService.cs" />
+    <Compile Include="Model\UnitOfWork\DbUnitOfWorkFactory.cs" />
+    <Compile Include="Model\UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="Model\UnitOfWork\IUnitOfWorkFactory.cs" />
+    <Compile Include="Model\UnitOfWork\MockUnitOfWork.cs" />
+    <Compile Include="Model\UnitOfWork\DbUnitOfWork.cs" />
+    <Compile Include="Model\UnitOfWork\MockUnitOfWorkFactory.cs" />
+    <Compile Include="Model\UnitOfWork\UnitOfWorkFactory.cs" />
     <Compile Include="Model\sell_Offer.cs">
       <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
