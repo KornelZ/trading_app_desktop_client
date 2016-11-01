@@ -20,10 +20,12 @@ ID int IDENTITY(1,1) PRIMARY KEY,
 Last_Name varchar(255) NOT NULL,
 First_Name varchar(255),
 Update_Date dateTime NOT NULL,
-Update_Who int NOT NULL,
+Update_Who int,
 constraint Users_Update_Who_fk foreign key (Update_Who) references Users(id)
 )
 
+insert into users ( last_name, Update_date, update_who) values ('System',getdate(),1)
+alter table users alter column update_who int not null  
 
 CREATE TABLE dic_Genre
 (
@@ -87,6 +89,7 @@ constraint Users_Authentication_user_id foreign key (user_id) references Users(i
 Create Table product
 (
 ID int IDENTITY(1,1) PRIMARY KEY,
+product_owner int not null,
 Name varchar(255) NOT NULL,
 rating float,
 stock int default 1 not null,
@@ -97,6 +100,7 @@ condition_id int,
 Update_Date dateTime NOT NULL,
 Update_Who int NOT NULL,
 constraint Product_Update_Who_fk foreign key (Update_Who) references Users(id),
+constraint Product_product_owner_fk foreign key (product_owner) references Users(id),
 constraint Product_genre_fk foreign key (genre_id) references dic_Genre(id),
 constraint Product_condition_fk foreign key (condition_id) references dic_condition(id),
 constraint Product_product_type_fk foreign key (product_type_id) references dic_Product_Type(id)
