@@ -81,6 +81,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LoginAndRegister.cs" />
+    <Compile Include="LoginAndRegister.xaml.cs">
+      <DependentUpon>LoginAndRegister.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\buy_Offer.cs">
       <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
@@ -128,14 +132,17 @@
     <Compile Include="Model\product.cs">
       <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Services\AuthenticationService.cs" />
+    <Compile Include="Model\Repositories\IRepository.cs" />
+    <Compile Include="Model\Repositories\AuthenticationRepository.cs" />
+    <Compile Include="Model\Repositories\UserRepository.cs" />
     <Compile Include="Model\Services\IService.cs" />
+    <Compile Include="Model\Services\AuthenticationService.cs" />
+    <Compile Include="Model\Services\UserService.cs" />
     <Compile Include="Model\UnitOfWork\DbUnitOfWorkFactory.cs" />
     <Compile Include="Model\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Model\UnitOfWork\IUnitOfWorkFactory.cs" />
     <Compile Include="Model\UnitOfWork\MockUnitOfWork.cs" />
     <Compile Include="Model\UnitOfWork\DbUnitOfWork.cs" />
-    <Compile Include="Model\UnitOfWork\MockUnitOfWorkFactory.cs" />
     <Compile Include="Model\UnitOfWork\UnitOfWorkFactory.cs" />
     <Compile Include="Model\sell_Offer.cs">
       <DependentUpon>MainDatabaseModel.tt</DependentUpon>
@@ -152,16 +159,8 @@
     <Compile Include="Utility\BindableBase.cs" />
     <Compile Include="Utility\BindableCollection.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -234,7 +233,12 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="LoginAndRegister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

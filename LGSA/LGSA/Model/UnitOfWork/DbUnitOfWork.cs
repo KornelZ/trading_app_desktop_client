@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LGSA.Model.Repositories;
 
 namespace LGSA.Model.UnitOfWork
 {
@@ -11,14 +12,27 @@ namespace LGSA.Model.UnitOfWork
     {
         private MainDatabaseEntities _context;
         private DbContextTransaction _transaction;
+        private IRepository<users_Authetication> _authenticationRepository;
+        private IRepository<users> _userRepository;      
         public MainDatabaseEntities Context
         {
             get { return _context; }
         }
+
+        public IRepository<users_Authetication> AuthenticationRepository
+        {
+            get { return _authenticationRepository; }
+        }
+        public IRepository<users> UserRepository
+        {
+            get { return _userRepository; }
+        }
         public DbUnitOfWork()
         {
             _context = new MainDatabaseEntities();
-            _transaction = _context.Database.BeginTransaction();
+            _authenticationRepository = new AuthenticationRepository(_context);
+            _userRepository = new UserRepository(_context);
+            _transaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
         }
         public void Commit()
         {

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LGSA.Model.Services
+namespace LGSA.Model.Repositories
 {
-    public interface IService<T>
+    public interface IRepository<T> where T: class
     {
         Task<T> GetById(int id);
         Task<IEnumerable<T>> GetData();
-        // dodam jeszcze GetData z filterm
-        Task<bool> Add(T entity);
-        Task<bool> Update(T entity);
-        Task<bool> Delete(T entity);
+        bool Add(T entity);
+        bool Update(T entity);
+        void Delete(T entity);
     }
 }

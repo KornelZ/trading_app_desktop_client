@@ -19,7 +19,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="LoginButton" Content="Log in"  Height="35" Width="200" Grid.Column="1" />
-                    <Button x:Name="RegisterButton" Content="Register"  Height="35" Width="200" Grid.Column="0"/>
+                    <Button x:Name="RegisterButton" Content="Register" Click="RegisterButton_Click"  Height="35" Width="200" Grid.Column="0"/>
                 </Grid>
             </StackPanel>
         </Grid>

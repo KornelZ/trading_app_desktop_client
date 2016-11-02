@@ -1,50 +1,50 @@
-﻿using LGSA.Model.UnitOfWork;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using LGSA.Model.UnitOfWork;
 
 namespace LGSA.Model.Services
 {
-    public class AuthenticationService : IService<users_Authetication>
+    public class UserService : IService<users>
     {
         private IUnitOfWorkFactory _factory;
-        public AuthenticationService(IUnitOfWorkFactory factory)
+        public UserService(IUnitOfWorkFactory factory)
         {
             _factory = factory;
         }
 
-        public async Task<bool> Add(users_Authetication entity)
+        public async Task<bool> Add(users entity)
         {
             bool success = false;
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
-                    success = unitOfWork.AuthenticationRepository.Add(entity);
+                    success = unitOfWork.UserRepository.Add(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     unitOfWork.Rollback();
                     success = false;
-                   // MessageBox.Show(e.InnerException.ToString());
+                    //MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return success;
         }
 
-        public async Task<bool> Delete(users_Authetication entity)
+        public async Task<bool> Delete(users entity)
         {
             bool success = true;
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
-                    unitOfWork.AuthenticationRepository.Delete(entity);
+                    unitOfWork.UserRepository.Delete(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
                 }
@@ -58,13 +58,13 @@ namespace LGSA.Model.Services
             return success;
         }
 
-        public async Task<users_Authetication> GetById(int id)
+        public async Task<users> GetById(int id)
         {
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
-                    var entity = await unitOfWork.AuthenticationRepository.GetById(id);
+                    var entity = await unitOfWork.UserRepository.GetById(id);
 
                     unitOfWork.Commit();
                     return entity;
@@ -72,19 +72,19 @@ namespace LGSA.Model.Services
                 catch (Exception e)
                 {
                     unitOfWork.Rollback();
-                   // MessageBox.Show(e.InnerException.ToString());
+                    //MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return null;
         }
 
-        public async Task<IEnumerable<users_Authetication>> GetData()
+        public async Task<IEnumerable<users>> GetData()
         {
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
-                    var entities = await unitOfWork.AuthenticationRepository.GetData();
+                    var entities = await unitOfWork.UserRepository.GetData();
 
                     unitOfWork.Commit();
                     return entities;
@@ -92,20 +92,20 @@ namespace LGSA.Model.Services
                 catch (Exception e)
                 {
                     unitOfWork.Rollback();
-                   // MessageBox.Show(e.InnerException.ToString());
+                    //MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return null;
         }
 
-        public async Task<bool> Update(users_Authetication entity)
+        public async Task<bool> Update(users entity)
         {
             bool success = true;
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
-                    unitOfWork.AuthenticationRepository.Update(entity);
+                    unitOfWork.UserRepository.Update(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
                 }

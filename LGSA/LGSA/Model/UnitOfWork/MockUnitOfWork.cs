@@ -4,35 +4,55 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LGSA.Model.Repositories;
 
 namespace LGSA.Model.UnitOfWork
 {
     public class MockUnitOfWork : IUnitOfWork
     {
         private MainDatabaseEntities _context = new MainDatabaseEntities();
-        private DbContextTransaction _transaction;
         public MainDatabaseEntities Context
         {
             get { return _context; }
         }
+
+        public IRepository<users_Authetication> UsersRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IRepository<users_Authetication> AuthenticationRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IRepository<users> UserRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public MockUnitOfWork()
         {
-            _transaction = _context.Database.BeginTransaction();
         }
         public void Commit()
         {
-            _transaction.Rollback();
+            
         }
         public void Rollback()
         {
-            _transaction.Rollback();
+
         }
         public void Dispose()
         {
-            if (_transaction != null)
-            {
-                _transaction.Dispose();
-            }
             if (_context != null)
             {
                 _context.Dispose();
