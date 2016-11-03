@@ -23,6 +23,7 @@ namespace LGSA.Model.Services
             {
                 try
                 {
+                    unitOfWork.StartTransaction();
                     success = unitOfWork.AuthenticationRepository.Add(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
@@ -31,7 +32,7 @@ namespace LGSA.Model.Services
                 {
                     unitOfWork.Rollback();
                     success = false;
-                   // MessageBox.Show(e.InnerException.ToString());
+                    MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return success;
@@ -44,6 +45,7 @@ namespace LGSA.Model.Services
             {
                 try
                 {
+                    unitOfWork.StartTransaction();
                     unitOfWork.AuthenticationRepository.Delete(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
@@ -52,7 +54,7 @@ namespace LGSA.Model.Services
                 {
                     unitOfWork.Rollback();
                     success = false;
-                   // MessageBox.Show(e.InnerException.ToString());
+                    MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return success;
@@ -65,14 +67,11 @@ namespace LGSA.Model.Services
                 try
                 {
                     var entity = await unitOfWork.AuthenticationRepository.GetById(id);
-
-                    unitOfWork.Commit();
                     return entity;
                 }
                 catch (Exception e)
                 {
-                    unitOfWork.Rollback();
-                   // MessageBox.Show(e.InnerException.ToString());
+                    MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return null;
@@ -86,13 +85,11 @@ namespace LGSA.Model.Services
                 {
                     var entities = await unitOfWork.AuthenticationRepository.GetData();
 
-                    unitOfWork.Commit();
                     return entities;
                 }
                 catch (Exception e)
                 {
-                    unitOfWork.Rollback();
-                   // MessageBox.Show(e.InnerException.ToString());
+                    MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return null;
@@ -105,6 +102,7 @@ namespace LGSA.Model.Services
             {
                 try
                 {
+                    unitOfWork.StartTransaction();
                     unitOfWork.AuthenticationRepository.Update(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
@@ -113,7 +111,7 @@ namespace LGSA.Model.Services
                 {
                     unitOfWork.Rollback();
                     success = false;
-                    //MessageBox.Show(e.InnerException.ToString());
+                    MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return success;

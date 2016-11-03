@@ -12,6 +12,7 @@ namespace LGSA.Model.UnitOfWork
     {
         IRepository<users_Authetication> AuthenticationRepository { get; }
         IRepository<users> UserRepository { get; }
+        void StartTransaction();
         void Commit();
         void Rollback();
         Task<int> Save();

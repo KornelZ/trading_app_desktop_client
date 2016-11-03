@@ -32,30 +32,31 @@ namespace LGSA.Model.UnitOfWork
             _context = new MainDatabaseEntities();
             _authenticationRepository = new AuthenticationRepository(_context);
             _userRepository = new UserRepository(_context);
-            _transaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
         }
         public void Commit()
         {
-            _transaction.Commit();
+            _transaction?.Commit();
         }
         public void Rollback()
         {
-            _transaction.Rollback();
+            _transaction?.Rollback();
         }
         public void Dispose()
         {
-            if(_transaction != null)
-            {
-                _transaction.Dispose();
-            }
-            if(_context != null)
-            {
-                _context.Dispose();
-            }
+            _transaction?.Dispose();
+            _context?.Dispose();
         }  
         public async Task<int> Save()
         {
             return  await _context.SaveChangesAsync();
+        }
+
+        public void StartTransaction()
+        {
+            if(_transaction == null)
+            {
+                _transaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+            }
         }
     }
 }

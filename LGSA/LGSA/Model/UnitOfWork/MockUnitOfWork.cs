@@ -62,5 +62,10 @@ namespace LGSA.Model.UnitOfWork
         {
             return await _context.SaveChangesAsync();
         }
+
+        public void StartTransaction()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
