@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,11 +31,17 @@ namespace LGSA.Model.ModelWrappers
         public string Password
         {
             get { return userAuthentication.password; }
+            set { userAuthentication.password = value; Notify(); }
         }
         public UserWrapper User
         {
             get { return user; }
-            set { user = value; Notify(); }
+            set
+            {
+                user = value;
+                userAuthentication.users1 = user.User;
+                Notify();
+            }
         }
     }
 }

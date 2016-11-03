@@ -156,6 +156,7 @@
     <Compile Include="Model\users_Authetication.cs">
       <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utility\AsyncRelayCommand.cs" />
     <Compile Include="Utility\BindableBase.cs" />
     <Compile Include="Utility\BindableCollection.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
@@ -163,6 +164,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\AuthenticationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -18,6 +18,13 @@ namespace LGSA.Model.Repositories
 
         public bool Add(users_Authetication entity)
         {
+            if(entity.users1 != null)
+            {
+                if(_context.users.Any(u => u.First_Name == entity.users1.First_Name && u.Last_Name == entity.users1.Last_Name))
+                {
+                    return false;
+                }
+            }
             _context.users_Authetication.Add(entity);
 
             return true;
