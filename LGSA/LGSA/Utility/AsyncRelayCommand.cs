@@ -32,10 +32,10 @@ namespace LGSA.Utility
             return canExecute(parameter);
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             IsAvailable = false;
-            execute(parameter);
+            await execute(parameter);
             IsAvailable = true;
         }
     }
