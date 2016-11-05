@@ -9,6 +9,8 @@ using LGSA.Model.UnitOfWork;
 using LGSA.Model.ModelWrappers;
 using LGSA.Utility;
 using System.Windows.Input;
+using System.Linq.Expressions;
+using LGSA.Model;
 
 namespace LGSA.ViewModel
 {
@@ -17,11 +19,18 @@ namespace LGSA.ViewModel
         private AuthenticationService _authenticationService;
         private UserAuthenticationWrapper _user;
         private bool _registered;
+        private bool _authenticated;
         private AsyncRelayCommand _registerCommand;
+        private AsyncRelayCommand _authenticateCommand;
         public AsyncRelayCommand RegisterCommand
         {
             get { return _registerCommand; }
             set { _registerCommand = value; Notify(); }
+        }
+        public AsyncRelayCommand AuthenticateCommand
+        {
+            get { return _authenticateCommand; }
+            set { _authenticateCommand = value; Notify(); }
         }
         public UserAuthenticationWrapper User
         {
@@ -33,20 +42,28 @@ namespace LGSA.ViewModel
             get { return _registered; }
             set { _registered = value; Notify(); }
         }
+
+        public bool Authenticated
+        {
+            get { return _authenticated; }
+            set { _authenticated = value; Notify(); }
+        }
+
         public AuthenticationViewModel(IUnitOfWorkFactory factory)
         {
             _authenticationService = new AuthenticationService(factory);
-            _user = new UserAuthenticationWrapper(new Model.users_Authetication());
-            _user.User = new UserWrapper(new Model.users());
+            _user = new UserAuthenticationWrapper(new Model.users_Authetication() { Update_Date = DateTime.Now, Update_Who = 1 });
+            _user.User = new UserWrapper(new Model.users() { Update_Date = DateTime.Now, Update_Who = 1});
 
-            _registerCommand = new AsyncRelayCommand(execute => Register(), canExecute => CanRegister());
+            RegisterCommand = new AsyncRelayCommand(execute => Register(), canExecute => CanAuthenticate());
+            AuthenticateCommand = new AsyncRelayCommand(execute => Authenticate(), canExecute => CanAuthenticate());
         }
 
         public async Task Register()
         {
             Registered = await _authenticationService.Add(_user.UserAuthentication);
         }
-        public bool CanRegister()
+        public bool CanAuthenticate()
         {
             if(_user.Password == null || _user.User.FirstName == null 
                 || _user.User.LastName == null)
@@ -57,7 +74,14 @@ namespace LGSA.ViewModel
         }
         public async Task Authenticate()
         {
+            Expression<Func<users_Authetication, bool>> predicate = u => u.users1.First_Name == User.User.FirstName
+            && u.users1.Last_Name == User.User.LastName && u.password == User.Password;
 
+            var x = await _authenticationService.GetData(predicate);
+            if(x.Count() == 1)
+            {
+                Authenticated = true;
+            }
         }
     }
 }

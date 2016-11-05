@@ -134,6 +134,7 @@
     </Compile>
     <Compile Include="Model\Repositories\IRepository.cs" />
     <Compile Include="Model\Repositories\AuthenticationRepository.cs" />
+    <Compile Include="Model\Repositories\Repository.cs" />
     <Compile Include="Model\Repositories\UserRepository.cs" />
     <Compile Include="Model\Services\IService.cs" />
     <Compile Include="Model\Services\AuthenticationService.cs" />

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,13 +19,13 @@ namespace LGSA.Model.Services
 
         public async Task<bool> Add(users_Authetication entity)
         {
-            bool success = false;
+            bool success = true;
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
                     unitOfWork.StartTransaction();
-                    success = unitOfWork.AuthenticationRepository.Add(entity);
+                    unitOfWork.AuthenticationRepository.Add(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
                 }
@@ -77,13 +78,13 @@ namespace LGSA.Model.Services
             return null;
         }
 
-        public async Task<IEnumerable<users_Authetication>> GetData()
+        public async Task<IEnumerable<users_Authetication>> GetData(Expression<Func<users_Authetication, bool>> filter)
         {
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
-                    var entities = await unitOfWork.AuthenticationRepository.GetData();
+                    var entities = await unitOfWork.AuthenticationRepository.GetData(filter);
 
                     return entities;
                 }

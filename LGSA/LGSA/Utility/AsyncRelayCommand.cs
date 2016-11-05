@@ -16,7 +16,7 @@ namespace LGSA.Utility
         }
         private Func<object, Task> execute;
         private Predicate<object> canExecute;
-        private bool _isAvailable;
+        private bool _isAvailable = true;
         public bool IsAvailable
         {
             get { return _isAvailable; }

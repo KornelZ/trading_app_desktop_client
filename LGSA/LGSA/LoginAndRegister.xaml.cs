@@ -35,25 +35,35 @@ namespace LGSA
                 _authenticationVM.User.Password = ((PasswordBox)sender).Password;
             }
         }
-        // test deleta, normalnie używamy serwisów
+        //test deleta, normalnie używamy serwisów
         //private async void LoginButton_Click(object sender, RoutedEventArgs e)
         //{
-        //    Model.users u = new Model.users()
+        //    Model.users_Authetication u = new Model.users_Authetication()
         //    {
-        //        Last_Name = "System",
+        //        Update_Date = DateTime.Now,
         //        Update_Who = 1,
-        //        ID = 1,
-        //        Update_Date = DateTime.Now
+        //        password = "leble",
+        //        users1 = new Model.users()
+        //        {
+        //            First_Name = "Ka",
+        //            Last_Name = "Zet",
+        //            Update_Date = DateTime.Now,
+        //            Update_Who = 1
+        //        }
         //    };
         //    using (var ctx = new Model.UnitOfWork.DbUnitOfWork())
         //    {
         //        try
         //        {
-        //            ctx.UserRepository.Delete(u);
+        //            ctx.AuthenticationRepository.Add(u);
         //            await ctx.Save();
+        //            var users = await ctx.AuthenticationRepository.GetData(null);
+        //            ctx.AuthenticationRepository.Delete(users.First());
+        //            await ctx.Save();
+        //            users = await ctx.AuthenticationRepository.GetData(null);
         //            ctx.Rollback();
         //        }
-        //        catch(Exception ex)
+        //        catch (Exception ex)
         //        {
         //            ctx.Rollback();
         //            MessageBox.Show(ex.InnerException.ToString());
