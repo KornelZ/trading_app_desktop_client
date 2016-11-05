@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LGSA.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,26 +14,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace LGSA
+namespace LGSA.View
 {
     /// <summary>
     /// Interaction logic for LoginAndRegister.xaml
     /// </summary>
-    public partial class LoginAndRegister : Window
+    public partial class AuthenticationView : UserControl
     {
-        private ViewModel.AuthenticationViewModel _authenticationVM;
 
-        public LoginAndRegister()
+        public AuthenticationView()
         {
-            _authenticationVM = new ViewModel.AuthenticationViewModel(new Model.UnitOfWork.DbUnitOfWorkFactory());
-            this.DataContext = _authenticationVM;
+            InitializeComponent();
         }
 
         private void textBx_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if(this.DataContext != null)
             {
-                _authenticationVM.User.Password = ((PasswordBox)sender).Password;
+                (this.DataContext as AuthenticationViewModel).User.Password = (sender as PasswordBox).Password;
             }
         }
         //test deleta, normalnie używamy serwisów

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LGSA
+namespace LGSA.ViewModel
 {
-    partial class LoginAndRegister
+    public class ProductViewModel
     {
     }
 }

@@ -1,0 +1,22 @@
+﻿<Window x:Class="LGSA.View.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LGSA.View"
+        xmlns:vm="clr-namespace:LGSA.ViewModel"
+        mc:Ignorable="d"
+        Title="MainView" Height="800" Width="1000">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:AuthenticationViewModel}">
+            <local:AuthenticationView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProductViewModel}">
+            <local:ProductView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <ContentControl Content="{Binding DisplayedView}"/>
+    </Grid>
+</Window>

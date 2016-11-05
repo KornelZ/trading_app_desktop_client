@@ -16,6 +16,8 @@ namespace LGSA.ViewModel
 {
     public class AuthenticationViewModel : Utility.BindableBase
     {
+        public delegate Task AuthenticationEventHandler(object sender, EventArgs e);
+        public event AuthenticationEventHandler Authentication;
         private AuthenticationService _authenticationService;
         private UserAuthenticationWrapper _user;
         private bool _registered;
@@ -54,9 +56,13 @@ namespace LGSA.ViewModel
             _authenticationService = new AuthenticationService(factory);
             _user = new UserAuthenticationWrapper(new Model.users_Authetication() { Update_Date = DateTime.Now, Update_Who = 1 });
             _user.User = new UserWrapper(new Model.users() { Update_Date = DateTime.Now, Update_Who = 1});
-
             RegisterCommand = new AsyncRelayCommand(execute => Register(), canExecute => CanAuthenticate());
             AuthenticateCommand = new AsyncRelayCommand(execute => Authenticate(), canExecute => CanAuthenticate());
+        }
+
+        protected virtual async Task OnAuthentication(EventArgs e)
+        {
+            await Authentication?.Invoke(this, e);
         }
 
         public async Task Register()
@@ -81,6 +87,7 @@ namespace LGSA.ViewModel
             if(x.Count() == 1)
             {
                 Authenticated = true;
+                await OnAuthentication(EventArgs.Empty);
             }
         }
     }
