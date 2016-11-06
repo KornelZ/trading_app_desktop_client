@@ -31,18 +31,22 @@ namespace LGSA.Model.ModelWrappers
         public int SellerId
         {
             get { return transaction.seller_id; }
+            set { transaction.seller_id = value; Notify(); }
         }
         public int BuyerId
         {
             get { return transaction.buyer_id; }
+            set { transaction.buyer_id = value; Notify(); }
         }
         public int BuyOfferId
         {
             get { return transaction.buy_offer_id; }
+            set { transaction.buy_offer_id = value; Notify(); }
         }
         public int SellOfferId
         {
             get { return transaction.sell_offer_id; }
+            set { transaction.sell_offer_id = value; Notify(); }
         }
         public System.DateTime TransactionDate
         {
@@ -52,32 +56,57 @@ namespace LGSA.Model.ModelWrappers
         public int StatusId
         {
             get { return transaction.status_id; }
+            set { transaction.status_id = value; Notify(); }
         }
 
         public UserWrapper Seller
         {
             get { return seller; }
-            set { seller = value; Notify(); }
+            set
+            {
+                seller = value;
+                transaction.users1 = seller.User;
+                Notify();
+            }
         }
         public UserWrapper Buyer
         {
             get { return buyer; }
-            set { buyer = value; Notify(); }
+            set
+            {
+                buyer = value;
+                transaction.users = buyer.User;
+                Notify();
+            }
         }
         public BuyOfferWrapper BuyOffer
         {
             get { return buyOffer; }
-            set { buyOffer = value; Notify(); }
+            set
+            {
+                buyOffer = value;
+                transaction.buy_Offer = buyOffer.BuyOffer;
+                Notify();
+            }
         }
         public SellOfferWrapper SellOffer
         {
             get { return sellOffer; }
-            set { sellOffer = value; Notify(); }
+            set
+            {
+                sellOffer = value;
+                transaction.sell_Offer = sellOffer.SellOffer;
+                Notify();
+            }
         }
         public TransactionStatusWrapper TransactionStatus
         {
             get { return transactionStatus; }
-            set { transactionStatus = value; Notify(); }
+            set
+            {
+                transactionStatus = value;
+                transaction.dic_Transaction_status = transactionStatus.DicTransactionStatus;
+                Notify(); }
         }
                 
     }

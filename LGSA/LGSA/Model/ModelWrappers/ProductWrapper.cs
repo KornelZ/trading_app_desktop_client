@@ -54,14 +54,17 @@ namespace LGSA.Model.ModelWrappers
         public Nullable<int> GenreId
         {
             get { return product.genre_id; }
+            set { product.genre_id = value; Notify(); }
         }
         public Nullable<int> ProductTypeId
         {
             get { return product.product_type_id; }
+            set { product.product_type_id = value; Notify(); }
         }
         public Nullable<int> ConditionId
         {
             get { return product.condition_id; }
+            set { product.condition_id = value; Notify(); }
         }
         public GenreWrapper Genre
         {

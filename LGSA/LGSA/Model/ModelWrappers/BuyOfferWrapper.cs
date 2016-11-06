@@ -33,6 +33,7 @@ namespace LGSA.Model.ModelWrappers
         public int BuyerId
         {
             get { return buyOffer.buyer_id; }
+            set { buyOffer.buyer_id = value; Notify(); }
         }
         public Nullable<decimal> Price
         {
@@ -57,10 +58,12 @@ namespace LGSA.Model.ModelWrappers
         public int ProductId
         {
             get { return buyOffer.product_id; }
+            set { buyOffer.product_id = value; Notify(); }
         }
         public int StatusId
         {
             get { return buyOffer.status_id; }
+            set { buyOffer.status_id = value; Notify(); }
         }
 
         public ProductWrapper Product
