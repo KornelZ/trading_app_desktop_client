@@ -31,7 +31,8 @@ namespace LGSA.ViewModel
 
         private async Task GoToProductVM(object sender, EventArgs e)
         {
-            _productVM = new ProductViewModel();
+            _productVM = new ProductViewModel(new DbUnitOfWorkFactory());
+            await _productVM.getProducts();
             DisplayedView = _productVM;
             /* do dokończenia */
         }

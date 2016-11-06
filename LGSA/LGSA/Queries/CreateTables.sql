@@ -1,4 +1,4 @@
-﻿--Naming rules words separete with _ not case sensitive
+﻿	--Naming rules words separete with _ not case sensitive
 --Do not name table with plural version
 --Users and Transactions are an exception as they are a keyword
 
