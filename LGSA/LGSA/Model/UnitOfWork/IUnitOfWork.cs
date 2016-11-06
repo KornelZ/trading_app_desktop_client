@@ -11,6 +11,7 @@ namespace LGSA.Model.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IRepository<users_Authetication> AuthenticationRepository { get; }
+        IRepository<product> ProductRepository { get; }
         void StartTransaction();
         void Commit();
         void Rollback();

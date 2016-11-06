@@ -1,4 +1,5 @@
 ﻿using LGSA.Model.UnitOfWork;
+using LGSA.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace LGSA.ViewModel
         private ProductViewModel _productVM;
         private IUnitOfWorkFactory _unitOfWorkFactory;
         private object _displayedView;
+
         public object DisplayedView
         {
             get { return _displayedView; }

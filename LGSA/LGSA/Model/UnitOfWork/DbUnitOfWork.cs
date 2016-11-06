@@ -12,7 +12,8 @@ namespace LGSA.Model.UnitOfWork
     {
         private MainDatabaseEntities _context;
         private DbContextTransaction _transaction;
-        private IRepository<users_Authetication> _authenticationRepository;    
+        private IRepository<users_Authetication> _authenticationRepository;
+        private IRepository<product> _productRepository;    
         public MainDatabaseEntities Context
         {
             get { return _context; }
@@ -21,6 +22,11 @@ namespace LGSA.Model.UnitOfWork
         public IRepository<users_Authetication> AuthenticationRepository
         {
             get { return _authenticationRepository; }
+        }
+
+        public IRepository<product> ProductRepository
+        {
+            get { return _productRepository; }
         }
         public DbUnitOfWork()
         {

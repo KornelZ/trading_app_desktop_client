@@ -40,6 +40,14 @@ namespace LGSA.Model.UnitOfWork
             }
         }
 
+        public IRepository<product> ProductRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public MockUnitOfWork()
         {
         }

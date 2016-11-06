@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/841293/where-is-the-wpf-numeric-updown-control

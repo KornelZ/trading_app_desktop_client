@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LGSA.View"
+        xmlns:controls="clr-namespace:LGSA.Utility"
         xmlns:vm="clr-namespace:LGSA.ViewModel"
         mc:Ignorable="d"
         Title="MainView" Height="800" Width="1000">
@@ -17,6 +18,20 @@
     </Window.Resources>
 
     <Grid>
-        <ContentControl Content="{Binding DisplayedView}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Content="Your Products"></Button>
+            <Button Content="Your Buy Offers"></Button>
+            <Button Content="Your Sell Offers"></Button>
+            <Button Content="Search Buy Offers"></Button>
+            <Button Content="Search Buy Offers"></Button>
+            <Button Content="Log Out"></Button>
+        </StackPanel>
+        <ContentControl Content="{Binding DisplayedView}" Grid.Row="2"/>
+        <controls:FilterControl Grid.Row="1"/>
     </Grid>
 </Window>
