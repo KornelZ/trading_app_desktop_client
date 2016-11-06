@@ -21,6 +21,7 @@ namespace LGSA.ViewModel
         public ProductViewModel (IUnitOfWorkFactory factory)
         {
             _productService = new ProductService(factory);
+            _products = new BindableCollection<ProductWrapper>();
         }
         public BindableCollection<ProductWrapper> Products
         {

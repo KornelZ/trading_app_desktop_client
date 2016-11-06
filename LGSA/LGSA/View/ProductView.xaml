@@ -6,7 +6,38 @@
         xmlns:local="clr-namespace:LGSA.View"
         mc:Ignorable="d"
         Height="300" Width="300">
-    <Grid>
-        <DataGrid ItemsSource="{Binding Temp}" />
-    </Grid>
+    
+        <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" Height="Auto" Width="Auto">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Rating" Width="1*" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Rating}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Stock" Width="1*" IsReadOnly="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Stock}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Sold copies" Width="1.7*" IsReadOnly="False" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SoldCopies}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    
 </UserControl>

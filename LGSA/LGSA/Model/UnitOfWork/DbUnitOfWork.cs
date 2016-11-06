@@ -32,6 +32,7 @@ namespace LGSA.Model.UnitOfWork
         {
             _context = new MainDatabaseEntities();
             _authenticationRepository = new AuthenticationRepository(_context);
+            _productRepository = new Repository<product>(_context);
         }
         public void Commit()
         {
