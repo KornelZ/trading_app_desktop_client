@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,12 @@ namespace LGSA.View
     /// </summary>
     public partial class ProductView : UserControl
     {
+        ObservableCollection<String> Products = new ObservableCollection<String>();
         public ProductView()
         {
             InitializeComponent();
+            Products.Add("jeden");
+            Products.Add("dwa");
         }
     }
 }
