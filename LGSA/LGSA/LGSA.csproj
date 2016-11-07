@@ -83,6 +83,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Repositories\BuyOfferRepository.cs" />
+    <Compile Include="Model\Services\BuyOfferService.cs" />
     <Compile Include="Model\Services\ProductService.cs" />
     <Compile Include="Utility\FilterControl.xaml.cs">
       <DependentUpon>FilterControl.xaml</DependentUpon>
@@ -90,8 +92,12 @@
     <Compile Include="Utility\NumberPicker.xaml.cs">
       <DependentUpon>NumberPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\BuyOfferViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
+    <Compile Include="View\AddOfferDialog.xaml.cs">
+      <DependentUpon>AddOfferDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AuthenticationView.xaml.cs">
       <DependentUpon>AuthenticationView.xaml</DependentUpon>
     </Compile>
@@ -176,6 +182,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\AuthenticationViewModel.cs" />
+    <Compile Include="View\BuyOfferView.xaml.cs">
+      <DependentUpon>BuyOfferView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -261,9 +270,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddOfferDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AuthenticationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BuyOfferView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainView.xaml">
       <SubType>Designer</SubType>
