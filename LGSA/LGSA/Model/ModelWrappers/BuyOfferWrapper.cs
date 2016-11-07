@@ -25,6 +25,26 @@ namespace LGSA.Model.ModelWrappers
             Name = b.name;
             SoldCopies = b.sold_copies;
         }
+
+        public static BuyOfferWrapper CreateBuyOffer(UserWrapper _user)
+        {
+            return new BuyOfferWrapper(new buy_Offer())
+            {
+                BuyerId = _user.Id,
+                UpdateDate = DateTime.Now,
+                UpdateWho = _user.Id,
+                Product = new ProductWrapper(new product())
+                {
+                    OwnerId = _user.Id,
+                    UpdateDate = DateTime.Now,
+                    UpdateWho = _user.Id,
+                    Genre = new GenreWrapper(new dic_Genre()),
+                    Condition = new ConditionWrapper(new dic_condition()),
+                    ProductType = new ProductTypeWrapper(new dic_Product_type())
+                },
+                StatusId = 1,
+            };
+        }
         public int Id
         {
             get { return buyOffer.ID; }
@@ -80,7 +100,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 product = value;
-                buyOffer.product = product.Product;
+                buyOffer.product = Product.Product;
                 Notify();
             }
         }

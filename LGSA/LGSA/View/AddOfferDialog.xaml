@@ -25,20 +25,41 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="Offer Name"/>
         <Label Grid.Row="0" Grid.Column="2" Content="Product Name"/>
-        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Name}"/>
-        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Product.Name}"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding CreatedOffer.Name}"/>
+        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding CreatedOffer.Product.Name}"/>
         
         <Label Grid.Row="2" Grid.Column="0" Content="Genre"/>
         <Label Grid.Row="2" Grid.Column="1" Content="Condition"/>
         <Label Grid.Row="2" Grid.Column="2" Content="Type"/>
-        <ComboBox Grid.Row="3" Grid.Column="0"/>
-        <ComboBox Grid.Row="3" Grid.Column="1"/>
-        <ComboBox Grid.Row="3" Grid.Column="2"/>
-        
+        <ComboBox Grid.Row="3" Grid.Column="0" SelectedIndex="0" SelectedValue="{Binding CreatedOffer.Product.Genre}"
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Owner.DataContext.DictionaryVM.Genres}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ComboBox Grid.Row="3" Grid.Column="1" SelectedIndex="0" SelectedValue="{Binding CreatedOffer.Product.Condition}" 
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Owner.DataContext.DictionaryVM.Conditions}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding CreatedOffer.Product.ProductType}"
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Owner.DataContext.DictionaryVM.ProductTypes}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
         <Label Grid.Row="4" Grid.Column="0" Content="Price"/>
         <Label Grid.Row="4" Grid.Column="2" Content="Amount"/>
-        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding Price}"/>
-        <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding Amount}"/>
+        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding CreatedOffer.Price}"/>
+        <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding CreatedOffer.Amount}"/>
 
         <Button Grid.Row="6" Grid.Column="0" Content="Cancel" Click="CancelButtonClick"/>
         <Button Grid.Row="6" Grid.Column="2" Content="Confirm" Click="ConfirmButtonClick"/>

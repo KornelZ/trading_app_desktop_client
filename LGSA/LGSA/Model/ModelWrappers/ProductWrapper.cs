@@ -84,22 +84,42 @@ namespace LGSA.Model.ModelWrappers
         public GenreWrapper Genre
         {
             get { return genre; }
-            set { genre = value; Notify(); }
+            set
+            {
+                genre = value;
+                product.dic_Genre = genre.DicGenre;
+                Notify();
+            }
         }
         public ConditionWrapper Condition
         {
             get { return condition; }
-            set { condition = value; Notify(); }
+            set
+            {
+                condition = value;
+                product.dic_condition = condition.DicCondition;
+                Notify();
+            }
         }
         public ProductTypeWrapper ProductType
         {
             get { return productType; }
-            set { productType = value; Notify(); }
+            set
+            {
+                productType = value;
+                product.dic_Product_type = productType.DicProductType;
+                Notify();
+            }
         }
         public UserWrapper Owner
         {
             get { return owner; }
-            set { owner = value; Notify(); }
+            set
+            {
+                owner = value;
+                product.users = owner.User;
+                Notify();
+            }
         }
     }
 }

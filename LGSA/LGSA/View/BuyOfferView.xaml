@@ -14,7 +14,7 @@
         <DataGrid Grid.Row="0" ItemsSource="{Binding BuyOffers}" AutoGenerateColumns="False" 
                   Height="Auto" Width="Auto" SelectedItem="{Binding SelectedOffer}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="False">
+                <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"/>
@@ -31,25 +31,46 @@
                 <DataGridTemplateColumn Header="Genre" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Product.Genre}"/>
+                            <ComboBox SelectedIndex="0" SelectedValue="{Binding Product.Genre}" 
+                                      ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.Genres}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Type" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Product.ProductType.Name}"/>
+                            <ComboBox SelectedIndex="0" SelectedValue="{Binding Product.ProductType}" 
+                                      ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.ProductTypes}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Condition" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Product.Condition.Name}"/>
+                            <ComboBox SelectedIndex="0" SelectedValue="{Binding Product.Condition}" 
+                                      ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.Conditions}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Price" Width="1*" IsReadOnly="True">
+                <DataGridTemplateColumn Header="Price" Width="1*" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Price}"/>

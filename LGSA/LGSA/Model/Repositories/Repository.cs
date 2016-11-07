@@ -17,7 +17,7 @@ namespace LGSA.Model.Repositories
         }
         public virtual bool Add(T entity)
         {
-            _context.Entry(entity).State = EntityState.Added;
+            _context.Set<T>().Add(entity);
             return true;
         }
 

@@ -10,6 +10,7 @@ namespace LGSA.ViewModel
 {
     public class MainViewModel : Utility.BindableBase
     {
+        private DictionaryViewModel _dictionaryVM;
         private AuthenticationViewModel _authenticationVM;
         private ProductViewModel _productVM;
         private BuyOfferViewModel _buyOfferVM;
@@ -17,6 +18,11 @@ namespace LGSA.ViewModel
         private AsyncRelayCommand _buyOfferVMCommand;
         private object _displayedView;
 
+        public DictionaryViewModel DictionaryVM
+        {
+            get { return _dictionaryVM; }
+            set { _dictionaryVM = value; Notify(); }
+        }
         public object DisplayedView
         {
             get { return _displayedView; }
@@ -38,7 +44,9 @@ namespace LGSA.ViewModel
 
         private async Task GoToProductVM(object sender, EventArgs e)
         {
-            _productVM = new ProductViewModel(new DbUnitOfWorkFactory());
+            DictionaryVM = new DictionaryViewModel(_unitOfWorkFactory);
+            await DictionaryVM.LoadDictionaries();
+            _productVM = new ProductViewModel(_unitOfWorkFactory);
             await _productVM.GetProducts();
             DisplayedView = _productVM;
             /* do dokończenia */

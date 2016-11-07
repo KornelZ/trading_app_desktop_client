@@ -20,7 +20,6 @@ namespace LGSA.ViewModel
         private BuyOfferWrapper _createdOffer;
         private BuyOfferWrapper _selectedOffer;
 
-        private AsyncRelayCommand _addCommand;
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _deleteCommand;
         public BuyOfferViewModel(IUnitOfWorkFactory factory, UserWrapper user)
@@ -28,25 +27,8 @@ namespace LGSA.ViewModel
             _user = user;
             _buyOfferService = new BuyOfferService(factory);
             BuyOffers = new BindableCollection<BuyOfferWrapper>();
-            CreatedOffer = new BuyOfferWrapper(new buy_Offer())
-            {
-                BuyerId = 1,
-                UpdateDate = DateTime.Now,
-                UpdateWho = user.Id,
-                Product = new ProductWrapper(new product())
-                {
-                    OwnerId = 1,
-                    UpdateDate = DateTime.Now,
-                    UpdateWho = user.Id
-                },
-                OfferStatus = new OfferStatusWrapper(new dic_Offer_status())
-                {
-                    UpdateDate = DateTime.Now,
-                    UpdateWho = user.Id
-                }
-            };
+            CreatedOffer = BuyOfferWrapper.CreateBuyOffer(_user);
 
-            AddCommand = new AsyncRelayCommand(execute => AddOffer(), canExecute => { return true; });
             UpdateCommand = new AsyncRelayCommand(execute => UpdateOffer(), canExecute => CanModifyOffer());
             DeleteCommand = new AsyncRelayCommand(execute => DeleteOffer(), canExecute => CanModifyOffer());
         }
@@ -66,11 +48,6 @@ namespace LGSA.ViewModel
             get { return _selectedOffer; }
             set { _selectedOffer = value; Notify(); }
         }
-        public AsyncRelayCommand AddCommand
-        {
-            get { return _addCommand; }
-            set { _addCommand = value; Notify(); }
-        }
         public AsyncRelayCommand UpdateCommand
         {
             get { return _updateCommand; }
@@ -88,7 +65,6 @@ namespace LGSA.ViewModel
 
             foreach(var o in offers)
             {
-                var status = new OfferStatusWrapper(o.dic_Offer_status);
                 var product = new ProductWrapper(o.product);
                 product.Genre = new GenreWrapper(o.product.dic_Genre);
                 product.Condition = new ConditionWrapper(o.product.dic_condition);
@@ -96,7 +72,6 @@ namespace LGSA.ViewModel
                 BuyOffers.Add(new BuyOfferWrapper(o)
                 {
                     Product = product,
-                    OfferStatus = status
                 });
             }
         }
@@ -107,6 +82,7 @@ namespace LGSA.ViewModel
             if(offerAdded == true)
             {
                 BuyOffers.Add(_createdOffer);
+                _createdOffer = BuyOfferWrapper.CreateBuyOffer(_user);
             }
         }
         public async Task UpdateOffer()

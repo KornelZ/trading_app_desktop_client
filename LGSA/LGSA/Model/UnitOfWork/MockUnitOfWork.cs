@@ -56,6 +56,30 @@ namespace LGSA.Model.UnitOfWork
             }
         }
 
+        public IRepository<dic_condition> ConditionRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IRepository<dic_Genre> GenreRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IRepository<dic_Product_type> ProductTypeRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public MockUnitOfWork()
         {
         }

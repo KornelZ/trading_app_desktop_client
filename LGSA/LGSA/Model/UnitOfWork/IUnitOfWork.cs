@@ -13,6 +13,9 @@ namespace LGSA.Model.UnitOfWork
         IRepository<users_Authetication> AuthenticationRepository { get; }
         IRepository<product> ProductRepository { get; }
         IRepository<buy_Offer> BuyOfferRepository { get; }
+        IRepository<dic_condition> ConditionRepository { get; }
+        IRepository<dic_Genre> GenreRepository { get; }
+        IRepository<dic_Product_type> ProductTypeRepository { get; }
         void StartTransaction();
         void Commit();
         void Rollback();
