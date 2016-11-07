@@ -13,7 +13,8 @@ namespace LGSA.Model.UnitOfWork
         private MainDatabaseEntities _context;
         private DbContextTransaction _transaction;
         private IRepository<users_Authetication> _authenticationRepository;
-        private IRepository<product> _productRepository;    
+        private IRepository<product> _productRepository;
+        private IRepository<buy_Offer> _buyOfferRepository;    
         public MainDatabaseEntities Context
         {
             get { return _context; }
@@ -28,11 +29,16 @@ namespace LGSA.Model.UnitOfWork
         {
             get { return _productRepository; }
         }
+        public IRepository<buy_Offer> BuyOfferRepository
+        {
+            get { return _buyOfferRepository; }
+        }
         public DbUnitOfWork()
         {
             _context = new MainDatabaseEntities();
             _authenticationRepository = new AuthenticationRepository(_context);
             _productRepository = new Repository<product>(_context);
+            _buyOfferRepository = new BuyOfferRepository(_context);
         }
         public void Commit()
         {

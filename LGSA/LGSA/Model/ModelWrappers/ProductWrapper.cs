@@ -51,6 +51,11 @@ namespace LGSA.Model.ModelWrappers
             get { return product.sold_copies; }
             set { product.sold_copies = value; Notify(); }
         }
+        public int OwnerId
+        {
+            get { return product.product_owner; }
+            set { product.product_owner = value; Notify(); }
+        }
         public Nullable<int> GenreId
         {
             get { return product.genre_id; }
@@ -65,6 +70,16 @@ namespace LGSA.Model.ModelWrappers
         {
             get { return product.condition_id; }
             set { product.condition_id = value; Notify(); }
+        }
+        public int UpdateWho
+        {
+            get { return product.Update_Who; }
+            set { product.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return product.Update_Date; }
+            set { product.Update_Date = value; }
         }
         public GenreWrapper Genre
         {

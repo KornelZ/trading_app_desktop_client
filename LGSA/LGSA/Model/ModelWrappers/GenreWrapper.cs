@@ -34,5 +34,15 @@ namespace LGSA.Model.ModelWrappers
             get { return dicGenre.genre_description; }
             set { dicGenre.genre_description = value; Notify(); }
         }
+        public int UpdateWho
+        {
+            get { return dicGenre.Update_Who; }
+            set { dicGenre.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return dicGenre.Update_Date; }
+            set { dicGenre.Update_Date = value; }
+        }
     }
 }

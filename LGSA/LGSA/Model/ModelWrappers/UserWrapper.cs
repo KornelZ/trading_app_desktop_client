@@ -34,5 +34,15 @@ namespace LGSA.Model.ModelWrappers
             get { return user.First_Name; }
             set { user.First_Name = value; Notify(); }
         }
+        public int UpdateWho
+        {
+            get { return user.Update_Who; }
+            set { user.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return user.Update_Date; }
+            set { user.Update_Date = value; }
+        }
     }
 }

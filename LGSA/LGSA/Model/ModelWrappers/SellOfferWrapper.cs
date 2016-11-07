@@ -70,6 +70,16 @@ namespace LGSA.Model.ModelWrappers
             get { return sellOffer.status_id; }
             set { sellOffer.status_id = value; Notify(); }
         }
+        public int UpdateWho
+        {
+            get { return sellOffer.Update_Who; }
+            set { sellOffer.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return sellOffer.Update_Date; }
+            set { sellOffer.Update_Date = value; }
+        }
         public ProductWrapper Product
         {
             get { return product; }

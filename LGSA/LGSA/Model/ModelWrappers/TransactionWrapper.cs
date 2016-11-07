@@ -58,7 +58,16 @@ namespace LGSA.Model.ModelWrappers
             get { return transaction.status_id; }
             set { transaction.status_id = value; Notify(); }
         }
-
+        public int UpdateWho
+        {
+            get { return transaction.Update_Who; }
+            set { transaction.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return transaction.Update_Date; }
+            set { transaction.Update_Date = value; }
+        }
         public UserWrapper Seller
         {
             get { return seller; }

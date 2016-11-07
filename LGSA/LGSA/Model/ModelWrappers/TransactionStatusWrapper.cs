@@ -34,5 +34,15 @@ namespace LGSA.Model.ModelWrappers
             get { return dicTransactionStatus.offer_transaction_description; }
             set { dicTransactionStatus.offer_transaction_description = value; Notify(); }
         }
+        public int UpdateWho
+        {
+            get { return dicTransactionStatus.Update_Who; }
+            set { dicTransactionStatus.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return dicTransactionStatus.Update_Date; }
+            set { dicTransactionStatus.Update_Date = value; }
+        }
     }
 }

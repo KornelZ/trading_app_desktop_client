@@ -34,6 +34,16 @@ namespace LGSA.Model.ModelWrappers
             get { return userAuthentication.password; }
             set { userAuthentication.password = value; Notify(); }
         }
+        public int UpdateWho
+        {
+            get { return userAuthentication.Update_Who; }
+            set { userAuthentication.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return userAuthentication.Update_Date; }
+            set { userAuthentication.Update_Date = value; }
+        }
         public UserWrapper User
         {
             get { return user; }

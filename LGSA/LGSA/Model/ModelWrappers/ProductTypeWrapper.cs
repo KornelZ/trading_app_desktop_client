@@ -28,5 +28,15 @@ namespace LGSA.Model.ModelWrappers
             get { return dicProductType.name; }
             set { dicProductType.name = value; Notify(); }
         }
+        public int UpdateWho
+        {
+            get { return dicProductType.Update_Who; }
+            set { dicProductType.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return dicProductType.Update_Date; }
+            set { dicProductType.Update_Date = value; }
+        }
     }
 }

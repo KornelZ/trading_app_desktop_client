@@ -9,15 +9,15 @@ using System.Windows;
 
 namespace LGSA.Model.Services
 {
-    public class ProductService : IService<product>
+    public class BuyOfferService : IService<buy_Offer>
     {
         private IUnitOfWorkFactory _factory;
-        public ProductService(IUnitOfWorkFactory factory)
+        public BuyOfferService(IUnitOfWorkFactory factory)
         {
             _factory = factory;
         }
 
-        public async Task<bool> Add(product entity)
+        public async Task<bool> Add(buy_Offer entity)
         {
             bool success = true;
             using (var unitOfWork = _factory.CreateUnitOfWork())
@@ -25,7 +25,7 @@ namespace LGSA.Model.Services
                 try
                 {
                     unitOfWork.StartTransaction();
-                    unitOfWork.ProductRepository.Add(entity);
+                    unitOfWork.BuyOfferRepository.Add(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
                 }
@@ -39,16 +39,15 @@ namespace LGSA.Model.Services
             return success;
         }
 
-        public async Task<bool> Delete(product entity)
+        public async Task<bool> Delete(buy_Offer entity)
         {
-
             bool success = true;
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
                     unitOfWork.StartTransaction();
-                    unitOfWork.ProductRepository.Delete(entity);
+                    unitOfWork.BuyOfferRepository.Delete(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
                 }
@@ -62,32 +61,30 @@ namespace LGSA.Model.Services
             return success;
         }
 
-        public async Task<product> GetById(int id)
+        public async Task<buy_Offer> GetById(int id)
         {
-
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
-                    product entity = await unitOfWork.ProductRepository.GetById(id);
+                    var entity = await unitOfWork.BuyOfferRepository.GetById(id);
                     return entity;
                 }
                 catch (Exception e)
                 {
-                    unitOfWork.Rollback();
                     MessageBox.Show(e.InnerException.ToString());
                 }
             }
             return null;
         }
 
-        public async Task<IEnumerable<product>> GetData(Expression<Func<product, bool>> filter)
+        public async Task<IEnumerable<buy_Offer>> GetData(Expression<Func<buy_Offer, bool>> filter)
         {
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
                 try
                 {
-                    var entities = await unitOfWork.ProductRepository.GetData(filter);
+                    var entities = await unitOfWork.BuyOfferRepository.GetData(filter);
 
                     return entities;
                 }
@@ -99,7 +96,7 @@ namespace LGSA.Model.Services
             return null;
         }
 
-        public async Task<bool> Update(product entity)
+        public async Task<bool> Update(buy_Offer entity)
         {
             bool success = true;
             using (var unitOfWork = _factory.CreateUnitOfWork())
@@ -107,7 +104,7 @@ namespace LGSA.Model.Services
                 try
                 {
                     unitOfWork.StartTransaction();
-                    unitOfWork.ProductRepository.Update(entity);
+                    unitOfWork.BuyOfferRepository.Update(entity);
                     await unitOfWork.Save();
                     unitOfWork.Commit();
                 }
@@ -121,5 +118,4 @@ namespace LGSA.Model.Services
             return success;
         }
     }
-    
 }

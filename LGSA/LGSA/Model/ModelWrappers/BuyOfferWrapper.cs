@@ -10,7 +10,6 @@ namespace LGSA.Model.ModelWrappers
     {
         private buy_Offer buyOffer;
         private ProductWrapper product;
-        private UserWrapper offerCreator;
         private UserWrapper buyer;
         private OfferStatusWrapper offerStatus;
         public buy_Offer BuyOffer
@@ -65,26 +64,45 @@ namespace LGSA.Model.ModelWrappers
             get { return buyOffer.status_id; }
             set { buyOffer.status_id = value; Notify(); }
         }
-
+        public int UpdateWho
+        {
+            get { return buyOffer.Update_Who; }
+            set { buyOffer.Update_Who = value; }
+        }
+        public DateTime UpdateDate
+        {
+            get { return buyOffer.Update_Date; }
+            set { buyOffer.Update_Date = value; }
+        }
         public ProductWrapper Product
         {
             get { return product; }
-            set { product = value; Notify(); }
-        }
-        public UserWrapper OfferCreator
-        {
-            get { return offerCreator; }
-            set { offerCreator = value;  Notify(); }
+            set
+            {
+                product = value;
+                buyOffer.product = product.Product;
+                Notify();
+            }
         }
         public UserWrapper Buyer
         {
             get { return buyer; }
-            set { buyer = value; Notify(); }
+            set
+            {
+                buyer = value;
+                buyOffer.users = buyer.User;
+                Notify();
+            }
         }
         public OfferStatusWrapper OfferStatus
         {
             get { return offerStatus; }
-            set { offerStatus = value; Notify(); }
+            set
+            {
+                offerStatus = value;
+                buyOffer.dic_Offer_status = offerStatus.DicOfferStatus;
+                Notify();
+            }
         }
     }
 }

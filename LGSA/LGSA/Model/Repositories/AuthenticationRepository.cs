@@ -10,7 +10,7 @@ namespace LGSA.Model.Repositories
 {
     public class AuthenticationRepository : Repository<users_Authetication>
     {
-        public AuthenticationRepository(MainDatabaseEntities context) : base(context)
+        public AuthenticationRepository(DbContext context) : base(context)
         {
         }
 
