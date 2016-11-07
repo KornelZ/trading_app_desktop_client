@@ -21,14 +21,14 @@ namespace LGSA.ViewModel
         public ProductViewModel (IUnitOfWorkFactory factory)
         {
             _productService = new ProductService(factory);
-            _products = new BindableCollection<ProductWrapper>();
+            Products = new BindableCollection<ProductWrapper>();
         }
         public BindableCollection<ProductWrapper> Products
         {
             get { return _products; }
             set { _products = value; Notify(); }
         }
-        public async Task getProducts()
+        public async Task GetProducts()
         {
             Expression<Func<product, bool>> predicate = u => 1 == 1;
 
