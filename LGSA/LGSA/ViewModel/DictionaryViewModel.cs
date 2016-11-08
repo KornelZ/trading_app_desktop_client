@@ -1,4 +1,5 @@
-﻿using LGSA.Model.ModelWrappers;
+﻿using LGSA.Model;
+using LGSA.Model.ModelWrappers;
 using LGSA.Model.Services;
 using LGSA.Model.UnitOfWork;
 using LGSA.Utility;
@@ -48,14 +49,21 @@ namespace LGSA.ViewModel
 
         public async Task LoadDictionaries()
         {
+            dic_Genre generalGenre = new dic_Genre();
+            generalGenre.name = "All/Any";
+
+            dic_condition generalCondition = new dic_condition();
+            generalCondition.name = "All/Any";
             var genres = await _genreService.GetData(null);
-            foreach(var g in genres)
+            Genres.Add(new GenreWrapper(generalGenre));
+            foreach (var g in genres)
             {
                 Genres.Add(new GenreWrapper(g));
             }
 
             var conditions = await _conditionService.GetData(null);
-            foreach(var c in conditions)
+            Conditions.Add(new ConditionWrapper(generalCondition));
+            foreach (var c in conditions)
             {
                 Conditions.Add(new ConditionWrapper(c));
             }

@@ -33,8 +33,18 @@ namespace LGSA.ViewModel
         }
         public async Task GetProducts()
         {
+            String genre = "";
+            String conditon = "";
             int rating = 1;
             int stock = 1;
+            if (!_filter.Condition.Name.Equals("All/Any"))
+            {
+                conditon = _filter.Condition.Name;
+            }
+            if (!_filter.Genre.Name.Equals("All/Any"))
+            {
+                genre = _filter.Genre.Name;
+            }
             if (_filter.Rating != null)
             {
                 rating = int.Parse(_filter.Rating);
@@ -45,8 +55,8 @@ namespace LGSA.ViewModel
             }
             Expression<Func<product, bool>> predicate = p => p.Name.Contains(_filter.Name)
             && p.users.First_Name == _user.FirstName && p.users.Last_Name == _user.LastName &&
-            p.rating >= rating && p.dic_condition.name.Contains(_filter.Condition.Name) &&
-            p.dic_Genre.name.Contains(_filter.Genre.Name) && p.stock >= stock;
+            p.rating >= rating && p.dic_condition.name.Contains(conditon) &&
+            p.dic_Genre.name.Contains(genre) && p.stock >= stock;
 
             var x = await _productService.GetData(predicate);
             Products.Clear();

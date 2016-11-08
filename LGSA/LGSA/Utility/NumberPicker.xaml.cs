@@ -23,7 +23,7 @@ namespace LGSA.Utility
     {
         int minvalue = 0,
         maxvalue = 100,
-        startvalue = 10;
+        startvalue = 1;
         public NumberPicker()
         {
             InitializeComponent();

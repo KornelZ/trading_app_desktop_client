@@ -20,11 +20,15 @@ namespace LGSA.ViewModel
 
         public FilterViewModel()
         {
-            _genre = new GenreWrapper(new dic_Genre());
-            _condition = new ConditionWrapper(new dic_condition());
+            dic_Genre dicGenre = new dic_Genre();
+            dic_condition dicCondition = new dic_condition();
+            dicGenre.name = "All/Any";
+            dicCondition.name = "All/Any";
+            _genre = new GenreWrapper(dicGenre);
+            _condition = new ConditionWrapper(dicCondition);
             _name = "";
-            _price = "0";
-            _rating = "2";
+            _price = "100";
+            _rating = "1";
             _stock = "1";
         }
         public String Price
