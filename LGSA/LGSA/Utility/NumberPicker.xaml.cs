@@ -30,6 +30,16 @@ namespace LGSA.Utility
             NUDTextBox.Text = startvalue.ToString();
         }
 
+        public static DependencyProperty buttTextProperty =
+DependencyProperty.Register("buttText", typeof(String),
+typeof(NumberPicker), new FrameworkPropertyMetadata(string.Empty));
+
+        public String buttText
+        {
+            get { return GetValue(buttTextProperty).ToString(); }
+            set { SetValue(buttTextProperty, value); }
+        }
+
         private void NUDButtonUP_Click(object sender, RoutedEventArgs e)
         {
             int number;
@@ -82,7 +92,7 @@ namespace LGSA.Utility
             if (number > maxvalue) NUDTextBox.Text = maxvalue.ToString();
             if (number < minvalue) NUDTextBox.Text = minvalue.ToString();
             NUDTextBox.SelectionStart = NUDTextBox.Text.Length;
-
+            buttText = NUDTextBox.Text;
         }
     }
 }

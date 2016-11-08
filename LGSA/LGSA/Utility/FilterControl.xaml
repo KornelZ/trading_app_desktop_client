@@ -46,9 +46,9 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <Label Content="min rating" Grid.Column="4"/>
-        <controls:NumberPicker Grid.Column="4" Grid.Row="1" DataContext="{Binding Rating}" />
+        <controls:NumberPicker Grid.Column="4" Grid.Row="1" buttText="{Binding Path=Rating, Mode=TwoWay}"  />
         <Label Content="min stock" Grid.Column="5"/>
-        <controls:NumberPicker Grid.Column="5" Grid.Row="1" DataContext="{Binding Stock}" />
+        <controls:NumberPicker Grid.Column="5" Grid.Row="1" buttText="{Binding Path=Stock, Mode=TwoWay}" />
 
     </Grid>
 </UserControl>

@@ -19,9 +19,15 @@ namespace LGSA.ViewModel
         private AsyncRelayCommand _buyOfferVMCommand;
         private AsyncRelayCommand _sellOfferVMCommand;
         private AsyncRelayCommand _searchCommand;
+        private AsyncRelayCommand _productVMCommand;
         private object _displayedView;
         private FilterViewModel _filter;
 
+
+        public AsyncRelayCommand ProductVMCommand {
+            get { return _productVMCommand; }
+            set { _productVMCommand = value; Notify(); }
+        }
         public FilterViewModel Filter
         {
             get { return _filter; }
@@ -62,6 +68,7 @@ namespace LGSA.ViewModel
             _filter = new FilterViewModel();
             BuyOfferVMCommand = new AsyncRelayCommand(execute => GoToBuyOfferVM(), canExecute => { return true; });
             SellOfferVMCommand = new AsyncRelayCommand(execute => GoToSellOfferVM(), canExecute => { return true; });
+            ProductVMCommand = new AsyncRelayCommand(execute => GoToProductVM(null, null), canExecute => { return true; });
             SearchCommand = new AsyncRelayCommand(execute => Search(), canExecute => { return true; });
             DisplayedView = _authenticationVM;
         }

@@ -40,7 +40,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Content="Your Products" Grid.Column="0"></Button>
+            <Button Content="Your Products" Command="{Binding ProductVMCommand}" Grid.Column="0"></Button>
             <Button Content="Your Buy Offers" Command="{Binding BuyOfferVMCommand}" Grid.Column="1"></Button>
             <Button Content="Your Sell Offers" Command="{Binding SellOfferVMCommand}" Grid.Column="2"></Button>
             <Button Content="Search Buy Offers" Grid.Column="3"></Button>
