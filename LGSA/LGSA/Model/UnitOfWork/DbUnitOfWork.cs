@@ -57,6 +57,8 @@ namespace LGSA.Model.UnitOfWork
         public DbUnitOfWork()
         {
             _context = new MainDatabaseEntities();
+            _context.Configuration.LazyLoadingEnabled = false;
+            _context.Configuration.ProxyCreationEnabled = false;
             _authenticationRepository = new AuthenticationRepository(_context);
             _productRepository = new Repository<product>(_context);
             _buyOfferRepository = new BuyOfferRepository(_context);

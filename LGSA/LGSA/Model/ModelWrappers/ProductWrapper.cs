@@ -109,7 +109,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 genre = value;
-                product.genre_id = genre.Id;
+                product.dic_Genre = genre.DicGenre;
                 Notify();
             }
         }
@@ -119,7 +119,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 condition = value;
-                product.condition_id = condition.Id;
+                product.dic_condition = condition.DicCondition;
                 Notify();
             }
         }
@@ -129,7 +129,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 productType = value;
-                product.product_type_id = productType.Id;
+                product.dic_Product_type = productType.DicProductType;
                 Notify();
             }
         }
@@ -139,7 +139,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 owner = value;
-                product.product_owner = owner.Id;
+                product.users = owner.User;
                 Notify();
             }
         }

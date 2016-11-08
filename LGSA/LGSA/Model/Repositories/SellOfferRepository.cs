@@ -13,7 +13,11 @@ namespace LGSA.Model.Repositories
         public SellOfferRepository(DbContext context) : base(context)
         {
         }
-
+        public override bool Add(sell_Offer entity)
+        {
+            Attach(_context, entity);
+            return base.Add(entity);
+        }
         public override async Task<IEnumerable<sell_Offer>> GetData(Expression<Func<sell_Offer, bool>> filter)
         {
             return await _context.Set<sell_Offer>()
@@ -36,6 +40,23 @@ namespace LGSA.Model.Repositories
                 .Include(sell_Offer => sell_Offer.product.dic_Product_type)
                 .Include(sell_Offer => sell_Offer.dic_Offer_status)
                 .FirstOrDefaultAsync(b => b.seller_id == id);
+        }
+
+        public static void Attach(DbContext ctx, sell_Offer entity)
+        {
+            if (entity.users != null)
+            {
+                ctx.Set<users>().Attach(entity.users);
+            }
+            if (entity.dic_Offer_status != null)
+            {
+                ctx.Set<dic_Offer_status>().Attach(entity.dic_Offer_status);
+            }
+            if (entity.product != null)
+            {
+                ctx.Set<product>().Attach(entity.product);
+                ProductRepository.Attach(ctx, entity.product);
+            }
         }
     }
 }

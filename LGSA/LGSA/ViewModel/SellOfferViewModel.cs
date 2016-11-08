@@ -98,8 +98,9 @@ namespace LGSA.ViewModel
         }
         public async Task AddOffer()
         {
-            if(_createdOffer.Name == null || _createdOffer.Product.Id == 0 || CreatedOffer.Amount <= 0 || CreatedOffer?.Price <= 0)
+            if(_createdOffer.Name == null || _createdOffer.Product == null || _createdOffer.Product.Id == 0 || CreatedOffer.Amount <= 0 || CreatedOffer?.Price <= 0)
             {
+                _createdOffer = SellOfferWrapper.CreateSellOffer(_user);
                 return;
             }
             bool offerAdded = await _sellOfferService.Add(_createdOffer.SellOffer);

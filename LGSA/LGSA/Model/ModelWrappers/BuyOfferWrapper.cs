@@ -111,7 +111,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 buyer = value;
-                buyOffer.buyer_id = buyer.Id;
+                buyOffer.users = buyer.User;
                 Notify();
             }
         }
@@ -121,7 +121,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 offerStatus = value;
-                buyOffer.status_id = offerStatus.Id;
+                buyOffer.dic_Offer_status = offerStatus.DicOfferStatus;
                 Notify();
             }
         }

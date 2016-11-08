@@ -105,7 +105,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 product = value;
-                sellOffer.product_id = product.Id;
+                sellOffer.product = product?.Product;
                 Notify();
             }
         }
@@ -115,7 +115,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 seller = value;
-                sellOffer.seller_id = seller.Id;
+                sellOffer.users = seller?.User;
                 Notify(); }
         }
         public OfferStatusWrapper OfferStatus
@@ -124,7 +124,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 offerStatus = value;
-                sellOffer.status_id = offerStatus.Id;
+                sellOffer.dic_Offer_status = offerStatus?.DicOfferStatus;
                 Notify();
             }
         }
