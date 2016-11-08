@@ -16,7 +16,9 @@ namespace LGSA.ViewModel
     {
         private UserWrapper _user;
         private BuyOfferService _buyOfferService;
+
         private BindableCollection<BuyOfferWrapper> _buyOffers;
+
         private BuyOfferWrapper _createdOffer;
         private BuyOfferWrapper _selectedOffer;
 
@@ -62,13 +64,10 @@ namespace LGSA.ViewModel
         {
             Expression<Func<buy_Offer, bool>> filter = b => b.buyer_id == _user.Id;
             var offers = await _buyOfferService.GetData(filter);
-
+            BuyOffers.Clear();
             foreach(var o in offers)
             {
-                var product = new ProductWrapper(o.product);
-                product.Genre = new GenreWrapper(o.product.dic_Genre);
-                product.Condition = new ConditionWrapper(o.product.dic_condition);
-                product.ProductType = new ProductTypeWrapper(o.product.dic_Product_type);
+                var product = ProductWrapper.CreateProduct(o.product);
                 BuyOffers.Add(new BuyOfferWrapper(o)
                 {
                     Product = product,
@@ -77,6 +76,10 @@ namespace LGSA.ViewModel
         }
         public async Task AddOffer()
         {
+            if(_createdOffer.Name == null || _createdOffer.Product.Name == null || CreatedOffer.Amount <= 0 || CreatedOffer?.Price <= 0)
+            {
+                return;
+            }
             bool offerAdded = await _buyOfferService.Add(_createdOffer.BuyOffer);
 
             if(offerAdded == true)

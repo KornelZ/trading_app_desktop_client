@@ -14,6 +14,10 @@ namespace LGSA.Model.Repositories
         {
         }
 
+        public override bool Add(buy_Offer entity)
+        {
+            return base.Add(entity);
+        }
         public override async Task<IEnumerable<buy_Offer>> GetData(Expression<Func<buy_Offer, bool>> filter)
         {
             return await _context.Set<buy_Offer>()

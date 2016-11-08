@@ -23,9 +23,31 @@ namespace LGSA.Model.ModelWrappers
         {
             product = p;
             Name = p.Name;
-            Rating = p.rating;
+            if(p.rating != null)
+            {
+                Rating = p.rating;
+            }
             Stock = p.stock;
             SoldCopies = p.sold_copies;
+        }
+
+        public static ProductWrapper CreateProduct(product p)
+        {
+            var product = new ProductWrapper(p);
+            if(p.dic_Genre != null)
+            {
+                product.Genre = new GenreWrapper(p.dic_Genre);
+            }
+            if(p.dic_condition != null)
+            {
+                product.Condition = new ConditionWrapper(p.dic_condition);
+            }
+            if(p.dic_Product_type != null)
+            {
+                product.ProductType = new ProductTypeWrapper(p.dic_Product_type);
+            }
+
+            return product;
         }
         public int Id
         {
@@ -87,7 +109,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 genre = value;
-                product.dic_Genre = genre.DicGenre;
+                product.genre_id = genre.Id;
                 Notify();
             }
         }
@@ -97,7 +119,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 condition = value;
-                product.dic_condition = condition.DicCondition;
+                product.condition_id = condition.Id;
                 Notify();
             }
         }
@@ -107,7 +129,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 productType = value;
-                product.dic_Product_type = productType.DicProductType;
+                product.product_type_id = productType.Id;
                 Notify();
             }
         }
@@ -117,9 +139,14 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 owner = value;
-                product.users = owner.User;
+                product.product_owner = owner.Id;
                 Notify();
             }
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
     }
 }

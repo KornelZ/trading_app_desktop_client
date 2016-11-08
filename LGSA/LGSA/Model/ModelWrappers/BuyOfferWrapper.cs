@@ -40,7 +40,8 @@ namespace LGSA.Model.ModelWrappers
                     UpdateWho = _user.Id,
                     Genre = new GenreWrapper(new dic_Genre()),
                     Condition = new ConditionWrapper(new dic_condition()),
-                    ProductType = new ProductTypeWrapper(new dic_Product_type())
+                    ProductType = new ProductTypeWrapper(new dic_Product_type()),
+                    Stock = 0
                 },
                 StatusId = 1,
             };
@@ -100,7 +101,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 product = value;
-                buyOffer.product = Product.Product;
+                buyOffer.product = product.Product;
                 Notify();
             }
         }
@@ -110,7 +111,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 buyer = value;
-                buyOffer.users = buyer.User;
+                buyOffer.buyer_id = buyer.Id;
                 Notify();
             }
         }
@@ -120,7 +121,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 offerStatus = value;
-                buyOffer.dic_Offer_status = offerStatus.DicOfferStatus;
+                buyOffer.status_id = offerStatus.Id;
                 Notify();
             }
         }

@@ -74,7 +74,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 seller = value;
-                transaction.users1 = seller.User;
+                transaction.seller_id = seller.Id;
                 Notify();
             }
         }
@@ -84,7 +84,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 buyer = value;
-                transaction.users = buyer.User;
+                transaction.buyer_id = buyer.Id;
                 Notify();
             }
         }
@@ -94,7 +94,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 buyOffer = value;
-                transaction.buy_Offer = buyOffer.BuyOffer;
+                transaction.buy_offer_id = buyOffer.Id;
                 Notify();
             }
         }
@@ -104,7 +104,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 sellOffer = value;
-                transaction.sell_Offer = sellOffer.SellOffer;
+                transaction.sell_offer_id = sellOffer.Id;
                 Notify();
             }
         }
@@ -114,7 +114,7 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 transactionStatus = value;
-                transaction.dic_Transaction_status = transactionStatus.DicTransactionStatus;
+                transaction.status_id = transactionStatus.Id;
                 Notify(); }
         }
                 

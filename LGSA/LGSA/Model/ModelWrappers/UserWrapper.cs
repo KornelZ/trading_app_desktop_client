@@ -23,6 +23,7 @@ namespace LGSA.Model.ModelWrappers
         public int Id
         {
             get { return user.ID; }
+            set { user.ID = value; }
         }
         public string LastName
         {

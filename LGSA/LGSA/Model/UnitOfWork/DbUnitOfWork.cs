@@ -18,6 +18,7 @@ namespace LGSA.Model.UnitOfWork
         private IRepository<dic_condition> _conditionRepository;
         private IRepository<dic_Genre> _genreRepository;
         private IRepository<dic_Product_type> _productTypeRepository;
+        private IRepository<sell_Offer> _sellOfferRepository;
         public MainDatabaseEntities Context
         {
             get { return _context; }
@@ -35,6 +36,10 @@ namespace LGSA.Model.UnitOfWork
         public IRepository<buy_Offer> BuyOfferRepository
         {
             get { return _buyOfferRepository; }
+        }
+        public IRepository<sell_Offer> SellOfferRepository
+        {
+            get { return _sellOfferRepository; }
         }
         public IRepository<dic_condition> ConditionRepository
         {
@@ -55,6 +60,7 @@ namespace LGSA.Model.UnitOfWork
             _authenticationRepository = new AuthenticationRepository(_context);
             _productRepository = new Repository<product>(_context);
             _buyOfferRepository = new BuyOfferRepository(_context);
+            _sellOfferRepository = new SellOfferRepository(_context);
             _conditionRepository = new Repository<dic_condition>(_context);
             _genreRepository = new Repository<dic_Genre>(_context);
             _productTypeRepository = new Repository<dic_Product_type>(_context);

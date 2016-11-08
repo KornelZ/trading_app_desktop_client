@@ -84,12 +84,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Repositories\BuyOfferRepository.cs" />
+    <Compile Include="Model\Repositories\SellOfferRepository.cs" />
     <Compile Include="Model\Repositories\ProductRepository.cs" />
     <Compile Include="Model\Services\BuyOfferService.cs" />
     <Compile Include="Model\Services\ConditionService.cs" />
     <Compile Include="Model\Services\GenreService.cs" />
     <Compile Include="Model\Services\ProductService.cs" />
     <Compile Include="Model\Services\ProductTypeService.cs" />
+    <Compile Include="Model\Services\SellOfferService.cs" />
     <Compile Include="Utility\FilterControl.xaml.cs">
       <DependentUpon>FilterControl.xaml</DependentUpon>
     </Compile>
@@ -101,8 +103,12 @@
     <Compile Include="ViewModel\FilterViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
-    <Compile Include="View\AddOfferDialog.xaml.cs">
-      <DependentUpon>AddOfferDialog.xaml</DependentUpon>
+    <Compile Include="ViewModel\SellOfferViewModel.cs" />
+    <Compile Include="View\AddBuyOfferDialog.xaml.cs">
+      <DependentUpon>AddBuyOfferDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddSellOfferDialog.xaml.cs">
+      <DependentUpon>AddSellOfferDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AuthenticationView.xaml.cs">
       <DependentUpon>AuthenticationView.xaml</DependentUpon>
@@ -197,6 +203,9 @@
     <Compile Include="View\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SellOfferView.xaml.cs">
+      <DependentUpon>SellOfferView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -276,7 +285,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AddOfferDialog.xaml">
+    <Page Include="View\AddBuyOfferDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddSellOfferDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -293,6 +306,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SellOfferView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

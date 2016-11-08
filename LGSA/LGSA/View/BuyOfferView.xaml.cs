@@ -27,7 +27,7 @@ namespace LGSA.View
 
         private async void AddButtonClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new AddOfferDialog();
+            var dialog = new AddBuyOfferDialog();
             dialog.DataContext = DataContext;
             dialog.Owner = Window.GetWindow(this);
             bool? addOffer = dialog.ShowDialog();

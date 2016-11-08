@@ -13,6 +13,7 @@ namespace LGSA.Model.UnitOfWork
         IRepository<users_Authetication> AuthenticationRepository { get; }
         IRepository<product> ProductRepository { get; }
         IRepository<buy_Offer> BuyOfferRepository { get; }
+        IRepository<sell_Offer> SellOfferRepository { get; }
         IRepository<dic_condition> ConditionRepository { get; }
         IRepository<dic_Genre> GenreRepository { get; }
         IRepository<dic_Product_type> ProductTypeRepository { get; }

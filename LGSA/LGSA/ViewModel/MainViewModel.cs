@@ -14,8 +14,10 @@ namespace LGSA.ViewModel
         private AuthenticationViewModel _authenticationVM;
         private ProductViewModel _productVM;
         private BuyOfferViewModel _buyOfferVM;
+        private SellOfferViewModel _sellOfferVM;
         private IUnitOfWorkFactory _unitOfWorkFactory;
         private AsyncRelayCommand _buyOfferVMCommand;
+        private AsyncRelayCommand _sellOfferVMCommand;
         private AsyncRelayCommand _searchCommand;
         private object _displayedView;
         private FilterViewModel _filter;
@@ -47,6 +49,11 @@ namespace LGSA.ViewModel
             get { return _buyOfferVMCommand; }
             set { _buyOfferVMCommand = value; Notify(); }
         }
+        public AsyncRelayCommand SellOfferVMCommand
+        {
+            get { return _sellOfferVMCommand; }
+            set { _sellOfferVMCommand = value; Notify(); }
+        }
         public MainViewModel()
         {
             _unitOfWorkFactory = new DbUnitOfWorkFactory();
@@ -54,6 +61,7 @@ namespace LGSA.ViewModel
             _authenticationVM.Authentication += GoToProductVM;
             _filter = new FilterViewModel();
             BuyOfferVMCommand = new AsyncRelayCommand(execute => GoToBuyOfferVM(), canExecute => { return true; });
+            SellOfferVMCommand = new AsyncRelayCommand(execute => GoToSellOfferVM(), canExecute => { return true; });
             SearchCommand = new AsyncRelayCommand(execute => Search(), canExecute => { return true; });
             DisplayedView = _authenticationVM;
         }
@@ -76,6 +84,16 @@ namespace LGSA.ViewModel
             }
             await _buyOfferVM.LoadOffers();
             DisplayedView = _buyOfferVM;
+        }
+
+        private async Task GoToSellOfferVM()
+        {
+            if (_sellOfferVM == null)
+            {
+                _sellOfferVM = new SellOfferViewModel(_unitOfWorkFactory, _authenticationVM.User.User, _productVM.Products);
+            }
+            await _sellOfferVM.LoadOffers();
+            DisplayedView = _sellOfferVM;
         }
 
         private async Task Search()

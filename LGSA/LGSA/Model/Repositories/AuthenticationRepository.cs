@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace LGSA.Model.Repositories
 {
@@ -24,6 +25,15 @@ namespace LGSA.Model.Repositories
                 return false;
             }
             return base.Add(entity);
+        }
+        public override async Task<IEnumerable<users_Authetication>> GetData(Expression<Func<users_Authetication, bool>> filter)
+        {
+            if (filter == null)
+            {
+                return await _context.Set<users_Authetication>().Include(u => u.users1).ToListAsync();
+            }
+
+            return await _context.Set<users_Authetication>().Include(u => u.users1).Where(filter).ToListAsync();
         }
 
     }

@@ -86,6 +86,7 @@ namespace LGSA.ViewModel
             var x = await _authenticationService.GetData(predicate);
             if(x.Count() == 1)
             {
+                _user.User.Id = x.First().users1.ID;
                 Authenticated = true;
                 await OnAuthentication(EventArgs.Empty);
             }

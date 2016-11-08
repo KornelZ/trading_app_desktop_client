@@ -80,6 +80,14 @@ namespace LGSA.Model.UnitOfWork
             }
         }
 
+        public IRepository<sell_Offer> SellOfferRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public MockUnitOfWork()
         {
         }

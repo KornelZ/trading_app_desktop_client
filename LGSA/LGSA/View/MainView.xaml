@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type vm:BuyOfferViewModel}">
             <local:BuyOfferView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SellOfferViewModel}">
+            <local:SellOfferView/>
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -39,7 +42,7 @@
             </Grid.ColumnDefinitions>
             <Button Content="Your Products" Grid.Column="0"></Button>
             <Button Content="Your Buy Offers" Command="{Binding BuyOfferVMCommand}" Grid.Column="1"></Button>
-            <Button Content="Your Sell Offers" Grid.Column="2"></Button>
+            <Button Content="Your Sell Offers" Command="{Binding SellOfferVMCommand}" Grid.Column="2"></Button>
             <Button Content="Search Buy Offers" Grid.Column="3"></Button>
             <Button Content="Search Buy Offers" Grid.Column="4"></Button>
             <Button Content="Log Out" Grid.Column="5"></Button>
