@@ -84,6 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Repositories\BuyOfferRepository.cs" />
+    <Compile Include="Model\Repositories\ProductRepository.cs" />
     <Compile Include="Model\Services\BuyOfferService.cs" />
     <Compile Include="Model\Services\ConditionService.cs" />
     <Compile Include="Model\Services\GenreService.cs" />
@@ -97,6 +98,7 @@
     </Compile>
     <Compile Include="ViewModel\BuyOfferViewModel.cs" />
     <Compile Include="ViewModel\DictionaryViewModel.cs" />
+    <Compile Include="ViewModel\FilterViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="View\AddOfferDialog.xaml.cs">

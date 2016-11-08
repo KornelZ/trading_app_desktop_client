@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LGSA.View"
         mc:Ignorable="d"
-        Height="300" Width="300">
+        Height="Auto" Width="Auto">
     
         <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" Height="Auto" Width="Auto">
             <DataGrid.Columns>
@@ -36,8 +36,22 @@
                             <TextBlock Text="{Binding SoldCopies}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Width="1*" IsReadOnly="False" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="-"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Width="1*" IsReadOnly="False" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="+" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
         </DataGrid>
     
 </UserControl>

@@ -20,15 +20,35 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Content="name" Grid.Row="0"/>
-        <TextBox Grid.Row="1"></TextBox>
-        <!--select rating-->
-        <ComboBox Grid.Column="1"></ComboBox>
-        <!--select genre-->
-        <ComboBox Grid.Column="1" Grid.Row="1"></ComboBox>
-        <controls:NumberPicker Grid.Column="2" Grid.Row="0" />
+        <Label Content="name" Grid.Column="0"/>
+        <TextBox Grid.Row="1" Text="{Binding Name}"></TextBox>
         <!--nie działa na razie formatowanie-->
-        <TextBox  Grid.Column="2" Grid.Row="1" Text="{Binding Path=null, StringFormat=c}"/>
+        <Label Content="price" Grid.Column="1"/>
+        <TextBox  Grid.Column="1" Grid.Row="1" Text="{Binding Price}"/>
+        <!--select condition-->
+        <Label Content="condition" Grid.Column="2"/>
+        <ComboBox Grid.Column="2" Grid.Row="1" SelectedValue="{Binding Condition}"
+        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.Conditions}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <!--select genre-->
+        <Label Content="genre" Grid.Column="3"/>
+        <ComboBox Grid.Column="3" Grid.Row="1" SelectedValue="{Binding Genre}"
+        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.Genres}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Label Content="min rating" Grid.Column="4"/>
+        <controls:NumberPicker Grid.Column="4" Grid.Row="1" DataContext="{Binding Rating}" />
+        <Label Content="min stock" Grid.Column="5"/>
+        <controls:NumberPicker Grid.Column="5" Grid.Row="1" DataContext="{Binding Stock}" />
 
     </Grid>
 </UserControl>

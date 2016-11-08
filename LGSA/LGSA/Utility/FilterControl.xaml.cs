@@ -27,6 +27,7 @@ namespace LGSA.Utility
             get { return _currency; }
             set { _currency = value; }
         }
+
         public FilterControl()
         {
             InitializeComponent();

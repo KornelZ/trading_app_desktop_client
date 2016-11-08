@@ -25,17 +25,27 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
             <RowDefinition Height="8*"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Your Products"></Button>
-            <Button Content="Your Buy Offers" Command="{Binding BuyOfferVMCommand}"></Button>
-            <Button Content="Your Sell Offers"></Button>
-            <Button Content="Search Buy Offers"></Button>
-            <Button Content="Search Buy Offers"></Button>
-            <Button Content="Log Out"></Button>
-        </StackPanel>
-        <ContentControl Content="{Binding DisplayedView}" Grid.Row="2" />
-        <controls:FilterControl  Grid.Row="1"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Content="Your Products" Grid.Column="0"></Button>
+            <Button Content="Your Buy Offers" Command="{Binding BuyOfferVMCommand}" Grid.Column="1"></Button>
+            <Button Content="Your Sell Offers" Grid.Column="2"></Button>
+            <Button Content="Search Buy Offers" Grid.Column="3"></Button>
+            <Button Content="Search Buy Offers" Grid.Column="4"></Button>
+            <Button Content="Log Out" Grid.Column="5"></Button>
+        </Grid>
+        <controls:FilterControl DataContext="{Binding Filter}"  Grid.Row="1"/>
+        <Button Content="Search" Grid.Row="2" Command="{Binding SearchCommand}"/>
+        <ContentControl Content="{Binding DisplayedView}" Grid.Row="3" />
     </Grid>
 </Window>

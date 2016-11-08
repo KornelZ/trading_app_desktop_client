@@ -16,7 +16,15 @@ namespace LGSA.ViewModel
         private BuyOfferViewModel _buyOfferVM;
         private IUnitOfWorkFactory _unitOfWorkFactory;
         private AsyncRelayCommand _buyOfferVMCommand;
+        private AsyncRelayCommand _searchCommand;
         private object _displayedView;
+        private FilterViewModel _filter;
+
+        public FilterViewModel Filter
+        {
+            get { return _filter; }
+            set { _filter = value; Notify(); }
+        }
 
         public DictionaryViewModel DictionaryVM
         {
@@ -28,6 +36,12 @@ namespace LGSA.ViewModel
             get { return _displayedView; }
             set { _displayedView = value; Notify(); }
         }
+
+        public AsyncRelayCommand SearchCommand
+        {
+            get { return _searchCommand; }
+            set { _searchCommand = value; Notify(); }
+        }
         public AsyncRelayCommand BuyOfferVMCommand
         {
             get { return _buyOfferVMCommand; }
@@ -38,7 +52,9 @@ namespace LGSA.ViewModel
             _unitOfWorkFactory = new DbUnitOfWorkFactory();
             _authenticationVM = new AuthenticationViewModel(_unitOfWorkFactory);
             _authenticationVM.Authentication += GoToProductVM;
+            _filter = new FilterViewModel();
             BuyOfferVMCommand = new AsyncRelayCommand(execute => GoToBuyOfferVM(), canExecute => { return true; });
+            SearchCommand = new AsyncRelayCommand(execute => Search(), canExecute => { return true; });
             DisplayedView = _authenticationVM;
         }
 
@@ -46,7 +62,7 @@ namespace LGSA.ViewModel
         {
             DictionaryVM = new DictionaryViewModel(_unitOfWorkFactory);
             await DictionaryVM.LoadDictionaries();
-            _productVM = new ProductViewModel(_unitOfWorkFactory);
+            _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
             await _productVM.GetProducts();
             DisplayedView = _productVM;
             /* do dokończenia */
@@ -60,6 +76,16 @@ namespace LGSA.ViewModel
             }
             await _buyOfferVM.LoadOffers();
             DisplayedView = _buyOfferVM;
+        }
+
+        private async Task Search()
+        {
+            //trzeba switcha
+            if (_productVM != null)
+            {
+                await _productVM.GetProducts();
+            }
+
         }
     }
 }
