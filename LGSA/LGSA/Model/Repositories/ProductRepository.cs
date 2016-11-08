@@ -25,7 +25,7 @@ namespace LGSA.Model.Repositories
                 .Include(product => product.dic_condition)
                 .Include(product => product.dic_Genre)
                 .Include(product => product.dic_Product_type)
-                .Where(filter).ToListAsync();
+                .Where(filter).Take(100).ToListAsync();
         }
 
         public static void Attach(DbContext ctx, product entity)

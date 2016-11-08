@@ -88,6 +88,14 @@ namespace LGSA.Model.UnitOfWork
             }
         }
 
+        public IRepository<transactions> TransactionRepository
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public MockUnitOfWork()
         {
         }

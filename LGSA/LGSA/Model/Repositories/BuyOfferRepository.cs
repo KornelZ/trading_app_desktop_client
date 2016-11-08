@@ -28,7 +28,7 @@ namespace LGSA.Model.Repositories
                 .Include(buy_Offer => buy_Offer.product.dic_condition)
                 .Include(buy_Offer => buy_Offer.product.dic_Product_type)
                 .Include(buy_Offer => buy_Offer.product.dic_Genre)
-                .Where(filter).ToListAsync();
+                .Where(filter).Take(100).ToListAsync();
         }
 
         public override async Task<buy_Offer> GetById(int id)

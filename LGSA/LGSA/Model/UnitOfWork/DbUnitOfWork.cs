@@ -19,6 +19,7 @@ namespace LGSA.Model.UnitOfWork
         private IRepository<dic_Genre> _genreRepository;
         private IRepository<dic_Product_type> _productTypeRepository;
         private IRepository<sell_Offer> _sellOfferRepository;
+        private IRepository<transactions> _transactionRepository;
         public MainDatabaseEntities Context
         {
             get { return _context; }
@@ -53,7 +54,10 @@ namespace LGSA.Model.UnitOfWork
         {
             get { return _productTypeRepository; }
         }
-
+        public IRepository<transactions> TransactionRepository
+        {
+            get { return _transactionRepository; }
+        }
         public DbUnitOfWork()
         {
             _context = new MainDatabaseEntities();
@@ -66,6 +70,7 @@ namespace LGSA.Model.UnitOfWork
             _conditionRepository = new Repository<dic_condition>(_context);
             _genreRepository = new Repository<dic_Genre>(_context);
             _productTypeRepository = new Repository<dic_Product_type>(_context);
+            _transactionRepository = new TransactionRepository(_context);
         }
         public void Commit()
         {

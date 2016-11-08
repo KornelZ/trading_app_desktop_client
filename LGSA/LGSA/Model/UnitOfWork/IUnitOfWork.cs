@@ -17,6 +17,7 @@ namespace LGSA.Model.UnitOfWork
         IRepository<dic_condition> ConditionRepository { get; }
         IRepository<dic_Genre> GenreRepository { get; }
         IRepository<dic_Product_type> ProductTypeRepository { get; }
+        IRepository<transactions> TransactionRepository { get; }
         void StartTransaction();
         void Commit();
         void Rollback();

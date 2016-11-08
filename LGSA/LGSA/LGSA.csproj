@@ -86,12 +86,14 @@
     <Compile Include="Model\Repositories\BuyOfferRepository.cs" />
     <Compile Include="Model\Repositories\SellOfferRepository.cs" />
     <Compile Include="Model\Repositories\ProductRepository.cs" />
+    <Compile Include="Model\Repositories\TransactionRepository.cs" />
     <Compile Include="Model\Services\BuyOfferService.cs" />
     <Compile Include="Model\Services\ConditionService.cs" />
     <Compile Include="Model\Services\GenreService.cs" />
     <Compile Include="Model\Services\ProductService.cs" />
     <Compile Include="Model\Services\ProductTypeService.cs" />
     <Compile Include="Model\Services\SellOfferService.cs" />
+    <Compile Include="Model\Services\TransactionService.cs" />
     <Compile Include="Utility\FilterControl.xaml.cs">
       <DependentUpon>FilterControl.xaml</DependentUpon>
     </Compile>
@@ -99,11 +101,13 @@
       <DependentUpon>NumberPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\BuyOfferViewModel.cs" />
+    <Compile Include="ViewModel\BuyTransactionViewModel.cs" />
     <Compile Include="ViewModel\DictionaryViewModel.cs" />
     <Compile Include="ViewModel\FilterViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\SellOfferViewModel.cs" />
+    <Compile Include="ViewModel\SellTransactionViewModel.cs" />
     <Compile Include="View\AddBuyOfferDialog.xaml.cs">
       <DependentUpon>AddBuyOfferDialog.xaml</DependentUpon>
     </Compile>

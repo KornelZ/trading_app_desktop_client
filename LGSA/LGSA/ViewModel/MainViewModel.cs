@@ -75,9 +75,16 @@ namespace LGSA.ViewModel
 
         private async Task GoToProductVM(object sender, EventArgs e)
         {
-            DictionaryVM = new DictionaryViewModel(_unitOfWorkFactory);
-            await DictionaryVM.LoadDictionaries();
-            _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+            if(_dictionaryVM == null)
+            {
+                DictionaryVM = new DictionaryViewModel(_unitOfWorkFactory);
+                await DictionaryVM.LoadDictionaries();
+            }
+            if(_productVM == null)
+            {
+                _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+            }
+            
             await _productVM.GetProducts();
             DisplayedView = _productVM;
             /* do dokończenia */
