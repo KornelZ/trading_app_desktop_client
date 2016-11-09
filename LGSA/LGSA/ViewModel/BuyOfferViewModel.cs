@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LGSA.ViewModel
 {
-    public class BuyOfferViewModel : BindableBase
+    public class BuyOfferViewModel : BindableBase, IViewModel
     {
         private UserWrapper _user;
         private BuyOfferService _buyOfferService;
@@ -60,7 +60,7 @@ namespace LGSA.ViewModel
             get { return _deleteCommand; }
             set { _deleteCommand = value; Notify(); }
         }
-        public async Task LoadOffers()
+        public async Task Load()
         {
             Expression<Func<buy_Offer, bool>> filter = b => b.buyer_id == _user.Id;
             var offers = await _buyOfferService.GetData(filter);

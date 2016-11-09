@@ -15,8 +15,6 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -34,19 +32,13 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Genre"/>
-        <Label Grid.Row="2" Grid.Column="1" Content="Condition"/>
-        <Label Grid.Row="2" Grid.Column="2" Content="Type"/>
-        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding CreatedOffer.Product.Genre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CreatedOffer.Product.ProductType}" IsReadOnly="True"/>
-        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding CreatedOffer.Product.Condition}" IsReadOnly="True"/>
 
-        <Label Grid.Row="4" Grid.Column="0" Content="Price"/>
-        <Label Grid.Row="4" Grid.Column="2" Content="Amount"/>
-        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding CreatedOffer.Price}"/>
-        <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding CreatedOffer.Amount}"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="Price"/>
+        <Label Grid.Row="2" Grid.Column="2" Content="Amount"/>
+        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding CreatedOffer.Price}"/>
+        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding CreatedOffer.Amount}"/>
 
-        <Button Grid.Row="6" Grid.Column="0" Content="Cancel" Click="CancelButtonClick"/>
-        <Button Grid.Row="6" Grid.Column="2" Content="Confirm" Click="ConfirmButtonClick"/>
+        <Button Grid.Row="4" Grid.Column="0" Content="Cancel" Click="CancelButtonClick"/>
+        <Button Grid.Row="4" Grid.Column="2" Content="Confirm" Click="ConfirmButtonClick"/>
     </Grid>
 </Window>

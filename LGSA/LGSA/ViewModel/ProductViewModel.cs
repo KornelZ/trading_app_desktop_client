@@ -13,7 +13,7 @@ using LGSA.Model;
 namespace LGSA.ViewModel
 {
 
-    public class ProductViewModel : BindableBase
+    public class ProductViewModel : BindableBase, IViewModel
     {
         ProductService _productService;
         BindableCollection<ProductWrapper> _products;
@@ -31,7 +31,7 @@ namespace LGSA.ViewModel
             get { return _products; }
             set { _products = value; Notify(); }
         }
-        public async Task GetProducts()
+        public async Task Load()
         {
             String genre = "";
             String conditon = "";

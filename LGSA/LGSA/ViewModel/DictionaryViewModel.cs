@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LGSA.ViewModel
 {
-    public class DictionaryViewModel : BindableBase
+    public class DictionaryViewModel : BindableBase, IViewModel
     {
         private GenreService _genreService;
         private ConditionService _conditionService;
@@ -47,7 +47,7 @@ namespace LGSA.ViewModel
             set { _productTypes = value; Notify(); }
         }
 
-        public async Task LoadDictionaries()
+        public async Task Load()
         {
             dic_Genre generalGenre = new dic_Genre();
             generalGenre.name = "All/Any";

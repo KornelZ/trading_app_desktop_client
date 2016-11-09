@@ -17,7 +17,7 @@
                 <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

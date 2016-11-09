@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace LGSA.ViewModel
 {
-    public class BuyTransactionViewModel : BindableBase
+    public class BuyTransactionViewModel : BindableBase, IViewModel
     {
         private UserWrapper _user;
         private FilterViewModel _filter;
@@ -54,7 +54,7 @@ namespace LGSA.ViewModel
             get { return _offers; }
             set { _offers = value; Notify(); }
         }
-        public async Task LoadOffers()
+        public async Task Load()
         {
             double price = (double)_filter.ParsedPrice();
             double rating = _filter.ParsedRating();

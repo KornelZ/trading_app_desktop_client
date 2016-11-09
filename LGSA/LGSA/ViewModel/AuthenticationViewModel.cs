@@ -14,7 +14,7 @@ using LGSA.Model;
 
 namespace LGSA.ViewModel
 {
-    public class AuthenticationViewModel : Utility.BindableBase
+    public class AuthenticationViewModel : Utility.BindableBase, IViewModel
     {
         public delegate Task AuthenticationEventHandler(object sender, EventArgs e);
         public event AuthenticationEventHandler Authentication;
@@ -90,6 +90,11 @@ namespace LGSA.ViewModel
                 Authenticated = true;
                 await OnAuthentication(EventArgs.Empty);
             }
+        }
+
+        public Task Load()
+        {
+            throw new NotImplementedException();
         }
     }
 }

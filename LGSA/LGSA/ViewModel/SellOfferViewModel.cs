@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LGSA.ViewModel
 {
-    public class SellOfferViewModel : BindableBase
+    public class SellOfferViewModel : BindableBase, IViewModel
     {
         private UserWrapper _user;
         private SellOfferService _sellOfferService;
@@ -68,7 +68,7 @@ namespace LGSA.ViewModel
             get { return _deleteCommand; }
             set { _deleteCommand = value; Notify(); }
         }
-        public async Task LoadOffers()
+        public async Task Load()
         {
             Expression<Func<sell_Offer, bool>> filter = s => s.seller_id == _user.Id;
             var offers = await _sellOfferService.GetData(filter);
@@ -117,6 +117,7 @@ namespace LGSA.ViewModel
             if (offerAdded == true)
             {
                 SellOffers.Add(_createdOffer);
+                await Load();
                 _createdOffer = SellOfferWrapper.CreateSellOffer(_user);
             }
         }

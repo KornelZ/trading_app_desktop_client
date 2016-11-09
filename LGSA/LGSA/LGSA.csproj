@@ -109,6 +109,7 @@
     <Compile Include="ViewModel\SellOfferViewModel.cs" />
     <Compile Include="ViewModel\SellTransactionViewModel.cs" />
     <Compile Include="ViewModel\TransactionState.cs" />
+    <Compile Include="ViewModel\IViewModel.cs" />
     <Compile Include="View\AddBuyOfferDialog.xaml.cs">
       <DependentUpon>AddBuyOfferDialog.xaml</DependentUpon>
     </Compile>

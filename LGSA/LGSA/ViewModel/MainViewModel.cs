@@ -28,7 +28,7 @@ namespace LGSA.ViewModel
 
         private RelayCommand _logoutCommand;
 
-        private object _displayedView;
+        private IViewModel _displayedView;
         private FilterViewModel _filter;
         private bool _isUserAuthenticated;
 
@@ -47,7 +47,7 @@ namespace LGSA.ViewModel
             get { return _dictionaryVM; }
             set { _dictionaryVM = value; Notify(); }
         }
-        public object DisplayedView
+        public IViewModel DisplayedView
         {
             get { return _displayedView; }
             set { _displayedView = value; Notify(); }
@@ -115,14 +115,14 @@ namespace LGSA.ViewModel
             if(_dictionaryVM == null)
             {
                 DictionaryVM = new DictionaryViewModel(_unitOfWorkFactory);
-                await DictionaryVM.LoadDictionaries();
+                await DictionaryVM.Load();
             }
             if(_productVM == null)
             {
                 _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
             }
             
-            await _productVM.GetProducts();
+            await _productVM.Load();
             IsUserAuthenticated = true;
             DisplayedView = _productVM;
             /* do dokończenia */
@@ -134,7 +134,7 @@ namespace LGSA.ViewModel
             {
                 _buyOfferVM = new BuyOfferViewModel(_unitOfWorkFactory, _authenticationVM.User.User);
             }
-            await _buyOfferVM.LoadOffers();
+            await _buyOfferVM.Load();
             DisplayedView = _buyOfferVM;
         }
 
@@ -144,7 +144,7 @@ namespace LGSA.ViewModel
             {
                 _sellOfferVM = new SellOfferViewModel(_unitOfWorkFactory, _authenticationVM.User.User, _productVM.Products);
             }
-            await _sellOfferVM.LoadOffers();
+            await _sellOfferVM.Load();
             DisplayedView = _sellOfferVM;
         }
 
@@ -154,7 +154,7 @@ namespace LGSA.ViewModel
             {
                 _buyTransactionVM = new BuyTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
             }
-            await _buyTransactionVM.LoadOffers();
+            await _buyTransactionVM.Load();
             DisplayedView = _buyTransactionVM;
         }
 
@@ -164,7 +164,7 @@ namespace LGSA.ViewModel
             {
                 _sellTransactionVM = new SellTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
             }
-            await _sellTransactionVM.LoadOffers();
+            await _sellTransactionVM.Load();
             DisplayedView = _sellTransactionVM;
         }
 
@@ -184,10 +184,8 @@ namespace LGSA.ViewModel
         private async Task Search()
         {
             //trzeba switcha
-            if (_productVM != null)
-            {
-                await _productVM.GetProducts();
-            }
+            //nie nie trzeba?
+            await DisplayedView.Load();
 
         }
     }
