@@ -186,7 +186,6 @@ namespace LGSA.ViewModel
             //trzeba switcha
             //nie nie trzeba?
             await DisplayedView.Load();
-
         }
     }
 }

@@ -11,7 +11,12 @@
             <RowDefinition Height="8*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" Height="Auto" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  ItemsSource="{Binding Products}" AutoGenerateColumns="False" Height="Auto" Width="Auto">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
@@ -41,17 +46,24 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="1*" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Update"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="1*" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Content="Add" Grid.Column="0"/>
-            <Button Content="Update" Grid.Column="1"/>
-            <Button Content="Delete" Grid.Column="2"/>
-        </Grid>
+
+            <Button Grid.Column="1" Grid.Row="1" Content="Add" />
+
     </Grid>
 </UserControl>

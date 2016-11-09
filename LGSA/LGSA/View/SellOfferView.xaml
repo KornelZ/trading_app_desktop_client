@@ -11,7 +11,12 @@
             <RowDefinition Height="8*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding SellOffers}" AutoGenerateColumns="False" 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" ItemsSource="{Binding SellOffers}" AutoGenerateColumns="False" 
                   Height="Auto" Width="Auto" SelectedItem="{Binding SelectedOffer}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="False">
@@ -63,14 +68,25 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="1*" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Update" Command="{Binding UpdateCommand}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="1*" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Command="{Binding DeleteCommand}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Add" Click="AddButtonClick"/>
-            <Button Content="Update" Command="{Binding UpdateCommand}"/>
-            <Button Content="Delete" Command="{Binding DeleteCommand}"/>
-        </StackPanel>
+            <Button Grid.Row="1" Grid.Column="1" Content="Add" Click="AddButtonClick"/>
+
     </Grid>
 
 </UserControl>
