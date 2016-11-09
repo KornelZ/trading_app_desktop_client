@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LGSA.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,7 +44,7 @@ namespace LGSA.Model.ModelWrappers
                     ProductType = new ProductTypeWrapper(new dic_Product_type()),
                     Stock = 0
                 },
-                StatusId = 1,
+                StatusId = (int)TransactionState.Created,
             };
         }
         public static BuyOfferWrapper CreateBuyOffer(buy_Offer b)

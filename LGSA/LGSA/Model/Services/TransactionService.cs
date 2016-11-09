@@ -1,4 +1,5 @@
 ﻿using LGSA.Model.UnitOfWork;
+using LGSA.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,52 @@ namespace LGSA.Model.Services
         {
             _factory = factory;
         }
-
+        public async Task<bool> AcceptSellTransaction(sell_Offer sellOffer, buy_Offer buyOffer, product buyerProduct, product sellerProduct)
+        {
+            bool success = true;
+            using (var unitOfWork = _factory.CreateUnitOfWork())
+            {
+                try
+                {
+                    unitOfWork.StartTransaction();
+                    buyerProduct.stock += sellOffer.amount;
+                    sellerProduct.stock -= sellOffer.amount;
+                    if(buyerProduct.ID == 0)
+                    {
+                        buyerProduct = unitOfWork.ProductRepository.Add(buyerProduct);
+                    }
+                    else
+                    {
+                        unitOfWork.ProductRepository.Update(buyerProduct);
+                    }
+                    buyOffer.product_id = buyerProduct.ID;
+                    unitOfWork.ProductRepository.Update(sellerProduct);
+                    unitOfWork.SellOfferRepository.Update(sellOffer);
+                    var addedOffer = unitOfWork.BuyOfferRepository.Add(buyOffer);
+                    var transaction = new transactions()
+                    {
+                        buyer_id = addedOffer.buyer_id,
+                        seller_id = sellOffer.seller_id,
+                        buy_offer_id = addedOffer.ID,
+                        sell_offer_id = sellOffer.ID,
+                        status_id = (int)TransactionState.Finished,
+                        transaction_Date = DateTime.Now,
+                        Update_Who = addedOffer.buyer_id,
+                        Update_Date = DateTime.Now
+                    };
+                    unitOfWork.TransactionRepository.Add(transaction);
+                    await unitOfWork.Save();
+                    unitOfWork.Commit();
+                }
+                catch (Exception e)
+                {
+                    unitOfWork.Rollback();
+                    success = false;
+                    MessageBox.Show(e.InnerException.ToString());
+                }
+            }
+            return success;
+        }
         public async Task<bool> AcceptBuyTransaction(sell_Offer sellOffer, buy_Offer buyOffer, product buyerProduct, product sellerProduct)
         {
             bool success = true;
@@ -37,7 +83,7 @@ namespace LGSA.Model.Services
                         seller_id = addedOffer.seller_id,
                         buy_offer_id = buyOffer.ID,
                         sell_offer_id = addedOffer.ID,
-                        status_id = 3,
+                        status_id = (int)TransactionState.Finished,
                         transaction_Date = DateTime.Now,
                         Update_Who = addedOffer.seller_id,
                         Update_Date = DateTime.Now

@@ -25,6 +25,10 @@
         <DataTemplate DataType="{x:Type vm:BuyTransactionViewModel}">
             <local:BuyTransactionView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SellTransactionViewModel}">
+            <local:SellTransactionView/>
+        </DataTemplate>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
     </Window.Resources>
 
     <Grid>
@@ -43,15 +47,23 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Content="Your Products" Command="{Binding ProductVMCommand}" Grid.Column="0"></Button>
-            <Button Content="Your Buy Offers" Command="{Binding BuyOfferVMCommand}" Grid.Column="1"></Button>
-            <Button Content="Your Sell Offers" Command="{Binding SellOfferVMCommand}" Grid.Column="2"></Button>
-            <Button Content="Search Buy Offers" Command="{Binding BuyTransactionVMCommand}" Grid.Column="3"></Button>
-            <Button Content="Search Buy Offers" Grid.Column="4"></Button>
-            <Button Content="Log Out" Grid.Column="5"></Button>
+            <Button Content="Your Products" Command="{Binding ProductVMCommand}" 
+                    Visibility="{Binding IsUserAuthenticated, Converter={StaticResource BoolToVisibility}}" Grid.Column="0"></Button>
+            <Button Content="Your Buy Offers" Command="{Binding BuyOfferVMCommand}" 
+                    Visibility="{Binding IsUserAuthenticated, Converter={StaticResource BoolToVisibility}}" Grid.Column="1"></Button>
+            <Button Content="Your Sell Offers" Command="{Binding SellOfferVMCommand}" 
+                    Visibility="{Binding IsUserAuthenticated, Converter={StaticResource BoolToVisibility}}" Grid.Column="2"></Button>
+            <Button Content="Search Buy Offers" Command="{Binding BuyTransactionVMCommand}" 
+                    Visibility="{Binding IsUserAuthenticated, Converter={StaticResource BoolToVisibility}}" Grid.Column="3"></Button>
+            <Button Content="Search Sell Offers" Command="{Binding SellTransactionVMCommand}" 
+                    Visibility="{Binding IsUserAuthenticated, Converter={StaticResource BoolToVisibility}}" Grid.Column="4"></Button>
+            <Button Content="Log Out" Command="{Binding LogoutCommand}" Visibility="{Binding IsUserAuthenticated, Converter={StaticResource BoolToVisibility}}" Grid.Column="5"></Button>
         </Grid>
-        <controls:FilterControl DataContext="{Binding Filter}"  Grid.Row="1"/>
-        <Button Content="Search" Grid.Row="2" Command="{Binding SearchCommand}"/>
+        <Grid Grid.Row="1" Visibility="{Binding IsUserAuthenticated, Converter={StaticResource BoolToVisibility}}">
+            <controls:FilterControl DataContext="{Binding Filter}"  />
+        </Grid>
+        <Button Content="Search" Grid.Row="2" Command="{Binding SearchCommand}" 
+                Visibility="{Binding IsUserAuthenticated, Converter={StaticResource BoolToVisibility}}"/>
         <ContentControl Content="{Binding DisplayedView}" Grid.Row="3" />
     </Grid>
 </Window>

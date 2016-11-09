@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LGSA.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,17 +43,31 @@ namespace LGSA.Model.ModelWrappers
                     Condition = new ConditionWrapper(new dic_condition()),
                     ProductType = new ProductTypeWrapper(new dic_Product_type())
                 },
-                StatusId = 1,
+                StatusId = (int)TransactionState.Created,
             };
         }
         public static SellOfferWrapper CreateSellOffer(sell_Offer s)
         {
-            return new SellOfferWrapper(s)
+            var wrapper = new SellOfferWrapper(s);
+            wrapper.Seller = new UserWrapper(s.users);
+            wrapper.Product = new ProductWrapper(s.product);
+            if (s.product.dic_condition != null)
             {
-                SellerId = s.users.ID,
-                UpdateWho = s.users.ID,
-            };
+                wrapper.Product.Condition = new ConditionWrapper(s.product.dic_condition);
+            }
+            if (s.product.dic_Genre != null)
+            {
+                wrapper.Product.Genre = new GenreWrapper(s.product.dic_Genre);
+            }
+            if (s.product.dic_Product_type != null)
+            {
+                wrapper.Product.ProductType = new ProductTypeWrapper(s.product.dic_Product_type);
+            }
+            wrapper.UpdateDate = DateTime.Now;
+            wrapper.UpdateWho = s.seller_id;
+            wrapper.OfferStatus = new OfferStatusWrapper(s.dic_Offer_status);
 
+            return wrapper;
         }
         public int Id
         {

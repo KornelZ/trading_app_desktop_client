@@ -90,14 +90,14 @@ namespace LGSA.ViewModel
                 return;
             }
 
-            SelectedOffer.StatusId = 3;
+            SelectedOffer.StatusId = (int)TransactionState.Finished;
             var sellOffer = new sell_Offer()
             {
                 name = SelectedOffer.Name,
                 Update_Who = _user.Id,
                 Update_Date = DateTime.Now,
                 seller_id = _user.Id,
-                status_id = 3,
+                status_id = (int)TransactionState.Finished,
                 product_id = sellerProduct.ID,
                 price = (double)SelectedOffer.Price,
                 amount = SelectedOffer.Amount,

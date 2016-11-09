@@ -108,6 +108,7 @@
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\SellOfferViewModel.cs" />
     <Compile Include="ViewModel\SellTransactionViewModel.cs" />
+    <Compile Include="ViewModel\TransactionState.cs" />
     <Compile Include="View\AddBuyOfferDialog.xaml.cs">
       <DependentUpon>AddBuyOfferDialog.xaml</DependentUpon>
     </Compile>
@@ -201,6 +202,9 @@
     <Compile Include="View\BuyOfferView.xaml.cs">
       <DependentUpon>BuyOfferView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BuyTransactionView.xaml.cs">
+      <DependentUpon>BuyTransactionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -209,6 +213,9 @@
     </Compile>
     <Compile Include="View\SellOfferView.xaml.cs">
       <DependentUpon>SellOfferView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SellTransactionView.xaml.cs">
+      <DependentUpon>SellTransactionView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +312,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\BuyTransactionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -314,6 +325,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SellOfferView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SellTransactionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

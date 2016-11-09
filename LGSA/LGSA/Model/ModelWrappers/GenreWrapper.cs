@@ -54,9 +54,9 @@ namespace LGSA.Model.ModelWrappers
         {
             if(Name != null)
             {
-                return Name.ToString();
+                return Name;
             }
-            return "";
+            return "All/Any";
         }
     }
 }

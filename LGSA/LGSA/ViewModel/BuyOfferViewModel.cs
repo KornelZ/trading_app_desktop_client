@@ -80,6 +80,7 @@ namespace LGSA.ViewModel
             {
                 return;
             }
+            CreatedOffer.Product.CheckForNull();
             bool offerAdded = await _buyOfferService.Add(_createdOffer.BuyOffer);
 
             if(offerAdded == true)
@@ -90,7 +91,6 @@ namespace LGSA.ViewModel
         }
         public async Task UpdateOffer()
         {
-            BuyOffers[0].Product.Genre.Name = "DD";
             bool offerUpdated = await _buyOfferService.Update(_selectedOffer.BuyOffer);
         }
         public async Task DeleteOffer()

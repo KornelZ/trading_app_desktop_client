@@ -109,11 +109,18 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 genre = value;
-                if(genre.Id != 0)
+                if (genre != null && genre.Id != 0)
                 {
                     product.genre_id = genre.Id;
+
+                    product.dic_Genre = genre.DicGenre;
                 }
-                product.dic_Genre = genre.DicGenre;
+                else
+                {
+                    product.genre_id = null;
+
+                    product.dic_Genre = null;
+                }
                 Notify();
             }
         }
@@ -123,11 +130,18 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 condition = value;
-                if (condition.Id != 0)
+                if (condition != null && condition.Id != 0)
                 {
                     product.condition_id = condition.Id;
+
+                    product.dic_condition = condition.DicCondition;
                 }
-                product.dic_condition = condition.DicCondition;
+                else
+                {
+                    product.condition_id = null;
+
+                    product.dic_condition = null;
+                }
                 Notify();
             }
         }
@@ -137,11 +151,18 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 productType = value;
-                if(productType.Id != 0)
+                if (productType != null && productType.Id != 0)
                 {
                     product.product_type_id = productType.Id;
+
+                    product.dic_Product_type = productType.DicProductType;
                 }
-                product.dic_Product_type = productType.DicProductType;
+                else
+                {
+                    product.product_type_id = null;
+
+                    product.dic_Product_type = null;
+                }
                 Notify();
             }
         }
@@ -168,6 +189,21 @@ namespace LGSA.Model.ModelWrappers
             this.product.dic_Product_type = null;
             this.product.users = null;
             this.product.users1 = null;
+        }
+        public void CheckForNull()
+        {
+            if(Genre.Id == 0)
+            {
+                Genre = null;
+            }
+            if(Condition.Id == 0)
+            {
+                Condition = null;
+            }
+            if(ProductType.Id == 0)
+            {
+                ProductType = null;
+            }
         }
     }
 }

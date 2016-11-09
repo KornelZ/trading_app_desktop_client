@@ -16,16 +16,21 @@ namespace LGSA.ViewModel
         private BuyOfferViewModel _buyOfferVM;
         private SellOfferViewModel _sellOfferVM;
         private BuyTransactionViewModel _buyTransactionVM;
+        private SellTransactionViewModel _sellTransactionVM;
         private IUnitOfWorkFactory _unitOfWorkFactory;
 
         private AsyncRelayCommand _buyOfferVMCommand;
         private AsyncRelayCommand _buyTransactionVMCommand;
         private AsyncRelayCommand _sellOfferVMCommand;
+        private AsyncRelayCommand _sellTransactionVMCommand;
         private AsyncRelayCommand _searchCommand;
         private AsyncRelayCommand _productVMCommand;
+
+        private RelayCommand _logoutCommand;
+
         private object _displayedView;
         private FilterViewModel _filter;
-
+        private bool _isUserAuthenticated;
 
         public AsyncRelayCommand ProductVMCommand {
             get { return _productVMCommand; }
@@ -68,17 +73,40 @@ namespace LGSA.ViewModel
             get { return _buyTransactionVMCommand; }
             set { _buyTransactionVMCommand = value; Notify(); }
         }
+        public AsyncRelayCommand SellTransactionVMCommand
+        {
+            get { return _sellTransactionVMCommand; }
+            set { _sellTransactionVMCommand = value; Notify(); }
+        }
+        public RelayCommand LogoutCommand
+        {
+            get { return _logoutCommand; }
+            set { _logoutCommand = value; Notify(); }
+        }
+
+        public bool IsUserAuthenticated
+        {
+            get { return _isUserAuthenticated; }
+            set { _isUserAuthenticated = value; Notify(); }
+        }
+
         public MainViewModel()
         {
             _unitOfWorkFactory = new DbUnitOfWorkFactory();
             _authenticationVM = new AuthenticationViewModel(_unitOfWorkFactory);
             _authenticationVM.Authentication += GoToProductVM;
             _filter = new FilterViewModel();
+
             BuyOfferVMCommand = new AsyncRelayCommand(execute => GoToBuyOfferVM(), canExecute => { return true; });
             SellOfferVMCommand = new AsyncRelayCommand(execute => GoToSellOfferVM(), canExecute => { return true; });
             ProductVMCommand = new AsyncRelayCommand(execute => GoToProductVM(null, null), canExecute => { return true; });
             SearchCommand = new AsyncRelayCommand(execute => Search(), canExecute => { return true; });
-            BuyTransactionVMCommand = new AsyncRelayCommand(execute => GoToBuyTransactionVM(), _canExecute => { return true; });
+            BuyTransactionVMCommand = new AsyncRelayCommand(execute => GoToBuyTransactionVM(), canExecute => { return true; });
+            SellTransactionVMCommand = new AsyncRelayCommand(execute => GoToSellTransactionVM(), canExecute => { return true; });
+
+            LogoutCommand = new RelayCommand(execute => Logout(), canExecute => { return true; });
+
+            IsUserAuthenticated = false;
             DisplayedView = _authenticationVM;
         }
 
@@ -95,6 +123,7 @@ namespace LGSA.ViewModel
             }
             
             await _productVM.GetProducts();
+            IsUserAuthenticated = true;
             DisplayedView = _productVM;
             /* do dokończenia */
         }
@@ -127,6 +156,29 @@ namespace LGSA.ViewModel
             }
             await _buyTransactionVM.LoadOffers();
             DisplayedView = _buyTransactionVM;
+        }
+
+        private async Task GoToSellTransactionVM()
+        {
+            if(_sellTransactionVM == null)
+            {
+                _sellTransactionVM = new SellTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+            }
+            await _sellTransactionVM.LoadOffers();
+            DisplayedView = _sellTransactionVM;
+        }
+
+        private void Logout()
+        {
+            _productVM = null;
+            _buyOfferVM = null;
+            _sellOfferVM = null;
+            _buyTransactionVM = null;
+            _sellTransactionVM = null;
+
+            _authenticationVM.User.Password = null;
+            IsUserAuthenticated = false;
+            DisplayedView = _authenticationVM;
         }
 
         private async Task Search()

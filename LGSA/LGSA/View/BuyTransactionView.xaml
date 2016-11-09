@@ -32,21 +32,21 @@
                 <DataGridTemplateColumn Header="Genre" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Product.Genre}"/>
+                            <TextBlock Text="{Binding Product.Genre, TargetNullValue='All/Any'}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Type" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Product.ProductType}"/>
+                            <TextBlock Text="{Binding Product.ProductType, TargetNullValue='All/Any'}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Condition" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Product.Condition}"/>
+                            <TextBlock Text="{Binding Product.Condition, TargetNullValue='All/Any'}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -37,9 +37,9 @@
         <Label Grid.Row="2" Grid.Column="0" Content="Genre"/>
         <Label Grid.Row="2" Grid.Column="1" Content="Condition"/>
         <Label Grid.Row="2" Grid.Column="2" Content="Type"/>
-        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding CreatedOffer.Product.Genre.Name}" IsReadOnly="True"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CreatedOffer.Product.ProductType.Name}" IsReadOnly="True"/>
-        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding CreatedOffer.Product.Condition.Name}" IsReadOnly="True"/>
+        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding CreatedOffer.Product.Genre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CreatedOffer.Product.ProductType}" IsReadOnly="True"/>
+        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding CreatedOffer.Product.Condition}" IsReadOnly="True"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="Price"/>
         <Label Grid.Row="4" Grid.Column="2" Content="Amount"/>
