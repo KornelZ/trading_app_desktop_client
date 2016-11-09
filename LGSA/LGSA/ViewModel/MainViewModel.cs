@@ -119,7 +119,7 @@ namespace LGSA.ViewModel
             }
             if(_productVM == null)
             {
-                _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+                _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, DictionaryVM);
             }
             
             await _productVM.Load();

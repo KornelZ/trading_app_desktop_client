@@ -14,14 +14,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  ItemsSource="{Binding Products}" AutoGenerateColumns="False" Height="Auto" Width="Auto">
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  ItemsSource="{Binding Products}" AutoGenerateColumns="False"
+                  Height="Auto" Width="Auto" SelectedItem="{Binding SelectedProduct}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="True">
+                <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
+                            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -35,35 +35,43 @@
                 <DataGridTemplateColumn Header="Stock" Width="1*" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Stock}" />
+                            <TextBox Text="{Binding Stock}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Sold copies" Width="1.7*" IsReadOnly="False" >
+                <DataGridTemplateColumn Header="Genre" Width="1.7*" IsReadOnly="False" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding SoldCopies}" />
+                            <TextBlock Text="{Binding Genre}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Condition" Width="1.7*" IsReadOnly="False" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Condition}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Type" Width="1.7*" IsReadOnly="False" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductType}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="1*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Update" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Owner.DataContext.DisplayedView.UpdateCommand}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="1*" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Owner.DataContext.DisplayedView.DeleteCommand}"/>
+                            <Button Content="Update" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DisplayedView.UpdateCommand}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
-            <Button Grid.Column="1" Grid.Row="1" Content="Add" />
+            <Button Grid.Column="0" Grid.Row="1" Content="Add" />
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding GenerateXMLReport}" Content="Generate XML report"/>
 
     </Grid>
 </UserControl>
