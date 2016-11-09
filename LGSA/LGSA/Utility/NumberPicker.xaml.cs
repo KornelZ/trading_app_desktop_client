@@ -21,9 +21,9 @@ namespace LGSA.Utility
     /// </summary>
     public partial class NumberPicker : UserControl
     {
-        int minvalue = 0,
+        int minvalue = 1,
         maxvalue = 100,
-        startvalue = 0;
+        startvalue = 1;
         public NumberPicker()
         {
             InitializeComponent();

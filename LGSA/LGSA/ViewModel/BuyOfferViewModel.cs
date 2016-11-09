@@ -65,7 +65,8 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
-            Expression<Func<buy_Offer, bool>> filter = b => b.buyer_id == _user.Id && b.status_id != 3;
+
+            Expression<Func<buy_Offer, bool>> filter = CreateFilter();
             var offers = await _buyOfferService.GetData(filter);
             BuyOffers.Clear();
             foreach(var o in offers)
@@ -76,6 +77,40 @@ namespace LGSA.ViewModel
                     Product = product,
                 });
             }
+        }
+
+        private Expression<Func<buy_Offer, bool>> CreateFilter()
+        {
+            String genre = "";
+            String conditon = "";
+            int rating = 1;
+            int stock = 1;
+            double price = 1;
+            if (!_filter.Condition.Name.Equals("All/Any"))
+            {
+                conditon = _filter.Condition.Name;
+            }
+            if (!_filter.Genre.Name.Equals("All/Any"))
+            {
+                genre = _filter.Genre.Name;
+            }
+            if (_filter.Rating != null)
+            {
+                rating = int.Parse(_filter.Rating);
+            }
+            if (_filter.Price != null)
+            {
+                price = double.Parse(_filter.Price);
+            }
+            if (_filter.Stock != null)
+            {
+                stock = int.Parse(_filter.Stock);
+            }
+
+            Expression<Func<buy_Offer, bool>> filter = b => b.buyer_id == _user.Id && b.status_id != 3 &&
+            b.product.Name.Contains(_filter.Name) && b.product.dic_condition.name.Contains(conditon) &&
+            b.product.dic_Genre.name.Contains(genre) && b.price <= price && b.amount >= stock;
+            return filter;
         }
         public async Task AddOffer()
         {
