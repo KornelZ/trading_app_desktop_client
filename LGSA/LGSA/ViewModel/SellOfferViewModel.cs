@@ -22,18 +22,15 @@ namespace LGSA.ViewModel
         private SellOfferWrapper _createdOffer;
         private SellOfferWrapper _selectedOffer;
 
-        private FilterViewModel _filter;
-
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _deleteCommand;
-        public SellOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
+        public SellOfferViewModel(IUnitOfWorkFactory factory, UserWrapper user, BindableCollection<ProductWrapper> products)
         {
             _user = user;
             _sellOfferService = new SellOfferService(factory);
             _productService = new ProductService(factory);
 
-            _products = new BindableCollection<ProductWrapper>();
-            _filter = filter;
+            _products = products;
             SellOffers = new BindableCollection<SellOfferWrapper>();
             CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
 
@@ -73,25 +70,8 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
-            double price = (double)_filter.ParsedPrice();
-            double rating = _filter.ParsedRating();
-            int stock = _filter.ParsedStock();
-            string condition = "";
-            string genre = "";
-            if (!_filter.Condition.Name.Equals("All/Any"))
-            {
-                condition = _filter.Condition.Name;
-            }
-            if (!_filter.Genre.Name.Equals("All/Any"))
-            {
-                genre = _filter.Genre.Name;
-            }
-            Expression<Func<sell_Offer, bool>> predicate = b => b.seller_id != _user.Id && b.status_id != 3 && b.product.Name.Contains(_filter.Name)
-               && b.price <= price && b.product.rating >= rating
-               && b.product.stock >= stock && b.product.dic_Genre.name == genre
-               && b.product.dic_condition.name == condition;
-
-            var offers = await _sellOfferService.GetData(predicate);
+            Expression<Func<sell_Offer, bool>> filter = s => s.seller_id == _user.Id && s.status_id != 3;
+            var offers = await _sellOfferService.GetData(filter);
             SellOffers.Clear();
             foreach (var o in offers)
             {

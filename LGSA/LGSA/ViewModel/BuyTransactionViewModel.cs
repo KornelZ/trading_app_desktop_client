@@ -59,24 +59,11 @@ namespace LGSA.ViewModel
             double price = (double)_filter.ParsedPrice();
             double rating = _filter.ParsedRating();
             int stock = _filter.ParsedStock();
-
-            string genre = "";
-            string condition = "";
-            if (!_filter.Condition.Name.Equals("All/Any"))
-            {
-                condition = _filter.Condition.Name;
-            }
-            if (!_filter.Genre.Name.Equals("All/Any"))
-            {
-                genre = _filter.Genre.Name;
-            }
-
-            Expression<Func<buy_Offer, bool>> predicate = b => b.buyer_id != _user.Id && b.status_id != 3 
-                && b.product.Name.Contains(_filter.Name)
-                && b.price <= price && b.product.rating >= rating
-                && b.product.stock >= stock && b.product.dic_Genre.name == genre
-                && b.product.dic_condition.name == condition;
-
+            //Expression<Func<buy_Offer, bool>> predicate = b => b.buyer_id != _user.Id && b.product.Name.Contains(_filter.Name)
+            //    && b.price <= price && b.product.rating >= rating
+            //    && b.product.stock >= stock && b.product.dic_Genre.name.Contains(_filter.Genre.Name)
+            //    && b.product.dic_condition.name.Contains(_filter.Condition.Name);
+            Expression<Func<buy_Offer, bool>> predicate = b => b.buyer_id != _user.Id && b.status_id != 3;
             var offers = await _buyOfferService.GetData(predicate);
             Offers.Clear();
 

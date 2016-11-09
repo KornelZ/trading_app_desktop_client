@@ -132,7 +132,7 @@ namespace LGSA.ViewModel
         {
             if(_buyOfferVM == null)
             {
-                _buyOfferVM = new BuyOfferViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+                _buyOfferVM = new BuyOfferViewModel(_unitOfWorkFactory, _authenticationVM.User.User);
             }
             await _buyOfferVM.Load();
             DisplayedView = _buyOfferVM;
@@ -142,7 +142,7 @@ namespace LGSA.ViewModel
         {
             if (_sellOfferVM == null)
             {
-                _sellOfferVM = new SellOfferViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+                _sellOfferVM = new SellOfferViewModel(_unitOfWorkFactory, _authenticationVM.User.User, _productVM.Products);
             }
             await _sellOfferVM.Load();
             DisplayedView = _sellOfferVM;

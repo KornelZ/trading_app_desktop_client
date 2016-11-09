@@ -24,9 +24,7 @@ namespace LGSA.ViewModel
 
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _deleteCommand;
-
-        private FilterViewModel _filter;
-        public BuyOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
+        public BuyOfferViewModel(IUnitOfWorkFactory factory, UserWrapper user)
         {
             _user = user;
             _buyOfferService = new BuyOfferService(factory);
@@ -35,8 +33,6 @@ namespace LGSA.ViewModel
 
             UpdateCommand = new AsyncRelayCommand(execute => UpdateOffer(), canExecute => CanModifyOffer());
             DeleteCommand = new AsyncRelayCommand(execute => DeleteOffer(), canExecute => CanModifyOffer());
-
-            _filter = filter;
         }
 
         public BindableCollection<BuyOfferWrapper> BuyOffers
@@ -66,25 +62,8 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
-            double price = (double)_filter.ParsedPrice();
-            double rating = _filter.ParsedRating();
-            int stock = _filter.ParsedStock();
-            string condition = "";
-            string genre = "";
-            if (!_filter.Condition.Name.Equals("All/Any"))
-            {
-                condition = _filter.Condition.Name;
-            }
-            if (!_filter.Genre.Name.Equals("All/Any"))
-            {
-                genre = _filter.Genre.Name;
-            }
-            Expression<Func<buy_Offer, bool>> predicate = b => b.buyer_id != _user.Id && b.status_id != 3 && b.product.Name.Contains(_filter.Name)
-               && b.price <= price && b.product.rating >= rating
-               && b.product.stock >= stock && b.product.dic_Genre.name == genre
-               && b.product.dic_condition.name == condition;
-
-            var offers = await _buyOfferService.GetData(predicate);
+            Expression<Func<buy_Offer, bool>> filter = b => b.buyer_id == _user.Id && b.status_id != 3;
+            var offers = await _buyOfferService.GetData(filter);
             BuyOffers.Clear();
             foreach(var o in offers)
             {
