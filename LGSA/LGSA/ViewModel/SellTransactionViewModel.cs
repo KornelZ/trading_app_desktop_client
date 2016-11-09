@@ -112,6 +112,8 @@ namespace LGSA.ViewModel
             SelectedOffer.Product.NullNavigationProperties();
             bool result = await _transactionService.AcceptSellTransaction(SelectedOffer.SellOffer, buyOffer,
                 buyerProduct, SelectedOffer.Product.Product);
+
+            Offers.Remove(SelectedOffer);
         }
 
         private void NullProductProperties(product buyerProduct)

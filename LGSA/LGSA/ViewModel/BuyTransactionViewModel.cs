@@ -106,6 +106,8 @@ namespace LGSA.ViewModel
             SelectedOffer.Product.NullNavigationProperties();
             bool result = await _transactionService.AcceptBuyTransaction(sellOffer, SelectedOffer.BuyOffer,
                 SelectedOffer.Product.Product, sellerProduct);
+
+            Offers.Remove(SelectedOffer);
         }
     }
 }
