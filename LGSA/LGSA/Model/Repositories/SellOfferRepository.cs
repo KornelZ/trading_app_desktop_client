@@ -13,9 +13,10 @@ namespace LGSA.Model.Repositories
         public SellOfferRepository(DbContext context) : base(context)
         {
         }
-        public override bool Add(sell_Offer entity)
+        public override sell_Offer Add(sell_Offer entity)
         {
             Attach(_context, entity);
+
             return base.Add(entity);
         }
         public override async Task<IEnumerable<sell_Offer>> GetData(Expression<Func<sell_Offer, bool>> filter)

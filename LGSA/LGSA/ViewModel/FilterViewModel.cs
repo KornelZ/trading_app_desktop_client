@@ -65,5 +65,27 @@ namespace LGSA.ViewModel
             get { return _stock; }
             set { _stock = value; Notify(); }
         }
+
+        public decimal ParsedPrice()
+        {
+            decimal price = 0;
+            decimal.TryParse(Price, out price);
+
+            return price;
+        }
+        public double ParsedRating()
+        {
+            double rating = 0.0;
+            double.TryParse(Rating, out rating);
+
+            return rating;
+        }
+        public int ParsedStock()
+        {
+            int stock = 0;
+            int.TryParse(Stock, out stock);
+
+            return stock;
+        }
     }
 }

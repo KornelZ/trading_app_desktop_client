@@ -15,14 +15,14 @@ namespace LGSA.Model.Repositories
         {
         }
 
-        public override bool Add(users_Authetication entity)
+        public override users_Authetication Add(users_Authetication entity)
         {
             if(_context.Set<users_Authetication>()
                 .Include(users_Authetication => users_Authetication.users1)
                 .Any(u => u.users1.First_Name == entity.users1.First_Name &&
                 u.users1.Last_Name == entity.users1.Last_Name))
             {
-                return false;
+                return null;
             }
             return base.Add(entity);
         }

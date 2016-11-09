@@ -15,8 +15,11 @@ namespace LGSA.ViewModel
         private ProductViewModel _productVM;
         private BuyOfferViewModel _buyOfferVM;
         private SellOfferViewModel _sellOfferVM;
+        private BuyTransactionViewModel _buyTransactionVM;
         private IUnitOfWorkFactory _unitOfWorkFactory;
+
         private AsyncRelayCommand _buyOfferVMCommand;
+        private AsyncRelayCommand _buyTransactionVMCommand;
         private AsyncRelayCommand _sellOfferVMCommand;
         private AsyncRelayCommand _searchCommand;
         private AsyncRelayCommand _productVMCommand;
@@ -60,6 +63,11 @@ namespace LGSA.ViewModel
             get { return _sellOfferVMCommand; }
             set { _sellOfferVMCommand = value; Notify(); }
         }
+        public AsyncRelayCommand BuyTransactionVMCommand
+        {
+            get { return _buyTransactionVMCommand; }
+            set { _buyTransactionVMCommand = value; Notify(); }
+        }
         public MainViewModel()
         {
             _unitOfWorkFactory = new DbUnitOfWorkFactory();
@@ -70,6 +78,7 @@ namespace LGSA.ViewModel
             SellOfferVMCommand = new AsyncRelayCommand(execute => GoToSellOfferVM(), canExecute => { return true; });
             ProductVMCommand = new AsyncRelayCommand(execute => GoToProductVM(null, null), canExecute => { return true; });
             SearchCommand = new AsyncRelayCommand(execute => Search(), canExecute => { return true; });
+            BuyTransactionVMCommand = new AsyncRelayCommand(execute => GoToBuyTransactionVM(), _canExecute => { return true; });
             DisplayedView = _authenticationVM;
         }
 
@@ -108,6 +117,16 @@ namespace LGSA.ViewModel
             }
             await _sellOfferVM.LoadOffers();
             DisplayedView = _sellOfferVM;
+        }
+
+        private async Task GoToBuyTransactionVM()
+        {
+            if(_buyTransactionVM == null)
+            {
+                _buyTransactionVM = new BuyTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+            }
+            await _buyTransactionVM.LoadOffers();
+            DisplayedView = _buyTransactionVM;
         }
 
         private async Task Search()

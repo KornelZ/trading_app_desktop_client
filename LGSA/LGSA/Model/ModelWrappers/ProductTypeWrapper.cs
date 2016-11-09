@@ -16,6 +16,11 @@ namespace LGSA.Model.ModelWrappers
         }
         public ProductTypeWrapper(dic_Product_type p)
         {
+            if(p == null)
+            {
+                dicProductType = new dic_Product_type();
+                return;
+            }
             dicProductType = p;
             Name = p.name;
         }
@@ -37,6 +42,15 @@ namespace LGSA.Model.ModelWrappers
         {
             get { return dicProductType.Update_Date; }
             set { dicProductType.Update_Date = value; }
+        }
+
+        public override string ToString()
+        {
+            if(Name != null)
+            {
+                return Name.ToString();
+            }
+            return "";
         }
     }
 }

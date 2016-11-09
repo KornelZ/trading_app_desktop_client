@@ -14,10 +14,9 @@ namespace LGSA.Model.Repositories
         {
             _context = context;
         }
-        public virtual bool Add(T entity)
+        public virtual T Add(T entity)
         {
-            _context.Set<T>().Add(entity);
-            return true;
+            return _context.Set<T>().Add(entity); 
         }
 
         public virtual bool Delete(T entity)

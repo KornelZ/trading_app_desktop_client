@@ -16,6 +16,11 @@ namespace LGSA.Model.ModelWrappers
         }
         public GenreWrapper(dic_Genre g)
         {
+            if(g == null)
+            {
+                dicGenre = new dic_Genre();
+                return;
+            }
             dicGenre = g;
             Name = g.name;
             GenreDescription = g.genre_description;
@@ -43,6 +48,15 @@ namespace LGSA.Model.ModelWrappers
         {
             get { return dicGenre.Update_Date; }
             set { dicGenre.Update_Date = value; }
+        }
+
+        public override string ToString()
+        {
+            if(Name != null)
+            {
+                return Name.ToString();
+            }
+            return "";
         }
     }
 }

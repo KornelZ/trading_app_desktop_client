@@ -17,6 +17,44 @@ namespace LGSA.Model.Services
             _factory = factory;
         }
 
+        public async Task<bool> AcceptBuyTransaction(sell_Offer sellOffer, buy_Offer buyOffer, product buyerProduct, product sellerProduct)
+        {
+            bool success = true;
+            using (var unitOfWork = _factory.CreateUnitOfWork())
+            {
+                try
+                {
+                    unitOfWork.StartTransaction();
+                    buyerProduct.stock += buyOffer.amount;
+                    sellerProduct.stock -= buyOffer.amount;
+                    unitOfWork.ProductRepository.Update(buyerProduct);
+                    unitOfWork.ProductRepository.Update(sellerProduct);
+                    unitOfWork.BuyOfferRepository.Update(buyOffer);
+                    var addedOffer = unitOfWork.SellOfferRepository.Add(sellOffer);
+                    var transaction = new transactions()
+                    {
+                        buyer_id = buyOffer.buyer_id,
+                        seller_id = addedOffer.seller_id,
+                        buy_offer_id = buyOffer.ID,
+                        sell_offer_id = addedOffer.ID,
+                        status_id = 3,
+                        transaction_Date = DateTime.Now,
+                        Update_Who = addedOffer.seller_id,
+                        Update_Date = DateTime.Now
+                    };
+                    unitOfWork.TransactionRepository.Add(transaction);
+                    await unitOfWork.Save();
+                    unitOfWork.Commit();
+                }
+                catch (Exception e)
+                {
+                    unitOfWork.Rollback();
+                    success = false;
+                    MessageBox.Show(e.InnerException.ToString());
+                }
+            }
+            return success;
+        }
         public async Task<bool> Add(transactions entity)
         {
             bool success = true;

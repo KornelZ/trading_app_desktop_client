@@ -13,7 +13,7 @@ namespace LGSA.Model.Repositories
         public TransactionRepository(DbContext context) : base(context)
         {
         }
-        public override bool Add(transactions entity)
+        public override transactions Add(transactions entity)
         {
             Attach(_context, entity);
             return base.Add(entity);
@@ -41,25 +41,40 @@ namespace LGSA.Model.Repositories
         {
             if(entity.users != null)
             {
-                ctx.Set<users>().Attach(entity.users);
+                if(entity.users.ID != 0)
+                {
+                    ctx.Set<users>().Attach(entity.users);
+                }
             }
             if(entity.users1 != null)
             {
-                ctx.Set<users>().Attach(entity.users1);
+                if(entity.users1.ID != 0)
+                {
+                    ctx.Set<users>().Attach(entity.users1);
+                }
             }
             if(entity.buy_Offer != null)
             {
-                ctx.Set<buy_Offer>().Attach(entity.buy_Offer);
-                BuyOfferRepository.Attach(ctx, entity.buy_Offer);
+                if(entity.buy_Offer.ID != 0)
+                {
+                    ctx.Set<buy_Offer>().Attach(entity.buy_Offer);
+                    BuyOfferRepository.Attach(ctx, entity.buy_Offer);
+                }
             }
             if(entity.sell_Offer != null)
             {
-                ctx.Set<sell_Offer>().Attach(entity.sell_Offer);
-                SellOfferRepository.Attach(ctx, entity.sell_Offer);
+                if(entity.sell_Offer.ID != 0)
+                {
+                    ctx.Set<sell_Offer>().Attach(entity.sell_Offer);
+                    SellOfferRepository.Attach(ctx, entity.sell_Offer);
+                }
             }
             if(entity.dic_Transaction_status != null)
             {
-                ctx.Set<dic_Transaction_status>().Attach(entity.dic_Transaction_status);
+                if(entity.dic_Transaction_status.ID != 0)
+                {
+                    ctx.Set<dic_Transaction_status>().Attach(entity.dic_Transaction_status);
+                }
             }
         }
     }

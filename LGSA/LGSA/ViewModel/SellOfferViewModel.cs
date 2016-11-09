@@ -98,9 +98,18 @@ namespace LGSA.ViewModel
         }
         public async Task AddOffer()
         {
-            if(_createdOffer.Name == null || _createdOffer.Product == null || _createdOffer.Product.Id == 0 || CreatedOffer.Amount <= 0 || CreatedOffer?.Price <= 0)
+            if(CreatedOffer.Name == null || CreatedOffer.Product == null || CreatedOffer.Product.Id == 0 
+                || CreatedOffer.Amount <= 0 || CreatedOffer.Amount > CreatedOffer.Product.Stock || CreatedOffer?.Price <= 0)
             {
-                _createdOffer = SellOfferWrapper.CreateSellOffer(_user);
+                CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
+                return;
+            }
+            // if all offers' product amount is greater than product stock, then fail
+            var productOffers = await _sellOfferService.GetData(offer => offer.seller_id == _user.Id && offer.product_id == CreatedOffer.Product.Id);
+            var totalAmount = productOffers.Sum(offer => offer.amount);
+            if(CreatedOffer.Amount + totalAmount > CreatedOffer.Product.Stock)
+            {
+                CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
                 return;
             }
             bool offerAdded = await _sellOfferService.Add(_createdOffer.SellOffer);

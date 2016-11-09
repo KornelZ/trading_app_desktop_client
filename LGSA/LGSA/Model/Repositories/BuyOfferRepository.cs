@@ -14,10 +14,15 @@ namespace LGSA.Model.Repositories
         {
         }
 
-        public override bool Add(buy_Offer entity)
+        public override buy_Offer Add(buy_Offer entity)
         {
             Attach(_context, entity);
             return base.Add(entity);
+        }
+        public override bool Update(buy_Offer entity)
+        {
+            Attach(_context, entity);
+            return base.Update(entity);
         }
         public override async Task<IEnumerable<buy_Offer>> GetData(Expression<Func<buy_Offer, bool>> filter)
         {
@@ -47,15 +52,19 @@ namespace LGSA.Model.Repositories
         {
             if(entity.users != null)
             {
-                ctx.Set<users>().Attach(entity.users);
+                ctx.Entry(entity.users).State = EntityState.Modified;
             }
             if(entity.dic_Offer_status != null)
             {
-                ctx.Set<dic_Offer_status>().Attach(entity.dic_Offer_status);
+                ctx.Entry(entity.dic_Offer_status).State = EntityState.Modified;
             }
             if(entity.product != null)
             {
-                ctx.Set<product>().Attach(entity.product);
+                if(entity.product.ID != 0)
+                {
+                    ctx.Entry(entity.product).State = EntityState.Modified;
+                }
+               
                 ProductRepository.Attach(ctx, entity.product);
             }
         }

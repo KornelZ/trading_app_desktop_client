@@ -25,7 +25,11 @@ namespace LGSA.Model.Services
                 try
                 {
                     unitOfWork.StartTransaction();
-                    unitOfWork.AuthenticationRepository.Add(entity);
+                    var addedUser = unitOfWork.AuthenticationRepository.Add(entity);
+                    if(addedUser == null)
+                    {
+                        return false;
+                    }
                     await unitOfWork.Save();
                     unitOfWork.Commit();
                 }

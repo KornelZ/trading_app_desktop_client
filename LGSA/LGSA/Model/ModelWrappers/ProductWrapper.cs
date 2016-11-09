@@ -109,6 +109,10 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 genre = value;
+                if(genre.Id != 0)
+                {
+                    product.genre_id = genre.Id;
+                }
                 product.dic_Genre = genre.DicGenre;
                 Notify();
             }
@@ -119,6 +123,10 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 condition = value;
+                if (condition.Id != 0)
+                {
+                    product.condition_id = condition.Id;
+                }
                 product.dic_condition = condition.DicCondition;
                 Notify();
             }
@@ -129,6 +137,10 @@ namespace LGSA.Model.ModelWrappers
             set
             {
                 productType = value;
+                if(productType.Id != 0)
+                {
+                    product.product_type_id = productType.Id;
+                }
                 product.dic_Product_type = productType.DicProductType;
                 Notify();
             }
@@ -147,6 +159,15 @@ namespace LGSA.Model.ModelWrappers
         public override string ToString()
         {
             return this.Name;
+        }
+
+        public void NullNavigationProperties()
+        {
+            this.product.dic_condition = null;
+            this.product.dic_Genre = null;
+            this.product.dic_Product_type = null;
+            this.product.users = null;
+            this.product.users1 = null;
         }
     }
 }

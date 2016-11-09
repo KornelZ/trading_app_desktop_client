@@ -16,6 +16,11 @@ namespace LGSA.Model.ModelWrappers
         }
         public OfferStatusWrapper(dic_Offer_status o)
         {
+            if(o == null)
+            {
+                dicOfferStatus = new dic_Offer_status();
+                return;
+            }
             dicOfferStatus = o;
             Name = o.name;
             OfferStatusDescription = o.offer_status_description;

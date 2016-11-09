@@ -45,6 +45,15 @@ namespace LGSA.Model.ModelWrappers
                 StatusId = 1,
             };
         }
+        public static SellOfferWrapper CreateSellOffer(sell_Offer s)
+        {
+            return new SellOfferWrapper(s)
+            {
+                SellerId = s.users.ID,
+                UpdateWho = s.users.ID,
+            };
+
+        }
         public int Id
         {
             get { return sellOffer.ID; }
@@ -127,6 +136,14 @@ namespace LGSA.Model.ModelWrappers
                 sellOffer.dic_Offer_status = offerStatus?.DicOfferStatus;
                 Notify();
             }
+        }
+
+        public void NullNavigationProperties()
+        {
+            this.sellOffer.dic_Offer_status = null;
+            this.sellOffer.users = null;
+            this.sellOffer.users1 = null;
+            this.sellOffer.product = null;
         }
     }
 }

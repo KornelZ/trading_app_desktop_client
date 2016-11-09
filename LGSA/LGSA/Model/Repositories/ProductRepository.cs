@@ -13,10 +13,16 @@ namespace LGSA.Model.Repositories
         public ProductRepository(DbContext context) : base(context)
         {
         }
-        public override bool Add(product entity)
+        public override product Add(product entity)
         {
             Attach(_context, entity);
             return  base.Add(entity);
+        }
+
+        public override bool Update(product entity)
+        {
+            Attach(_context, entity);
+            return base.Update(entity);
         }
         public override async Task<IEnumerable<product>> GetData(Expression<Func<product, bool>> filter)
         {
@@ -32,19 +38,19 @@ namespace LGSA.Model.Repositories
         {
             if(entity.users != null)
             {
-                ctx.Set<users>().Attach(entity.users);
+                ctx.Entry(entity.users).State = EntityState.Modified;
             }
             if(entity.dic_condition != null)
             {
-                ctx.Set<dic_condition>().Attach(entity.dic_condition);
+                ctx.Entry(entity.dic_condition).State = EntityState.Modified;
             }
             if(entity.dic_Genre != null)
             {
-                ctx.Set<dic_Genre>().Attach(entity.dic_Genre);
+                ctx.Entry(entity.dic_Genre).State = EntityState.Modified;
             }
             if(entity.dic_Product_type != null)
             {
-                ctx.Set<dic_Product_type>().Attach(entity.dic_Product_type);
+                ctx.Entry(entity.dic_Product_type).State = EntityState.Modified;
             }
         }
     }

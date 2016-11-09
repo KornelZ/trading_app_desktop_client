@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LGSA.View.BuyOfferView"
+﻿<UserControl x:Class="LGSA.View.BuyTransactionView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,7 @@
             <RowDefinition Height="8*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding BuyOffers}" AutoGenerateColumns="False" 
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Offers}" AutoGenerateColumns="False" 
                   Height="Auto" Width="Auto" SelectedItem="{Binding SelectedOffer}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Name" Width="3*" IsReadOnly="True">
@@ -29,47 +29,24 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Type" Width="2*" IsReadOnly="True">
+                <DataGridTemplateColumn Header="Genre" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox
-                                      SelectedItem="{Binding Product.Genre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      
-                                      ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.Genres}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Content="{Binding Name}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <TextBlock Text="{Binding Product.Genre}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Type" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox SelectedValue="{Binding Product.ProductType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                      ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.ProductTypes}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Content="{Binding Name}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <TextBlock Text="{Binding Product.ProductType}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Condition" Width="2*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox SelectedValue="{Binding Product.Condition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                      ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.Conditions}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Content="{Binding Name}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <TextBlock Text="{Binding Product.Condition}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -87,14 +64,30 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Buyer's Surname" Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Buyer.LastName}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Buyer's Name" Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Buyer.FirstName}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="" Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Accept" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DisplayedView.AcceptCommand}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Add" Click="AddButtonClick"/>
-            <Button Content="Update" Command="{Binding UpdateCommand}"/>
-            <Button Content="Delete" Command="{Binding DeleteCommand}"/>
-        </StackPanel>
     </Grid>
 
 </UserControl>

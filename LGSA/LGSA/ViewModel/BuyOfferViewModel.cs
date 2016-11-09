@@ -29,7 +29,7 @@ namespace LGSA.ViewModel
             _user = user;
             _buyOfferService = new BuyOfferService(factory);
             BuyOffers = new BindableCollection<BuyOfferWrapper>();
-            CreatedOffer = BuyOfferWrapper.CreateBuyOffer(_user);
+            CreatedOffer = BuyOfferWrapper.CreateEmptyBuyOffer(_user);
 
             UpdateCommand = new AsyncRelayCommand(execute => UpdateOffer(), canExecute => CanModifyOffer());
             DeleteCommand = new AsyncRelayCommand(execute => DeleteOffer(), canExecute => CanModifyOffer());
@@ -85,11 +85,12 @@ namespace LGSA.ViewModel
             if(offerAdded == true)
             {
                 BuyOffers.Add(_createdOffer);
-                _createdOffer = BuyOfferWrapper.CreateBuyOffer(_user);
+                _createdOffer = BuyOfferWrapper.CreateEmptyBuyOffer(_user);
             }
         }
         public async Task UpdateOffer()
         {
+            BuyOffers[0].Product.Genre.Name = "DD";
             bool offerUpdated = await _buyOfferService.Update(_selectedOffer.BuyOffer);
         }
         public async Task DeleteOffer()

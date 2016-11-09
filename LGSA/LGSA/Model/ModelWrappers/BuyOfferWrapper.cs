@@ -26,7 +26,7 @@ namespace LGSA.Model.ModelWrappers
             SoldCopies = b.sold_copies;
         }
 
-        public static BuyOfferWrapper CreateBuyOffer(UserWrapper _user)
+        public static BuyOfferWrapper CreateEmptyBuyOffer(UserWrapper _user)
         {
             return new BuyOfferWrapper(new buy_Offer())
             {
@@ -45,6 +45,29 @@ namespace LGSA.Model.ModelWrappers
                 },
                 StatusId = 1,
             };
+        }
+        public static BuyOfferWrapper CreateBuyOffer(buy_Offer b)
+        {
+            var wrapper = new BuyOfferWrapper(b);
+            wrapper.Buyer = new UserWrapper(b.users);
+            wrapper.Product = new ProductWrapper(b.product);
+            if(b.product.dic_condition != null)
+            {
+                wrapper.Product.Condition = new ConditionWrapper(b.product.dic_condition);
+            }
+            if(b.product.dic_Genre != null)
+            {
+                wrapper.Product.Genre = new GenreWrapper(b.product.dic_Genre);
+            }
+            if(b.product.dic_Product_type != null)
+            {
+                wrapper.Product.ProductType = new ProductTypeWrapper(b.product.dic_Product_type);
+            }
+            wrapper.UpdateDate = DateTime.Now;
+            wrapper.UpdateWho = b.buyer_id;
+            wrapper.OfferStatus = new OfferStatusWrapper(b.dic_Offer_status);
+
+            return wrapper;
         }
         public int Id
         {
@@ -124,6 +147,14 @@ namespace LGSA.Model.ModelWrappers
                 buyOffer.dic_Offer_status = offerStatus.DicOfferStatus;
                 Notify();
             }
+        }
+
+        public void NullNavigationProperties()
+        {
+            this.BuyOffer.dic_Offer_status = null;
+            this.BuyOffer.product = null;
+            this.BuyOffer.users = null;
+            this.BuyOffer.users1 = null;
         }
     }
 }

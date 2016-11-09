@@ -17,6 +17,11 @@ namespace LGSA.Model.ModelWrappers
         }
         public ConditionWrapper(dic_condition c)
         {
+            if(c == null)
+            {
+                dicCondition = new dic_condition();
+                return;
+            }
             dicCondition = c;
             Name = c.name;
         }
@@ -38,6 +43,14 @@ namespace LGSA.Model.ModelWrappers
         {
             get { return dicCondition.Update_Date; }
             set { dicCondition.Update_Date = value; }
+        }
+        public override string ToString()
+        {
+            if(Name != null)
+            {
+                return Name.ToString();
+            }
+            return "";
         }
     }
 }
