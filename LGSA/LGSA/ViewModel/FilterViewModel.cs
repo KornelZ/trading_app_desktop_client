@@ -28,8 +28,8 @@ namespace LGSA.ViewModel
             _condition = new ConditionWrapper(dicCondition);
             _name = "";
             _price = "100";
-            _rating = "1";
-            _stock = "1";
+            _rating = "0";
+            _stock = "0";
         }
         public String Price
         {
@@ -86,6 +86,20 @@ namespace LGSA.ViewModel
             int.TryParse(Stock, out stock);
 
             return stock;
+        }
+
+        public async Task ResetFilter()
+        {
+            Name = "";
+            Price = "100";
+            Rating = "0";
+            Stock = "0";
+            dic_Genre dicGenre = new dic_Genre();
+            dic_condition dicCondition = new dic_condition();
+            dicGenre.name = "All/Any";
+            dicCondition.name = "All/Any";
+            Genre = new GenreWrapper(dicGenre);
+            Condition = new ConditionWrapper(dicCondition);
         }
     }
 }
