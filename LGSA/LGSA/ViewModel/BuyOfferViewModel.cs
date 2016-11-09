@@ -24,12 +24,15 @@ namespace LGSA.ViewModel
 
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _deleteCommand;
-        public BuyOfferViewModel(IUnitOfWorkFactory factory, UserWrapper user)
+        private FilterViewModel _filter;
+        public BuyOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
         {
             _user = user;
             _buyOfferService = new BuyOfferService(factory);
             BuyOffers = new BindableCollection<BuyOfferWrapper>();
             CreatedOffer = BuyOfferWrapper.CreateEmptyBuyOffer(_user);
+
+            _filter = filter;
 
             UpdateCommand = new AsyncRelayCommand(execute => UpdateOffer(), canExecute => CanModifyOffer());
             DeleteCommand = new AsyncRelayCommand(execute => DeleteOffer(), canExecute => CanModifyOffer());

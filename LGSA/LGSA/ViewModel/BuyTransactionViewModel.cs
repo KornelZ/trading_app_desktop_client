@@ -56,13 +56,6 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
-            double price = (double)_filter.ParsedPrice();
-            double rating = _filter.ParsedRating();
-            int stock = _filter.ParsedStock();
-            //Expression<Func<buy_Offer, bool>> predicate = b => b.buyer_id != _user.Id && b.product.Name.Contains(_filter.Name)
-            //    && b.price <= price && b.product.rating >= rating
-            //    && b.product.stock >= stock && b.product.dic_Genre.name.Contains(_filter.Genre.Name)
-            //    && b.product.dic_condition.name.Contains(_filter.Condition.Name);
             Expression<Func<buy_Offer, bool>> predicate = b => b.buyer_id != _user.Id && b.status_id != 3;
             var offers = await _buyOfferService.GetData(predicate);
             Offers.Clear();

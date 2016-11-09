@@ -76,7 +76,8 @@
                 <DataGridTemplateColumn Width="1*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Update" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DisplayedView.UpdateCommand}"/>
+                            <Button Content="Update" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DisplayedView.UpdateCommand}"
+                                    MouseEnter="FocusOnMouseEnter"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 
@@ -84,7 +85,8 @@
                 <DataGridTemplateColumn Width="1*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DisplayedView.DeleteCommand}"/>
+                            <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DisplayedView.DeleteCommand}"
+                                    MouseEnter="FocusOnMouseEnter"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
           

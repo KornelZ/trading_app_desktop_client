@@ -37,5 +37,10 @@ namespace LGSA.View
                 await (this.DataContext as SellOfferViewModel).AddOffer();
             }
         }
+
+        private void FocusOnMouseEnter(object sender, MouseEventArgs e)
+        {
+            (sender as Control).Focus();
+        }
     }
 }

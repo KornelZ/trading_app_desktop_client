@@ -22,15 +22,18 @@ namespace LGSA.ViewModel
         private SellOfferWrapper _createdOffer;
         private SellOfferWrapper _selectedOffer;
 
+        private FilterViewModel _filter;
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _deleteCommand;
-        public SellOfferViewModel(IUnitOfWorkFactory factory, UserWrapper user, BindableCollection<ProductWrapper> products)
+        public SellOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
         {
             _user = user;
             _sellOfferService = new SellOfferService(factory);
             _productService = new ProductService(factory);
 
-            _products = products;
+            _filter = filter;
+
+            _products = new BindableCollection<ProductWrapper>();
             SellOffers = new BindableCollection<SellOfferWrapper>();
             CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
 
@@ -71,6 +74,7 @@ namespace LGSA.ViewModel
         public async Task Load()
         {
             Expression<Func<sell_Offer, bool>> filter = s => s.seller_id == _user.Id && s.status_id != 3;
+
             var offers = await _sellOfferService.GetData(filter);
             SellOffers.Clear();
             foreach (var o in offers)
