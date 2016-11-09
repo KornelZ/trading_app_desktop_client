@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LGSA.Model.Repositories
 {
-    class ProductRepository : Repository<product>
+    public class ProductRepository : Repository<product>
     {
         public ProductRepository(DbContext context) : base(context)
         {

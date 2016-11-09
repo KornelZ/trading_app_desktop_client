@@ -97,10 +97,23 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
+            var predicate = CreateFilter();
+            var x = await _productService.GetData(predicate);
+            Products.Clear();
+            foreach (product p in x)
+            {
+                ProductWrapper product = ProductWrapper.CreateProduct(p);
+                Products.Add(product);
+            }
+        }
+
+        private Expression<Func<product, bool>> CreateFilter()
+        {
             String genre = "";
             String conditon = "";
             int rating = 1;
             int stock = 1;
+            double price = 1;
             if (!_filter.Condition.Name.Equals("All/Any"))
             {
                 conditon = _filter.Condition.Name;
@@ -113,20 +126,21 @@ namespace LGSA.ViewModel
             {
                 rating = int.Parse(_filter.Rating);
             }
+            if (_filter.Price != null)
+            {
+                price = double.Parse(_filter.Price);
+            }
             if (_filter.Stock != null)
             {
                 stock = int.Parse(_filter.Stock);
             }
-            Expression<Func<product, bool>> predicate = p => p.product_owner == _user.Id && p.stock > 0;
 
-            var x = await _productService.GetData(predicate);
-            Products.Clear();
-            foreach (product p in x)
-            {
-                ProductWrapper product = ProductWrapper.CreateProduct(p);
-                Products.Add(product);
-            }
+            Expression<Func<product, bool>> filter = b => b.product_owner == _user.Id &&
+            b.Name.Contains(_filter.Name) && b.dic_condition.name.Contains(conditon) &&
+            b.dic_Genre.name.Contains(genre) && b.rating >= rating && b.stock >= stock;
+            return filter;
         }
+
 
         public async Task AddProduct()
         {
