@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LGSA.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -23,6 +24,19 @@ namespace LGSA.View
         public ProductView()
         {
             InitializeComponent();
+        }
+
+        private async void AddButtonClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddProductDialog();
+            dialog.DataContext = DataContext;
+            dialog.Owner = Window.GetWindow(this);
+            bool? addOffer = dialog.ShowDialog();
+
+            if (addOffer == true)
+            {
+                await (this.DataContext as ProductViewModel).AddProduct();
+            }
         }
     }
 }

@@ -32,7 +32,18 @@ namespace LGSA.Model.ModelWrappers
             Stock = p.stock;
             SoldCopies = p.sold_copies;
         }
+        public static ProductWrapper CreateEmptyProduct(UserWrapper user)
+        {
+            var wrapper = new ProductWrapper(new product());
+            wrapper.Genre = new GenreWrapper(new dic_Genre());
+            wrapper.Condition = new ConditionWrapper(new dic_condition());
+            wrapper.ProductType = new ProductTypeWrapper(new dic_Product_type());
+            wrapper.OwnerId = user.Id;
+            wrapper.UpdateDate = DateTime.Now;
+            wrapper.UpdateWho = user.Id;
 
+            return wrapper;
+        }
         public static ProductWrapper CreateProduct(product p)
         {
             var product = new ProductWrapper(p);

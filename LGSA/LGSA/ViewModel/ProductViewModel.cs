@@ -19,11 +19,12 @@ namespace LGSA.ViewModel
 
     public class ProductViewModel : BindableBase, IViewModel
     {
-        ProductService _productService;
-        BindableCollection<ProductWrapper> _products;
-        FilterViewModel _filter;
-        UserWrapper _user;
-        ProductWrapper _selectedProduct;
+        private ProductService _productService;
+        private BindableCollection<ProductWrapper> _products;
+        private FilterViewModel _filter;
+        private UserWrapper _user;
+        private ProductWrapper _selectedProduct;
+        private ProductWrapper _createdProduct;
 
         private AsyncRelayCommand _generateXMLReport;
         private AsyncRelayCommand _updateCommand;
@@ -37,7 +38,7 @@ namespace LGSA.ViewModel
             _productService = new ProductService(factory);
             _filter = filter;
             Products = new BindableCollection<ProductWrapper>();
-
+            CreatedProduct = ProductWrapper.CreateEmptyProduct(_user);
             GenerateXMLReport = new AsyncRelayCommand(execute => GenerateXML(), canExecute => { return true; });
             UpdateCommand = new AsyncRelayCommand(execute => Update(), canExecute => { return true; });
         }
@@ -46,6 +47,11 @@ namespace LGSA.ViewModel
         {
             get { return _selectedProduct; }
             set { _selectedProduct = value; Notify(); }
+        }
+        public ProductWrapper CreatedProduct
+        {
+            get { return _createdProduct; }
+            set { _createdProduct = value; Notify(); }
         }
         public AsyncRelayCommand UpdateCommand
         {
@@ -111,20 +117,30 @@ namespace LGSA.ViewModel
             {
                 stock = int.Parse(_filter.Stock);
             }
-            Expression<Func<product, bool>> predicate = p => p.Name.Contains(_filter.Name)
-            && p.users.First_Name == _user.FirstName && p.users.Last_Name == _user.LastName &&
-            p.rating >= rating && p.dic_condition.name.Contains(conditon) &&
-            p.dic_Genre.name.Contains(genre) && p.stock >= stock;
+            Expression<Func<product, bool>> predicate = p => p.product_owner == _user.Id && p.stock > 0;
 
             var x = await _productService.GetData(predicate);
             Products.Clear();
             foreach (product p in x)
             {
                 ProductWrapper product = ProductWrapper.CreateProduct(p);
-                product.Genre = _dictionaryVM.Genres.First(item => item.Id == p.genre_id);
-                product.ProductType = _dictionaryVM.ProductTypes.First(item => item.Id == p.product_type_id);
-                product.Condition = _dictionaryVM.Conditions.First(item => item.Id == p.condition_id);
                 Products.Add(product);
+            }
+        }
+
+        public async Task AddProduct()
+        {
+            if (_createdProduct.Name == null || _createdProduct.Stock <= 0)
+            {
+                return;
+            }
+            _createdProduct.NullNavigationProperties();
+            bool offerAdded = await _productService.Add(_createdProduct.Product);
+
+            if (offerAdded == true)
+            {
+                Products.Add(_createdProduct);
+                _createdProduct = ProductWrapper.CreateEmptyProduct(_user);
             }
         }
 

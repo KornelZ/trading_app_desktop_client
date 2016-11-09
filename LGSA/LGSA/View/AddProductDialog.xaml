@@ -1,0 +1,62 @@
+﻿<Window x:Class="LGSA.View.AddProductDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LGSA.View"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Title="AddProductDialog" Height="300" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Product Name"/>
+        <Label Grid.Row="0" Grid.Column="1" Content="Rating"/>
+        <Label Grid.Row="0" Grid.Column="2" Content="Stock"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding CreatedProduct.Name}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CreatedProduct.Rating}"/>
+        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding CreatedProduct.Stock}"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Genre"/>
+        <Label Grid.Row="2" Grid.Column="1" Content="Condition"/>
+        <Label Grid.Row="2" Grid.Column="2" Content="Type"/>
+        <ComboBox Grid.Row="3" Grid.Column="0" SelectedIndex="0" SelectedValue="{Binding CreatedProduct.Genre}"
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Owner.DataContext.DictionaryVM.Genres}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ComboBox Grid.Row="3" Grid.Column="1" SelectedIndex="0" SelectedValue="{Binding CreatedProduct.Condition}" 
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Owner.DataContext.DictionaryVM.Conditions}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding CreatedProduct.ProductType}"
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Owner.DataContext.DictionaryVM.ProductTypes}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button Grid.Row="4" Grid.Column="0" Content="Cancel" Click="CancelButtonClick"/>
+        <Button Grid.Row="4" Grid.Column="2" Content="Confirm" Click="ConfirmButtonClick"/>
+    </Grid>
+</Window>

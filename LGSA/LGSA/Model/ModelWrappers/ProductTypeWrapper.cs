@@ -25,6 +25,7 @@ namespace LGSA.Model.ModelWrappers
             dicProductType = p;
             Name = p.name;
         }
+
         public int Id
         {
             get { return dicProductType.ID; }

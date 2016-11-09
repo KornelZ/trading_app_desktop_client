@@ -64,7 +64,7 @@ namespace LGSA.Model.UnitOfWork
             _context.Configuration.LazyLoadingEnabled = false;
             _context.Configuration.ProxyCreationEnabled = false;
             _authenticationRepository = new AuthenticationRepository(_context);
-            _productRepository = new Repository<product>(_context);
+            _productRepository = new ProductRepository(_context);
             _buyOfferRepository = new BuyOfferRepository(_context);
             _sellOfferRepository = new SellOfferRepository(_context);
             _conditionRepository = new Repository<dic_condition>(_context);

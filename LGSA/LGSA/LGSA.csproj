@@ -113,6 +113,9 @@
     <Compile Include="View\AddBuyOfferDialog.xaml.cs">
       <DependentUpon>AddBuyOfferDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AddProductDialog.xaml.cs">
+      <DependentUpon>AddProductDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddSellOfferDialog.xaml.cs">
       <DependentUpon>AddSellOfferDialog.xaml</DependentUpon>
     </Compile>
@@ -298,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddBuyOfferDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
