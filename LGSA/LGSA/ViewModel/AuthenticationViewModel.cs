@@ -11,6 +11,7 @@ using LGSA.Utility;
 using System.Windows.Input;
 using System.Linq.Expressions;
 using LGSA.Model;
+using System.Windows;
 
 namespace LGSA.ViewModel
 {
@@ -20,10 +21,10 @@ namespace LGSA.ViewModel
         public event AuthenticationEventHandler Authentication;
         private AuthenticationService _authenticationService;
         private UserAuthenticationWrapper _user;
-        private bool _registered;
-        private bool _authenticated;
         private AsyncRelayCommand _registerCommand;
         private AsyncRelayCommand _authenticateCommand;
+
+        private string _errorString;
         public AsyncRelayCommand RegisterCommand
         {
             get { return _registerCommand; }
@@ -39,16 +40,11 @@ namespace LGSA.ViewModel
             get { return _user; }
             set { _user = value; Notify(); }
         }
-        public bool Registered
-        {
-            get { return _registered; }
-            set { _registered = value; Notify(); }
-        }
 
-        public bool Authenticated
+        public string ErrorString
         {
-            get { return _authenticated; }
-            set { _authenticated = value; Notify(); }
+            get { return _errorString; }
+            set { _errorString = value; Notify(); }
         }
 
         public AuthenticationViewModel(IUnitOfWorkFactory factory)
@@ -67,7 +63,15 @@ namespace LGSA.ViewModel
 
         public async Task Register()
         {
-            Registered = await _authenticationService.Add(_user.UserAuthentication);
+            var registered = await _authenticationService.Add(_user.UserAuthentication);
+            if(registered == true)
+            {
+                ErrorString = null;
+            }
+            else
+            {
+                ErrorString = (string)Application.Current.FindResource("RegistrationError");
+            }
         }
         public bool CanAuthenticate()
         {
@@ -87,8 +91,12 @@ namespace LGSA.ViewModel
             if(x.Count() == 1)
             {
                 _user.User.Id = x.First().users1.ID;
-                Authenticated = true;
                 await OnAuthentication(EventArgs.Empty);
+                ErrorString = null;
+            }
+            else
+            {
+                ErrorString = (string)Application.Current.FindResource("AuthenticationError");
             }
         }
 

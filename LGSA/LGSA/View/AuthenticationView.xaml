@@ -14,6 +14,7 @@
         <Label x:Name="label1" Content="Password" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center"/>
         <PasswordBox x:Name="textBx" PasswordChanged="textBx_PasswordChanged" Margin="15,0,15,15" Height="35" Width="271" HorizontalAlignment="Center" VerticalContentAlignment="Center" FontSize="16"/>
         <Grid Margin="15">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -21,8 +22,10 @@
             <Button x:Name="LoginButton" Content="Log in" Command="{Binding AuthenticateCommand}" IsEnabled="{Binding AuthenticateCommand.IsAvailable}"
                         Height="35" Width="200" Grid.Column="1" />
             <Button x:Name="RegisterButton" Content="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding RegisterCommand.IsAvailable}"
-                        Height="35" Width="200" Grid.Column="0"/>
+                        Height="35" Width="200" Grid.Column="0" />
+           
         </Grid>
+        <Label Content="{Binding ErrorString}" Foreground="Red" FontSize="16"  Margin="15,0,15,15" HorizontalContentAlignment="Center"/>
     </StackPanel>
 
 </UserControl>

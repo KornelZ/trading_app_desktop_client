@@ -25,6 +25,7 @@ namespace LGSA.ViewModel
         private BindableCollection<BuyOfferWrapper> _offers;
         private AsyncRelayCommand _acceptCommand;
 
+        private string _errorString;
         public BuyTransactionViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
         {
             _buyOfferService = new BuyOfferService(factory);
@@ -53,6 +54,11 @@ namespace LGSA.ViewModel
         {
             get { return _offers; }
             set { _offers = value; Notify(); }
+        }
+        public string ErrorString
+        {
+            get { return _errorString; }
+            set { _errorString = value; Notify(); }
         }
         public async Task Load()
         {
@@ -109,10 +115,12 @@ namespace LGSA.ViewModel
             }
             if(sellerProduct == null)
             {
+                ErrorString = (string)Application.Current.FindResource("TransactionError");
                 return;
             }
             if(sellerProduct.stock < SelectedOffer.Amount)
             {
+                ErrorString = (string)Application.Current.FindResource("TransactionError");
                 return;
             }
 
@@ -132,7 +140,12 @@ namespace LGSA.ViewModel
             SelectedOffer.Product.NullNavigationProperties();
             bool result = await _transactionService.AcceptBuyTransaction(sellOffer, SelectedOffer.BuyOffer,
                 SelectedOffer.Product.Product, sellerProduct);
-
+            if(result == false)
+            {
+                ErrorString = (string)Application.Current.FindResource("TransactionError");
+                return;
+            }
+            ErrorString = null;
             Offers.Remove(SelectedOffer);
         }
     }

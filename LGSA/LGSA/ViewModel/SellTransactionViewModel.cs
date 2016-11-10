@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LGSA.ViewModel
 {
@@ -24,6 +25,7 @@ namespace LGSA.ViewModel
         private BindableCollection<SellOfferWrapper> _offers;
         private AsyncRelayCommand _acceptCommand;
 
+        private string _errorString;
         public SellTransactionViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
         {
             _sellOfferService = new SellOfferService(factory);
@@ -52,6 +54,11 @@ namespace LGSA.ViewModel
         {
             get { return _offers; }
             set { _offers = value; Notify(); }
+        }
+        public string ErrorString
+        {
+            get { return _errorString; }
+            set { _errorString = value; Notify(); }
         }
         public async Task Load()
         {
@@ -138,7 +145,12 @@ namespace LGSA.ViewModel
             SelectedOffer.Product.NullNavigationProperties();
             bool result = await _transactionService.AcceptSellTransaction(SelectedOffer.SellOffer, buyOffer,
                 buyerProduct, SelectedOffer.Product.Product);
-
+            if(result == false)
+            {
+                ErrorString = (string)Application.Current.FindResource("TransactionError");
+                return;
+            }
+            ErrorString = null;
             Offers.Remove(SelectedOffer);
         }
 

@@ -13,6 +13,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Xml.Serialization;
 using System.Xml.Linq;
+using System.Windows;
 
 namespace LGSA.ViewModel
 {
@@ -30,7 +31,7 @@ namespace LGSA.ViewModel
         private AsyncRelayCommand _updateCommand;
         private DictionaryViewModel _dictionaryVM;
 
-
+        private string _errorString;
         public ProductViewModel (IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, DictionaryViewModel dic)
         {
             _dictionaryVM = dic;
@@ -68,7 +69,11 @@ namespace LGSA.ViewModel
             get { return _products; }
             set { _products = value; Notify(); }
         }
-
+        public string ErrorString
+        {
+            get { return _errorString; }
+            set { _errorString = value; Notify(); }
+        }
         public async Task GenerateXML()
         {
             DateTime saveNow = DateTime.Now;
@@ -92,8 +97,10 @@ namespace LGSA.ViewModel
                 xmlfromLINQ.Save(path);
             }catch(Exception e)
             {
-                int a;
+                ErrorString = (string)Application.Current.FindResource("ReportGenerationError");
+                return;
             }
+            ErrorString = null;
         }
         public async Task Load()
         {
@@ -137,15 +144,23 @@ namespace LGSA.ViewModel
 
             Expression<Func<product, bool>> filter = b => b.product_owner == _user.Id &&
             b.Name.Contains(_filter.Name) && b.dic_condition.name.Contains(conditon) &&
-            b.dic_Genre.name.Contains(genre) && b.rating >= rating && b.stock >= stock;
+            b.dic_Genre.name.Contains(genre) && (b.rating >= rating || b.rating == null) && b.stock >= stock;
+
             return filter;
         }
 
 
         public async Task AddProduct()
         {
-            if (_createdProduct.Name == null || _createdProduct.Stock <= 0)
+            if (_createdProduct.Name == null || _createdProduct.Name == "" || _createdProduct.Stock <= 0)
             {
+                ErrorString = (string)Application.Current.FindResource("InvalidProductError");
+                return;
+            }
+            var prods = await _productService.GetData(p => p.Name == _createdProduct.Name && p.product_owner == _user.Id);
+            if(prods.Count() != 0)
+            {
+                ErrorString = (string)Application.Current.FindResource("ProductNameError");
                 return;
             }
             _createdProduct.NullNavigationProperties();
@@ -156,13 +171,25 @@ namespace LGSA.ViewModel
                 Products.Add(_createdProduct);
                 _createdProduct = ProductWrapper.CreateEmptyProduct(_user);
             }
+            else
+            {
+                ErrorString = (string)Application.Current.FindResource("InsertProductError");
+                return;
+            }
+            ErrorString = null;
         }
 
         public async Task Update()
         {
             if (SelectedProduct != null)
             {
-                await _productService.Update(_selectedProduct.Product);
+                bool success = await _productService.Update(_selectedProduct.Product);
+                if(success == false)
+                {
+                    ErrorString = (string)Application.Current.FindResource("UpdateProductError");
+                    return;
+                }
+                ErrorString = null;
             }
 
         }

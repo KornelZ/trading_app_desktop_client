@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LGSA.ViewModel
 {
@@ -25,6 +26,8 @@ namespace LGSA.ViewModel
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _deleteCommand;
         private FilterViewModel _filter;
+
+        private string _errorString;
         public BuyOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
         {
             _user = user;
@@ -63,9 +66,13 @@ namespace LGSA.ViewModel
             get { return _deleteCommand; }
             set { _deleteCommand = value; Notify(); }
         }
+        public string ErrorString
+        {
+            get { return _errorString; }
+            set { _errorString = value; Notify(); }
+        }
         public async Task Load()
         {
-
             Expression<Func<buy_Offer, bool>> filter = CreateFilter();
             var offers = await _buyOfferService.GetData(filter);
             BuyOffers.Clear();
@@ -114,8 +121,9 @@ namespace LGSA.ViewModel
         }
         public async Task AddOffer()
         {
-            if(_createdOffer.Name == null || _createdOffer.Product.Name == null || CreatedOffer.Amount <= 0 || CreatedOffer?.Price <= 0)
+            if(_createdOffer.Name == null || _createdOffer.Name == "" || _createdOffer.Product.Name == null || CreatedOffer.Amount <= 0 || CreatedOffer?.Price <= 0)
             {
+                ErrorString = (string)Application.Current.FindResource("InvalidBuyOfferError");
                 return;
             }
             CreatedOffer.Product.CheckForNull();
@@ -126,10 +134,21 @@ namespace LGSA.ViewModel
                 BuyOffers.Add(_createdOffer);
                 _createdOffer = BuyOfferWrapper.CreateEmptyBuyOffer(_user);
             }
+            else
+            {
+                ErrorString = (string)Application.Current.FindResource("InsertBuyOfferError");
+                return;
+            }
+            ErrorString = null;
         }
         public async Task UpdateOffer()
         {
             bool offerUpdated = await _buyOfferService.Update(_selectedOffer.BuyOffer);
+            if(offerUpdated == false)
+            {
+                ErrorString = (string)Application.Current.FindResource("UpdateBuyOfferError");
+            }
+            ErrorString = null;
         }
         public async Task DeleteOffer()
         {
@@ -138,6 +157,12 @@ namespace LGSA.ViewModel
             {
                 BuyOffers.Remove(_selectedOffer);
             }
+            else
+            {
+                ErrorString = (string)Application.Current.FindResource("DeleteBuyOfferError");
+                return;
+            }
+            ErrorString = null;
         }
 
         public bool CanModifyOffer()

@@ -28,7 +28,7 @@ namespace LGSA.Model.Repositories
                 .Include(sell_Offer => sell_Offer.product.dic_condition)
                 .Include(sell_Offer => sell_Offer.product.dic_Product_type)
                 .Include(sell_Offer => sell_Offer.product.dic_Genre)
-                .Where(filter).Take(100).ToListAsync();
+                .Where(filter).ToListAsync();
         }
 
         public override async Task<sell_Offer> GetById(int id)

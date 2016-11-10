@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:LGSA"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="RegistrationError">This user already exists!</system:String>
+    <system:String x:Key="AuthenticationError">Wrong login or password</system:String>
+
+    <system:String x:Key="ReportGenerationError">Failed to generate report</system:String>
+    <system:String x:Key="InvalidProductError">Product must have a name and have stock > 0</system:String>
+    <system:String x:Key="ProductNameError">Product with such name already exists</system:String>
+    <system:String x:Key="InsertProductError">Failed to create a product</system:String>
+    <system:String x:Key="UpdateProductError">Failed to update a product</system:String>
+    
+    <system:String x:Key="InvalidBuyOfferError">Invalid buy offer</system:String>
+    <system:String x:Key="InsertBuyOfferError">Failed to create a buy offer</system:String>
+    <system:String x:Key="UpdateBuyOfferError">Failed to update a buy offer</system:String>
+    <system:String x:Key="DeleteBuyOfferError">Failed to delete a buy offer</system:String>
+
+    <system:String x:Key="InvalidSellOfferError">Invalid sell offer</system:String>
+    <system:String x:Key="StockError">Not enough products in stock</system:String>
+    <system:String x:Key="InsertSellOfferError">Failed to create a sell offer</system:String>
+    <system:String x:Key="UpdateSellOfferError">Failed to update a sell offer</system:String>
+    <system:String x:Key="DeleteSellOfferError">Failed to delete a sell offer</system:String>
+
+    <system:String x:Key="TransactionError">Transaction failed</system:String>
+</ResourceDictionary>

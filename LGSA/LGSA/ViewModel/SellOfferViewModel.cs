@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LGSA.ViewModel
 {
@@ -25,6 +26,8 @@ namespace LGSA.ViewModel
         private FilterViewModel _filter;
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _deleteCommand;
+
+        private string _errorString;
         public SellOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
         {
             _user = user;
@@ -71,6 +74,11 @@ namespace LGSA.ViewModel
             get { return _deleteCommand; }
             set { _deleteCommand = value; Notify(); }
         }
+        public string ErrorString
+        {
+            get { return _errorString; }
+            set { _errorString = value; Notify(); }
+        }
         public async Task Load()
         {
             var offers = await _sellOfferService.GetData(CreateFilter());
@@ -115,9 +123,10 @@ namespace LGSA.ViewModel
                 stock = int.Parse(_filter.Stock);
             }
 
-            Expression<Func<sell_Offer, bool>> filter = b => b.seller_id == _user.Id && b.status_id != 3 &&
-            b.product.Name.Contains(_filter.Name) && b.product.dic_condition.name.Contains(conditon) &&
-            b.product.dic_Genre.name.Contains(genre) && b.price <= price && b.amount >= stock;
+            //Expression<Func<sell_Offer, bool>> filter = b => b.seller_id == _user.Id && b.status_id != 3 &&
+            //b.product.Name.Contains(_filter.Name) && b.product.dic_condition.name.Contains(conditon) &&
+            //b.product.dic_Genre.name.Contains(genre) && b.price <= price && b.amount >= stock;
+            Expression<Func<sell_Offer, bool>> filter = b => b.seller_id == _user.Id && b.status_id != 3;
             return filter;
         }
 
@@ -135,9 +144,10 @@ namespace LGSA.ViewModel
         public async Task AddOffer()
         {
             if(CreatedOffer.Name == null || CreatedOffer.Product == null || CreatedOffer.Product.Id == 0 
-                || CreatedOffer.Amount <= 0 || CreatedOffer.Amount > CreatedOffer.Product.Stock || CreatedOffer?.Price <= 0)
+                || CreatedOffer.Amount <= 0  || CreatedOffer?.Price <= 0)
             {
                 CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
+                ErrorString = (string)Application.Current.FindResource("InvalidSellOfferError");
                 return;
             }
             // if all offers' product amount is greater than product stock, then fail
@@ -146,6 +156,7 @@ namespace LGSA.ViewModel
             if(CreatedOffer.Amount + totalAmount > CreatedOffer.Product.Stock)
             {
                 CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
+                ErrorString = (string)Application.Current.FindResource("StockError");
                 return;
             }
             bool offerAdded = await _sellOfferService.Add(_createdOffer.SellOffer);
@@ -153,13 +164,34 @@ namespace LGSA.ViewModel
             if (offerAdded == true)
             {
                 SellOffers.Add(_createdOffer);
-                await Load();
                 _createdOffer = SellOfferWrapper.CreateSellOffer(_user);
+              
             }
+            else
+            {
+                ErrorString = (string)Application.Current.FindResource("InsertSellOfferError");
+                return;
+            }
+            ErrorString = null;
         }
         public async Task UpdateOffer()
         {
+            var x = await _productService.GetData(s => s.Name == _selectedOffer.Product.Name);
+            if(x.Count() == 1)
+            {
+                if(x.First().stock < _selectedOffer.Amount)
+                {
+                    ErrorString = (string)Application.Current.FindResource("StockError");
+                    return;
+                }
+            }
             bool offerUpdated = await _sellOfferService.Update(_selectedOffer.SellOffer);
+            if(offerUpdated == false)
+            {
+                ErrorString = (string)Application.Current.FindResource("UpdateSellOfferError");
+                return;
+            }
+            ErrorString = null;
         }
         public async Task DeleteOffer()
         {
@@ -167,6 +199,10 @@ namespace LGSA.ViewModel
             if (offerDeleted == true)
             {
                 SellOffers.Remove(_selectedOffer);
+            }
+            else
+            {
+                ErrorString = (string)Application.Current.FindResource("DeleteSellOfferError");
             }
         }
 

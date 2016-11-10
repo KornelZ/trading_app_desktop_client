@@ -87,7 +87,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-
+        <Label Grid.Column="0" Grid.Row="1" Content="{Binding ErrorString}" FontSize="16" Foreground="Red" HorizontalContentAlignment="Center"/>
     </Grid>
 
 </UserControl>

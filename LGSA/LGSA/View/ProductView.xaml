@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -70,8 +71,8 @@
             </DataGrid.Columns>
         </DataGrid>
 
-            <Button Grid.Column="0" Grid.Row="1" Content="Add" Click="AddButtonClick" />
+        <Button Grid.Column="0" Grid.Row="1" Content="Add" Click="AddButtonClick" />
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding GenerateXMLReport}" Content="Generate XML report"/>
-
+        <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Content="{Binding ErrorString}" FontSize="16" Foreground="Red" HorizontalContentAlignment="Center"/>
     </Grid>
 </UserControl>

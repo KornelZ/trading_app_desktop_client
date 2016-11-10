@@ -34,7 +34,7 @@ namespace LGSA.Model.Repositories
                 .Include(transactions => transactions.sell_Offer.product.dic_condition)
                 .Include(transactions => transactions.sell_Offer.product.dic_Genre)
                 .Include(transactions => transactions.sell_Offer.product.dic_Product_type)
-                .Where(filter).Take(100).ToListAsync();
+                .Where(filter).ToListAsync();
         }
 
         public static void Attach(DbContext ctx, transactions entity)

@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -90,7 +91,7 @@
 
 
         <Button Grid.Row="1" Grid.Column="1" Content="Add" Click="AddButtonClick"/>
-
+        <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ErrorString}" FontSize="16" Foreground="Red" HorizontalContentAlignment="Center"/>
 
     </Grid>
 
