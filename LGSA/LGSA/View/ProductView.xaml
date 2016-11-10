@@ -36,7 +36,7 @@
                 <DataGridTemplateColumn Header="Stock" Width="1*" IsReadOnly="False" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Stock }" />
+                            <TextBox Text="{Binding Stock, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
