@@ -17,7 +17,7 @@ using System.Xml.Linq;
 namespace LGSA.ViewModel
 {
 
-    public class ProductViewModel : BindableBase, IViewModel
+    public sealed class ProductViewModel : BindableBase, IViewModel
     {
         private ProductService _productService;
         private BindableCollection<ProductWrapper> _products;

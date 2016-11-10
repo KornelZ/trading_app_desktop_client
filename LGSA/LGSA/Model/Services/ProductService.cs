@@ -81,7 +81,7 @@ namespace LGSA.Model.Services
             return null;
         }
 
-        public async Task<IEnumerable<product>> GetData(Expression<Func<product, bool>> filter)
+        public virtual async Task<IEnumerable<product>> GetData(Expression<Func<product, bool>> filter)
         {
             using (var unitOfWork = _factory.CreateUnitOfWork())
             {
@@ -99,7 +99,7 @@ namespace LGSA.Model.Services
             return null;
         }
 
-        public async Task<bool> Update(product entity)
+        public virtual async Task<bool> Update(product entity)
         {
             bool success = true;
             using (var unitOfWork = _factory.CreateUnitOfWork())
