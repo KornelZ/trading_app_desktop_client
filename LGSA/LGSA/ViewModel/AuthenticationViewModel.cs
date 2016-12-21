@@ -28,7 +28,6 @@ namespace LGSA.ViewModel
     {
         public delegate Task AuthenticationEventHandler(object sender, EventArgs e);
         public event AuthenticationEventHandler Authentication;
-        private AuthenticationService _authenticationService;
         private UserAuthenticationWrapper _user;
         private AsyncRelayCommand _registerCommand;
         private AsyncRelayCommand _authenticateCommand;
@@ -76,9 +75,8 @@ namespace LGSA.ViewModel
             set { _errorString = value; Notify(); }
         }
 
-        public AuthenticationViewModel(IUnitOfWorkFactory factory)
+        public AuthenticationViewModel()
         {
-            _authenticationService = new AuthenticationService(factory);
             _user = new UserAuthenticationWrapper(new Model.users_Authetication() { Update_Date = DateTime.Now, Update_Who = 1 });
             _user.User = new UserWrapper(new Model.users() { Update_Date = DateTime.Now, Update_Who = 1});
             _user.User.Address = new AddressDto();
@@ -99,15 +97,6 @@ namespace LGSA.ViewModel
         {
             LoginChoice = Visibility.Collapsed;
             RegisterChoice = Visibility.Visible;
-            /*var registered = await _authenticationService.Add(_user.UserAuthentication);
-            if(registered == true)
-            {
-                ErrorString = null;
-            }
-            else
-            {
-                ErrorString = (string)Application.Current.FindResource("RegistrationError");
-            }*/
         }
         public async Task Cancel()
         {
@@ -128,10 +117,7 @@ namespace LGSA.ViewModel
             RegisterChoice = Visibility.Collapsed;
             using (var client = new HttpClient())
             {
-
-
                 AuthenticationDto content = createAuthencticationDto();
-
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 URLBuilder url = new URLBuilder("/api/User/");
@@ -168,10 +154,7 @@ namespace LGSA.ViewModel
         {
             using (var client = new HttpClient())
             {
-
-
                 AuthenticationDto content = createAuthencticationDto();
-
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 URLBuilder url = new URLBuilder("/Login/");
@@ -182,8 +165,7 @@ namespace LGSA.ViewModel
                     Content = new StringContent(json,
                                     Encoding.UTF8,
                                     "application/json")
-
-            };
+                };
                 var response = await client.SendAsync(request);
                 var contents = await response.Content.ReadAsStringAsync();
                 if(!response.IsSuccessStatusCode)
@@ -194,29 +176,16 @@ namespace LGSA.ViewModel
                 AuthenticationDto result = JsonConvert.DeserializeObject<AuthenticationDto>(contents);
                 User.UserId =  result.User.Id;
                 User.Id = result.Id;
+                User.User.FirstName = result.User.FirstName;
+                User.User.LastName = result.User.LastName;
                 User.User.Address = new AddressDto();
                 User.User.Address.Id = result.User.Address.Id;
+                User.User.Address.City = result.User.Address.City;
+                User.User.Address.Street = result.User.Address.Street;
+                User.User.Address.PostalCode = result.User.Address.PostalCode;
             }
             ErrorString = null;
-
             await OnAuthentication(EventArgs.Empty);
-
-             
-
-            /*Expression<Func<users_Authetication, bool>> predicate = u => u.users1.First_Name == User.User.FirstName
-            && u.users1.Last_Name == User.User.LastName && u.password == User.Password;
-                var x = await _authenticationService.GetData(predicate);
-
-            if (x.Count() == 1)
-            {
-                _user.User.Id = x.First().users1.ID;
-                await OnAuthentication(EventArgs.Empty);
-                ErrorString = null;
-            }
-            else
-            {
-                ErrorString = (string)Application.Current.FindResource("AuthenticationError");
-            }*/
         }
 
         public Task Load()

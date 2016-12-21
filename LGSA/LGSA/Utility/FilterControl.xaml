@@ -21,13 +21,13 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Content="name" Grid.Column="0"/>
+        <Label Content="name" Grid.Column="0" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBox Grid.Row="1" Text="{Binding Name}" VerticalContentAlignment="Center"/>
         <!--nie działa na razie formatowanie-->
-        <Label Content="price" Grid.Column="1"/>
+        <Label Content="price" Grid.Column="1" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBox  Grid.Column="1" Grid.Row="1" Text="{Binding Price}"  VerticalContentAlignment="Center"/>
         <!--select condition-->
-        <Label Content="condition" Grid.Column="2"/>
+        <Label Content="condition" Grid.Column="2" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <ComboBox Grid.Column="2" Grid.Row="1" SelectedValue="{Binding Condition}" SelectedIndex="0"
         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.Conditions}">
             <ComboBox.ItemTemplate>
@@ -37,7 +37,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <!--select genre-->
-        <Label Content="genre" Grid.Column="3"/>
+        <Label Content="genre" Grid.Column="3" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <ComboBox Grid.Column="3" Grid.Row="1" SelectedValue="{Binding Genre}" SelectedIndex="0"
         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.Genres}">
             <ComboBox.ItemTemplate>
@@ -46,11 +46,11 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Label Content="min rating" Grid.Column="4"/>
+        <Label Content="min rating" Grid.Column="4" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <controls:NumberPicker Grid.Column="4" Grid.Row="1" buttText="{Binding Path=Rating, Mode=TwoWay}" VerticalAlignment="Center" VerticalContentAlignment="Center" />
-        <Label Content="min stock" Grid.Column="5"/>
+        <Label Content="min stock" Grid.Column="5" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <controls:NumberPicker Grid.Column="5" Grid.Row="1" buttText="{Binding Path=Stock, Mode=TwoWay}" VerticalAlignment="Center" VerticalContentAlignment="Center" />
-        <Label Content="Product Type" Grid.Column="6"/>
+        <Label Content="Product Type" Grid.Column="6" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <ComboBox Grid.Column="6" Grid.Row="1" SelectedValue="{Binding ProductType}" SelectedIndex="0" 
         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.ProductTypes}">
             <ComboBox.ItemTemplate>

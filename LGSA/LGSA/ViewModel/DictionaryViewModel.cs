@@ -3,29 +3,26 @@ using LGSA.Model.ModelWrappers;
 using LGSA.Model.Services;
 using LGSA.Model.UnitOfWork;
 using LGSA.Utility;
+using LGSA_Server.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace LGSA.ViewModel
 {
     public class DictionaryViewModel : BindableBase, IViewModel
     {
-        private GenreService _genreService;
-        private ConditionService _conditionService;
-        private ProductTypeService _productTypeService;
+        
 
         private BindableCollection<GenreWrapper> _genres;
         private BindableCollection<ConditionWrapper> _conditions;
         private BindableCollection<ProductTypeWrapper> _productTypes;
-        public DictionaryViewModel(IUnitOfWorkFactory _factory)
+        public DictionaryViewModel()
         {
-            _genreService = new GenreService(_factory);
-            _conditionService = new ConditionService(_factory);
-            _productTypeService = new ProductTypeService(_factory);
-
             Genres = new BindableCollection<GenreWrapper>();
             Conditions = new BindableCollection<ConditionWrapper>();
             ProductTypes = new BindableCollection<ProductTypeWrapper>();
@@ -55,26 +52,45 @@ namespace LGSA.ViewModel
             generalProductType.name = "All/Any";
             dic_condition generalCondition = new dic_condition();
             generalCondition.name = "All/Any";
-            var genres = await _genreService.GetData(null);
-            Genres.Add(new GenreWrapper(generalGenre));
-            foreach (var g in genres)
+            using (var client = new HttpClient())
             {
-                Genres.Add(new GenreWrapper(g));
+                URLBuilder url = new URLBuilder("/api/Dictionary/");
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Get,
+                };
+                var response = await client.SendAsync(request);
+                var contents = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return;
+                }
+                DictionaryDto result = JsonConvert.DeserializeObject<DictionaryDto>(contents);
+                IEnumerable<GenreDto> genres = result.Genres;
+                Genres.Add(new GenreWrapper(generalGenre));
+                foreach (GenreDto g in genres)
+                {
+                    GenreWrapper wrap = g.createGenre();
+                    Genres.Add(wrap);
+                }
+                IEnumerable<ConditionDto> conditions = result.Conditions;
+                Conditions.Add(new ConditionWrapper(generalCondition));
+                foreach (ConditionDto c in conditions)
+                {
+                    Conditions.Add(c.createCondition());
+                }
+                IEnumerable<ProductTypeDto> productTypes = result.ProductTypes;
+
+                ProductTypes.Add(new ProductTypeWrapper(generalProductType));
+                foreach (var p in productTypes)
+                {
+                    ProductTypes.Add(p.createProductType());
+                }
             }
 
-            var conditions = await _conditionService.GetData(null);
-            Conditions.Add(new ConditionWrapper(generalCondition));
-            foreach (var c in conditions)
-            {
-                Conditions.Add(new ConditionWrapper(c));
-            }
-
-            var productTypes = await _productTypeService.GetData(null);
-            ProductTypes.Add(new ProductTypeWrapper(generalProductType));
-            foreach(var p in productTypes)
-            {
-                ProductTypes.Add(new ProductTypeWrapper(p));
-            }
+            
+           
         }
     }
 }

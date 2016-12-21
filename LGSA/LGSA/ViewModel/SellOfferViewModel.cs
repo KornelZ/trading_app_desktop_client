@@ -21,8 +21,6 @@ namespace LGSA.ViewModel
     {
         private UserWrapper _user;
         private UserAuthenticationWrapper _authenticationUser;
-        private SellOfferService _sellOfferService;
-        private ProductService _productService;
         private BindableCollection<SellOfferWrapper> _sellOffers;
         private BindableCollection<ProductWrapper> _products;
         private SellOfferWrapper _createdOffer;
@@ -33,19 +31,14 @@ namespace LGSA.ViewModel
         private AsyncRelayCommand _deleteCommand;
 
         private string _errorString;
-        public SellOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, UserAuthenticationWrapper authenticationUser)
+        public SellOfferViewModel(FilterViewModel filter, UserWrapper user, UserAuthenticationWrapper authenticationUser)
         {
             _authenticationUser = authenticationUser;
             _user = user;
-            _sellOfferService = new SellOfferService(factory);
-            _productService = new ProductService(factory);
-
             _filter = filter;
-
             _products = new BindableCollection<ProductWrapper>();
             SellOffers = new BindableCollection<SellOfferWrapper>();
             CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
-
             UpdateCommand = new AsyncRelayCommand(execute => UpdateOffer(), canExecute => CanModifyOffer());
             DeleteCommand = new AsyncRelayCommand(execute => DeleteOffer(), canExecute => CanModifyOffer());
         }
@@ -89,8 +82,6 @@ namespace LGSA.ViewModel
         {
             using (var client = new HttpClient())
             {
-
-                //var predicate = CreateFilter();
                 URLBuilder url = new URLBuilder(_filter, controler);
                 url.URL += "&ShowMyOffers=true";
                 var request = new HttpRequestMessage()
@@ -111,42 +102,6 @@ namespace LGSA.ViewModel
             }
             await RefreshProducts();
         }
-
-        private Expression<Func<sell_Offer, bool>> CreateFilter()
-        {
-            String genre = "";
-            String conditon = "";
-            int rating = 1;
-            int stock = 1;
-            double price = 1;
-            if (!_filter.Condition.Name.Equals("All/Any"))
-            {
-                conditon = _filter.Condition.Name;
-            }
-            if (!_filter.Genre.Name.Equals("All/Any"))
-            {
-                genre = _filter.Genre.Name;
-            }
-            if (_filter.Rating != null)
-            {
-                rating = int.Parse(_filter.Rating);
-            }
-            if (_filter.Price != null)
-            {
-                price = double.Parse(_filter.Price);
-            }
-            if (_filter.Stock != null)
-            {
-                stock = int.Parse(_filter.Stock);
-            }
-
-            //Expression<Func<sell_Offer, bool>> filter = b => b.seller_id == _user.Id && b.status_id != 3 &&
-            //b.product.Name.Contains(_filter.Name) && b.product.dic_condition.name.Contains(conditon) &&
-            //b.product.dic_Genre.name.Contains(genre) && b.price <= price && b.amount >= stock;
-            Expression<Func<sell_Offer, bool>> filter = b => b.seller_id == _user.Id && b.status_id != 3;
-            return filter;
-        }
-
         private async Task RefreshProducts()
         {
             using (var client = new HttpClient())
@@ -230,29 +185,6 @@ namespace LGSA.ViewModel
                     return;
                 }
             }
-            /*
-            // if all offers' product amount is greater than product stock, then fail
-            var productOffers = await _sellOfferService.GetData(offer => offer.seller_id == _user.Id && offer.product_id == CreatedOffer.Product.Id);
-            var totalAmount = productOffers.Sum(offer => offer.amount);
-            if(CreatedOffer.Amount + totalAmount > CreatedOffer.Product.Stock)
-            {
-                CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
-                ErrorString = (string)Application.Current.FindResource("StockError");
-                return;
-            }
-            bool offerAdded = await _sellOfferService.Add(_createdOffer.SellOffer);
-
-            if (offerAdded == true)
-            {
-                SellOffers.Add(_createdOffer);
-                _createdOffer = SellOfferWrapper.CreateSellOffer(_user);
-              
-            }
-            else
-            {
-                ErrorString = (string)Application.Current.FindResource("InsertSellOfferError");
-                return;
-            }*/
             ErrorString = null;
         }
         public async Task UpdateOffer()
@@ -282,23 +214,9 @@ namespace LGSA.ViewModel
                         return;
                     }
                 }
-                /* var x = await _productService.GetData(s => s.Name == _selectedOffer.Product.Name);
-                 if(x.Count() == 1)
-                 {
-                     if(x.First().stock < _selectedOffer.Amount)
-                     {
-                         ErrorString = (string)Application.Current.FindResource("StockError");
-                         return;
-                     }
-                 }*/
-
-
-
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 SellOfferDto content = createOffer(_selectedOffer);
-
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
-                //var predicate = CreateFilter();
                 url = new URLBuilder(controler);
                 var request2 = new HttpRequestMessage()
                 {
@@ -319,13 +237,6 @@ namespace LGSA.ViewModel
             }
             await Load();
             ErrorString = null;
-            /*bool offerUpdated = await _sellOfferService.Update(_selectedOffer.SellOffer);
-            if(offerUpdated == false)
-            {
-                ErrorString = (string)Application.Current.FindResource("UpdateSellOfferError");
-                return;
-            }
-            ErrorString = null;*/
         }
         public async Task DeleteOffer()
         {
@@ -335,9 +246,7 @@ namespace LGSA.ViewModel
                 {
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     SellOfferDto content = createOffer(_selectedOffer);
-
                     var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
-                    //var predicate = CreateFilter();
                     URLBuilder url = new URLBuilder(controler);
                     var request = new HttpRequestMessage()
                     {
@@ -359,15 +268,6 @@ namespace LGSA.ViewModel
                 }
                 ErrorString = null;
             }
-            /*bool offerDeleted = await _sellOfferService.Delete(_selectedOffer.SellOffer);
-            if (offerDeleted == true)
-            {
-                SellOffers.Remove(_selectedOffer);
-            }
-            else
-            {
-                ErrorString = (string)Application.Current.FindResource("DeleteSellOfferError");
-            }*/
         }
 
         public bool CanModifyOffer()
@@ -391,30 +291,18 @@ namespace LGSA.ViewModel
             wrap.Product = product;
             return wrap;
         }
-
         ProductDto createProductDto(ProductWrapper productWrap)
         {
             ProductDto content = new ProductDto();
             ConditionDto condition = new ConditionDto();
-            //condition.Id = productWrap.Condition.Id;
-            //condition.Name = productWrap.Condition.Name;
-            //content.Condition = condition;
             GenreDto genre = new GenreDto();
-            //genre.Id = productWrap.Genre.Id;
-            //genre.Description = productWrap.Genre.GenreDescription;
-            //genre.Name = productWrap.Genre.Name;
-            //content.Genre = genre;
             ProductTypeDto productType = new ProductTypeDto();
-            //productType.Id = productWrap.ProductType.Id;
-            //productType.Name = productWrap.ProductType.Name;
-            //content.ProductType = productType;
             content.ConditionId = productWrap.ConditionId;
             content.GenreId = productWrap.GenreId;
             content.ProductTypeId = productWrap.ProductTypeId;
             content.Id = productWrap.Id;
             content.Name = productWrap.Name;
             content.ProductOwner = _authenticationUser.UserId;
-            //content.Rating = productWrap.Rating;
             content.SoldCopies = 0;
             content.Stock = productWrap.Stock;
             return content;

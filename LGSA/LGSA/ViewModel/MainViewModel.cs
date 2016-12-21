@@ -18,7 +18,6 @@ namespace LGSA.ViewModel
         private BuyTransactionViewModel _buyTransactionVM;
         private SellTransactionViewModel _sellTransactionVM;
         private ManageAccountViewModel _manageAccountVm;
-        private IUnitOfWorkFactory _unitOfWorkFactory;
 
         private AsyncRelayCommand _buyOfferVMCommand;
         private AsyncRelayCommand _buyTransactionVMCommand;
@@ -95,8 +94,7 @@ namespace LGSA.ViewModel
 
         public MainViewModel()
         {
-            _unitOfWorkFactory = new DbUnitOfWorkFactory();
-            _authenticationVM = new AuthenticationViewModel(_unitOfWorkFactory);
+            _authenticationVM = new AuthenticationViewModel();
             _authenticationVM.Authentication += GoToProductVM;
             _filter = new FilterViewModel();
 
@@ -118,12 +116,12 @@ namespace LGSA.ViewModel
         {
             if(_dictionaryVM == null)
             {
-                DictionaryVM = new DictionaryViewModel(_unitOfWorkFactory);
+                DictionaryVM = new DictionaryViewModel();
                 await DictionaryVM.Load();
             }
             if(_productVM == null)
             {
-                _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, DictionaryVM, _authenticationVM.User);
+                _productVM = new ProductViewModel(Filter, _authenticationVM.User.User, DictionaryVM, _authenticationVM.User);
             }
             
             await _productVM.Load();
@@ -136,7 +134,7 @@ namespace LGSA.ViewModel
         {
             if(_buyOfferVM == null)
             {
-                _buyOfferVM = new BuyOfferViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, _authenticationVM.User);
+                _buyOfferVM = new BuyOfferViewModel(Filter, _authenticationVM.User.User, _authenticationVM.User);
             }
             await _buyOfferVM.Load();
             DisplayedView = _buyOfferVM;
@@ -154,7 +152,7 @@ namespace LGSA.ViewModel
         {
             if (_sellOfferVM == null)
             {
-                _sellOfferVM = new SellOfferViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, _authenticationVM.User);
+                _sellOfferVM = new SellOfferViewModel(Filter, _authenticationVM.User.User, _authenticationVM.User);
             }
             await _sellOfferVM.Load();
             DisplayedView = _sellOfferVM;
@@ -164,7 +162,7 @@ namespace LGSA.ViewModel
         {
             if(_buyTransactionVM == null)
             {
-                _buyTransactionVM = new BuyTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, _authenticationVM.User);
+                _buyTransactionVM = new BuyTransactionViewModel(Filter, _authenticationVM.User.User, _authenticationVM.User);
             }
             await _buyTransactionVM.Load();
             DisplayedView = _buyTransactionVM;
@@ -174,7 +172,7 @@ namespace LGSA.ViewModel
         {
             if(_sellTransactionVM == null)
             {
-                _sellTransactionVM = new SellTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, _authenticationVM.User);
+                _sellTransactionVM = new SellTransactionViewModel(Filter, _authenticationVM.User.User, _authenticationVM.User);
             }
             await _sellTransactionVM.Load();
             DisplayedView = _sellTransactionVM;
@@ -195,8 +193,6 @@ namespace LGSA.ViewModel
 
         private async Task Search()
         {
-            //trzeba switcha
-            //nie nie trzeba?
             await DisplayedView.Load();
         }
     }

@@ -21,9 +21,6 @@ namespace LGSA.ViewModel
     {
         private UserWrapper _user;
         private FilterViewModel _filter;
-        private SellOfferService _sellOfferService;
-        private ProductService _productService;
-        private TransactionService _transactionService;
         private UserAuthenticationWrapper _authenticationUser;
         private SellOfferWrapper _selectedOffer;
         private BindableCollection<SellOfferWrapper> _offers;
@@ -31,18 +28,13 @@ namespace LGSA.ViewModel
         private readonly string controler = "/api//SellOffer/";
 
         private string _errorString;
-        public SellTransactionViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, UserAuthenticationWrapper authenticationUser)
+        public SellTransactionViewModel(FilterViewModel filter, UserWrapper user, UserAuthenticationWrapper authenticationUser)
         {
             _authenticationUser = authenticationUser;
-            _sellOfferService = new SellOfferService(factory);
-            _productService = new ProductService(factory);
-            _transactionService = new TransactionService(factory);
             _user = user;
-
             _filter = filter;
             Offers = new BindableCollection<SellOfferWrapper>();
             SelectedOffer = new SellOfferWrapper(new sell_Offer());
-
             AcceptCommand = new AsyncRelayCommand(execute => Accept(), canExecute => { return true; });
         }
 
@@ -70,8 +62,6 @@ namespace LGSA.ViewModel
         {
             using (var client = new HttpClient())
             {
-
-                //var predicate = CreateFilter();
                 URLBuilder url = new URLBuilder(_filter, controler);
                 url.URL += "&ShowMyOffers=false";
                 var request = new HttpRequestMessage()
@@ -90,49 +80,7 @@ namespace LGSA.ViewModel
                     Offers.Add(boffer);
                 }
             }
-            /*var offers = await _sellOfferService.GetData(CreateFilter());
-            Offers.Clear();
-
-            foreach (var offer in offers)
-            {
-                Offers.Add(SellOfferWrapper.CreateSellOffer(offer));
-            }*/
         }
-
-        private Expression<Func<sell_Offer, bool>> CreateFilter()
-        {
-            String genre = "";
-            String conditon = "";
-            int rating = 1;
-            int stock = 1;
-            double price = 1;
-            if (!_filter.Condition.Name.Equals("All/Any"))
-            {
-                conditon = _filter.Condition.Name;
-            }
-            if (!_filter.Genre.Name.Equals("All/Any"))
-            {
-                genre = _filter.Genre.Name;
-            }
-            if (_filter.Rating != null)
-            {
-                rating = int.Parse(_filter.Rating);
-            }
-            if (_filter.Price != null)
-            {
-                price = double.Parse(_filter.Price);
-            }
-            if (_filter.Stock != null)
-            {
-                stock = int.Parse(_filter.Stock);
-            }
-
-            Expression<Func<sell_Offer, bool>> filter = b => b.seller_id != _user.Id && b.status_id != 3 &&
-            b.product.Name.Contains(_filter.Name) && b.product.dic_condition.name.Contains(conditon) &&
-            b.product.dic_Genre.name.Contains(genre) && b.price <= price && b.amount >= stock;
-            return filter;
-        }
-
         public async Task Accept()
         {
             string rating = "";
@@ -182,50 +130,6 @@ namespace LGSA.ViewModel
                 }
                 Offers.Remove(SelectedOffer);
             }
-            /*var productQuery = await _productService.GetData(prod => prod.product_owner == _user.Id && prod.Name == SelectedOffer.Product.Name);
-            if (productQuery.Count() != 0)
-            {
-                buyerProduct = productQuery.First();
-                NullProductProperties(buyerProduct);
-            }
-            else
-            {
-                buyerProduct = new product()
-                {
-                    product_owner = _user.Id,
-                    Name = SelectedOffer.Product.Name,
-                    condition_id = SelectedOffer.Product.ConditionId,
-                    genre_id = SelectedOffer.Product.GenreId,
-                    rating = SelectedOffer.Product.Rating,
-                    sold_copies = SelectedOffer.Product.SoldCopies,
-                    product_type_id = SelectedOffer.Product.ProductTypeId,
-                    Update_Date = DateTime.Now,
-                    Update_Who = _user.Id
-                };
-            }
-
-            SelectedOffer.StatusId = (int)TransactionState.Finished;
-            var buyOffer = new buy_Offer()
-            {
-                name = SelectedOffer.Name,
-                Update_Who = _user.Id,
-                Update_Date = DateTime.Now,
-                buyer_id = _user.Id,
-                status_id = (int)TransactionState.Finished,
-                price = (double)SelectedOffer.Price,
-                amount = SelectedOffer.Amount,
-            };
-            SelectedOffer.NullNavigationProperties();
-            SelectedOffer.Product.NullNavigationProperties();
-            bool result = await _transactionService.AcceptSellTransaction(SelectedOffer.SellOffer, buyOffer,
-                buyerProduct, SelectedOffer.Product.Product);
-            if(result == false)
-            {
-                ErrorString = (string)Application.Current.FindResource("TransactionError");
-                return;
-            }
-            ErrorString = null;
-            Offers.Remove(SelectedOffer);*/
         }
 
         SellOfferDto createOffer(SellOfferWrapper offer)
@@ -237,8 +141,6 @@ namespace LGSA.ViewModel
             wrap.Amount = offer.Amount;
             wrap.Name = offer.Name;
             wrap.ProductId = offer.ProductId;
-            //ProductDto product = createProductDto(offer.Product);
-            //wrap.Product = product;
             return wrap;
         }
 

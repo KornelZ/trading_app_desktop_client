@@ -24,7 +24,6 @@ namespace LGSA.ViewModel
 
     public sealed class ProductViewModel : BindableBase, IViewModel
     {
-        private ProductService _productService;
         private BindableCollection<ProductWrapper> _products;
         private FilterViewModel _filter;
         private UserWrapper _user;
@@ -37,11 +36,10 @@ namespace LGSA.ViewModel
         private DictionaryViewModel _dictionaryVM;
 
         private string _errorString;
-        public ProductViewModel (IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, DictionaryViewModel dic, UserAuthenticationWrapper authUser)
+        public ProductViewModel (FilterViewModel filter, UserWrapper user, DictionaryViewModel dic, UserAuthenticationWrapper authUser)
         {
             _dictionaryVM = dic;
             _user = user;
-            _productService = new ProductService(factory);
             _filter = filter;
             _authenticationUser = authUser;
             Products = new BindableCollection<ProductWrapper>();
@@ -112,9 +110,8 @@ namespace LGSA.ViewModel
         {
             using (var client = new HttpClient())
             {
-                _filter.ProductOwner = _authenticationUser.UserId;
                 URLBuilder url = new URLBuilder(_filter, controler);
-                //var predicate = CreateFilter();
+                url.URL += "&ShowMyOffers=true";
                 var request = new HttpRequestMessage()
                 {
                     RequestUri = new Uri(url.URL),
@@ -124,7 +121,6 @@ namespace LGSA.ViewModel
                 var response = await client.SendAsync(request);
                 var contents = await response.Content.ReadAsStringAsync();
                 List<ProductDto> result = JsonConvert.DeserializeObject<List<ProductDto>>(contents);
-                //var x = await _productService.GetData(predicate);
                 Products.Clear();
                 foreach (ProductDto p in result)
                 {
@@ -132,45 +128,7 @@ namespace LGSA.ViewModel
                     Products.Add(product);
                 }
             }
-            
         }
-
-        private Expression<Func<product, bool>> CreateFilter()
-        {
-            String genre = "";
-            String conditon = "";
-            int rating = 1;
-            int stock = 1;
-            double price = 1;
-            if (!_filter.Condition.Name.Equals("All/Any"))
-            {
-                conditon = _filter.Condition.Name;
-            }
-            if (!_filter.Genre.Name.Equals("All/Any"))
-            {
-                genre = _filter.Genre.Name;
-            }
-            if (_filter.Rating != null)
-            {
-                rating = int.Parse(_filter.Rating);
-            }
-            if (_filter.Price != null)
-            {
-                price = double.Parse(_filter.Price);
-            }
-            if (_filter.Stock != null)
-            {
-                stock = int.Parse(_filter.Stock);
-            }
-
-            Expression<Func<product, bool>> filter = b => b.product_owner == _user.Id &&
-            b.Name.Contains(_filter.Name) && b.dic_condition.name.Contains(conditon) &&
-            b.dic_Genre.name.Contains(genre) && (b.rating >= rating || b.rating == null) && b.stock >= stock;
-
-            return filter;
-        }
-
-
         public async Task AddProduct()
         {
             if (_createdProduct.Name == null || _createdProduct.Name == "" || _createdProduct.Stock <= 0)
@@ -178,12 +136,6 @@ namespace LGSA.ViewModel
                 ErrorString = (string)Application.Current.FindResource("InvalidProductError");
                 return;
             }
-            /*var prods = await _productService.GetData(p => p.Name == _createdProduct.Name && p.product_owner == _user.Id);
-            if(prods.Count() != 0)
-            {
-                ErrorString = (string)Application.Current.FindResource("ProductNameError");
-                return;
-            }*/
             _createdProduct.NullNavigationProperties();
 
             using (var client = new HttpClient())
@@ -203,10 +155,6 @@ namespace LGSA.ViewModel
                 };
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
                 var response = await client.SendAsync(request);
-
-
-                //bool offerAdded = await _productService.Add(_createdProduct.Product);
-
                 if (response.IsSuccessStatusCode)
                 {
                     Products.Add(_createdProduct);
@@ -242,8 +190,6 @@ namespace LGSA.ViewModel
                     };
                     request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
                     var response = await client.SendAsync(request);
-
-                    //bool success = await _productService.Update(_selectedProduct.Product);
                     if (!response.IsSuccessStatusCode)
                     {
                         ErrorString = (string)Application.Current.FindResource("UpdateProductError");
@@ -263,30 +209,18 @@ namespace LGSA.ViewModel
         {
             ProductDto content = new ProductDto();
             ConditionDto condition = new ConditionDto();
-            //condition.Id = productWrap.Condition.Id;
-            //condition.Name = productWrap.Condition.Name;
-            //content.Condition = condition;
             GenreDto genre = new GenreDto();
-            //genre.Id = productWrap.Genre.Id;
-            //genre.Description = productWrap.Genre.GenreDescription;
-            //genre.Name = productWrap.Genre.Name;
-            //content.Genre = genre;
             ProductTypeDto productType = new ProductTypeDto();
-            //productType.Id = productWrap.ProductType.Id;
-            //productType.Name = productWrap.ProductType.Name;
-            //content.ProductType = productType;
             content.ConditionId = productWrap.ConditionId;
             content.GenreId = productWrap.GenreId;
             content.ProductTypeId = productWrap.ProductTypeId;
             content.Id = productWrap.Id;
             content.Name = productWrap.Name;
             content.ProductOwner = _authenticationUser.UserId;
-            //content.Rating = productWrap.Rating;
+            content.Rating = productWrap.Rating;
             content.SoldCopies = 0;
             content.Stock = productWrap.Stock;
             return content;
         }
-
-
     }
 }
