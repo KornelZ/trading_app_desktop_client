@@ -10,7 +10,7 @@
     <system:String x:Key="ProductNameError">Product with such name already exists</system:String>
     <system:String x:Key="InsertProductError">Failed to create a product</system:String>
     <system:String x:Key="UpdateProductError">Failed to update a product</system:String>
-    
+    <system:String x:Key="SuccessfullAccountUpdate">Your account credentials have been successfully updated</system:String>
     <system:String x:Key="InvalidBuyOfferError">Invalid buy offer</system:String>
     <system:String x:Key="InsertBuyOfferError">Failed to create a buy offer</system:String>
     <system:String x:Key="UpdateBuyOfferError">Failed to update a buy offer</system:String>

@@ -58,6 +58,9 @@ namespace LGSA.ViewModel
                 {
                     ErrorString = (string)System.Windows.Application.Current.FindResource("RegistrationError");
                     return;
+                }else
+                {
+                    ErrorString = (string)System.Windows.Application.Current.FindResource("SuccessfullAccountUpdate");
                 }
                 var contents = await response.Content.ReadAsStringAsync();
                 AuthenticationDto result = JsonConvert.DeserializeObject<AuthenticationDto>(contents);
