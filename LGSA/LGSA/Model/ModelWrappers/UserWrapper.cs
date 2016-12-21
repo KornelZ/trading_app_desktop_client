@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LGSA_Server.Model.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,9 @@ namespace LGSA.Model.ModelWrappers
     public class UserWrapper : Utility.BindableBase
     {
         private users user;
+        private AddressDto _address;
+        private int? _rating;
+        public int? Rating { get { return _rating; } set { _rating = value; Notify(); } }
         public users User
         {
             get { return user; }
@@ -30,6 +34,11 @@ namespace LGSA.Model.ModelWrappers
             get { return user.Last_Name; }
             set { user.Last_Name = value; Notify(); }
         }
+        public string Login
+        {
+            get { return user.Login; }
+            set { user.Login = value; Notify(); }
+        }
         public string FirstName
         {
             get { return user.First_Name; }
@@ -44,6 +53,11 @@ namespace LGSA.Model.ModelWrappers
         {
             get { return user.Update_Date; }
             set { user.Update_Date = value; }
+        }
+        public AddressDto Address
+        {
+            get { return _address; }
+            set { _address = value; }
         }
     }
 }

@@ -8,24 +8,59 @@
         mc:Ignorable="d">
 
     <StackPanel>
-        <Label x:Name="label" Content="Account Name" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="textBox" Text="{Binding User.User.FirstName}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" VerticalContentAlignment="Center" FontSize="16"/>
-        <TextBox x:Name="textBox2" Text="{Binding User.User.LastName}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" VerticalContentAlignment="Center" FontSize="16"/>
-        <Label x:Name="label1" Content="Password" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center"/>
-        <PasswordBox x:Name="textBx" PasswordChanged="textBx_PasswordChanged" Margin="15,0,15,15" Height="35" Width="271" HorizontalAlignment="Center" VerticalContentAlignment="Center" FontSize="16"/>
-        <Grid Margin="15">
+        <StackPanel x:Name="LoginPanel" Visibility="{Binding LoginChoice}">
+            <Label x:Name="label" Content="Login" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center"/>
+            <TextBox x:Name="textBox2" Text="{Binding User.User.Login}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" VerticalContentAlignment="Center" FontSize="16"/>
+            <Label x:Name="label1" Content="Password" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center"/>
+            <PasswordBox x:Name="textBx" PasswordChanged="textBx_PasswordChanged" Margin="15,0,15,15" Height="35" Width="271" HorizontalAlignment="Center" VerticalContentAlignment="Center" FontSize="16"/>
+            <Grid Margin="15">
 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="LoginButton" Content="Log in" Command="{Binding AuthenticateCommand}" IsEnabled="{Binding AuthenticateCommand.IsAvailable}"
+                            Height="35" Width="200" Grid.Column="1" />
+                <Button x:Name="RegisterButton" Content="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding RegisterCommand.IsAvailable}"
+                            Height="35" Width="200" Grid.Column="0" />
+
+            </Grid>
+        </StackPanel>
+        <Grid  x:Name="RegisterPanel" Visibility="{Binding RegisterChoice}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="LoginButton" Content="Log in" Command="{Binding AuthenticateCommand}" IsEnabled="{Binding AuthenticateCommand.IsAvailable}"
-                        Height="35" Width="200" Grid.Column="1" />
-            <Button x:Name="RegisterButton" Content="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding RegisterCommand.IsAvailable}"
-                        Height="35" Width="200" Grid.Column="0" />
-           
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label x:Name="fnamelabel" Content="First Name" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center"/>
+            <TextBox x:Name="fnametextBox" Text="{Binding User.User.FirstName}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" FontSize="16" Grid.Row="1"/>
+            <Label x:Name="lnamelabel" Content="Last Name" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center" Grid.Column="1"/>
+            <TextBox x:Name="lnametextBox" Text="{Binding User.User.LastName}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" FontSize="16" Grid.Column="1" Grid.Row="1"/>
+            <Label x:Name="unamelabel" Content="User Name" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center" Grid.Row="2"/>
+            <TextBox x:Name="unametextBox" Text="{Binding User.User.Login}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" FontSize="16" Grid.Row="3"/>
+            <Label x:Name="citylabel" Content="City" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2"/>
+            <TextBox x:Name="citytextBox" Text="{Binding User.User.Address.City}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" FontSize="16" Grid.Column="1" Grid.Row="3"/>
+            <Label x:Name="streetlabel" Content="Street" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center" Grid.Row="4"/>
+            <TextBox x:Name="streettextBox" Text="{Binding User.User.Address.Street}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" FontSize="16" Grid.Row="5"/>
+            <Label x:Name="postalcodelabel" Content="Postal Code" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="4"/>
+            <TextBox x:Name="postalcodetextBox" Text="{Binding User.User.Address.PostalCode}" HorizontalAlignment="Center" Margin="15,0,15,15" TextWrapping="Wrap" Height="35" Width="271" FontSize="16" Grid.Column="1" Grid.Row="5"/>
+            <Label x:Name="passwordlabel" Content="Password" HorizontalAlignment="Center" Margin="15,15,15,0" Height="35" Width="271" HorizontalContentAlignment="Center" Grid.Row="6"/>
+            <PasswordBox x:Name="passwordtextBox" PasswordChanged="textBx_PasswordChanged" Margin="15,0,15,15" Height="35" Width="271" HorizontalAlignment="Center" FontSize="16" Grid.Row="7"/>
+            <Button x:Name="submitButton"  Content="Submit" Command="{Binding SubmitCommand}" IsEnabled="{Binding SubmitCommand.IsAvailable}" Margin="15,0,15,15" Height="50" Width="271" HorizontalAlignment="Center" FontSize="16" Grid.Row="6" Grid.Column="1" />
+            <Button x:Name="CancelButton" Content="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding CancelCommand.IsAvailable}" Margin="15,0,15,15" Height="50" Width="271" HorizontalContentAlignment="Center" FontSize="16" Grid.Row="7" Grid.Column="1"/>
         </Grid>
+
         <Label Content="{Binding ErrorString}" Foreground="Red" FontSize="16"  Margin="15,0,15,15" HorizontalContentAlignment="Center"/>
     </StackPanel>
+    
 
 </UserControl>

@@ -14,6 +14,10 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Xml.Linq;
 using System.Windows;
+using System.Net.Http;
+using LGSA_Server.Model.DTO;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace LGSA.ViewModel
 {
@@ -26,18 +30,20 @@ namespace LGSA.ViewModel
         private UserWrapper _user;
         private ProductWrapper _selectedProduct;
         private ProductWrapper _createdProduct;
-
+        private UserAuthenticationWrapper _authenticationUser;
+        private readonly string controler = "/api//Product/";
         private AsyncRelayCommand _generateXMLReport;
         private AsyncRelayCommand _updateCommand;
         private DictionaryViewModel _dictionaryVM;
 
         private string _errorString;
-        public ProductViewModel (IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, DictionaryViewModel dic)
+        public ProductViewModel (IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, DictionaryViewModel dic, UserAuthenticationWrapper authUser)
         {
             _dictionaryVM = dic;
             _user = user;
             _productService = new ProductService(factory);
             _filter = filter;
+            _authenticationUser = authUser;
             Products = new BindableCollection<ProductWrapper>();
             CreatedProduct = ProductWrapper.CreateEmptyProduct(_user);
             GenerateXMLReport = new AsyncRelayCommand(execute => GenerateXML(), canExecute => { return true; });
@@ -104,14 +110,29 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
-            var predicate = CreateFilter();
-            var x = await _productService.GetData(predicate);
-            Products.Clear();
-            foreach (product p in x)
+            using (var client = new HttpClient())
             {
-                ProductWrapper product = ProductWrapper.CreateProduct(p);
-                Products.Add(product);
+                _filter.ProductOwner = _authenticationUser.UserId;
+                URLBuilder url = new URLBuilder(_filter, controler);
+                //var predicate = CreateFilter();
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Get
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+                var contents = await response.Content.ReadAsStringAsync();
+                List<ProductDto> result = JsonConvert.DeserializeObject<List<ProductDto>>(contents);
+                //var x = await _productService.GetData(predicate);
+                Products.Clear();
+                foreach (ProductDto p in result)
+                {
+                    ProductWrapper product = p.createProduct();
+                    Products.Add(product);
+                }
             }
+            
         }
 
         private Expression<Func<product, bool>> CreateFilter()
@@ -157,24 +178,45 @@ namespace LGSA.ViewModel
                 ErrorString = (string)Application.Current.FindResource("InvalidProductError");
                 return;
             }
-            var prods = await _productService.GetData(p => p.Name == _createdProduct.Name && p.product_owner == _user.Id);
+            /*var prods = await _productService.GetData(p => p.Name == _createdProduct.Name && p.product_owner == _user.Id);
             if(prods.Count() != 0)
             {
                 ErrorString = (string)Application.Current.FindResource("ProductNameError");
                 return;
-            }
+            }*/
             _createdProduct.NullNavigationProperties();
-            bool offerAdded = await _productService.Add(_createdProduct.Product);
 
-            if (offerAdded == true)
+            using (var client = new HttpClient())
             {
-                Products.Add(_createdProduct);
-                _createdProduct = ProductWrapper.CreateEmptyProduct(_user);
-            }
-            else
-            {
-                ErrorString = (string)Application.Current.FindResource("InsertProductError");
-                return;
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                ProductDto content = createProductDto(_createdProduct);
+                
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                URLBuilder url = new URLBuilder(controler);
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Post,
+                    Content = new StringContent(json,
+                                    Encoding.UTF8,
+                                    "application/json")
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+
+
+                //bool offerAdded = await _productService.Add(_createdProduct.Product);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Products.Add(_createdProduct);
+                    _createdProduct = ProductWrapper.CreateEmptyProduct(_user);
+                }
+                else
+                {
+                    ErrorString = (string)Application.Current.FindResource("InsertProductError");
+                    return;
+                }
             }
             ErrorString = null;
         }
@@ -183,15 +225,66 @@ namespace LGSA.ViewModel
         {
             if (SelectedProduct != null)
             {
-                bool success = await _productService.Update(_selectedProduct.Product);
-                if(success == false)
+                using (var client = new HttpClient())
                 {
-                    ErrorString = (string)Application.Current.FindResource("UpdateProductError");
-                    return;
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    ProductDto content = createProductDto(_selectedProduct);
+
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                    URLBuilder url = new URLBuilder(controler);
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(url.URL),
+                        Method = HttpMethod.Put,
+                        Content = new StringContent(json,
+                                        Encoding.UTF8,
+                                        "application/json")
+                    };
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                    var response = await client.SendAsync(request);
+
+                    //bool success = await _productService.Update(_selectedProduct.Product);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorString = (string)Application.Current.FindResource("UpdateProductError");
+                        return;
+                    }
+                    if(SelectedProduct.Stock == 0)
+                    {
+                        Products.Remove(SelectedProduct);
+                    }
                 }
                 ErrorString = null;
             }
 
+        }
+
+        ProductDto createProductDto(ProductWrapper productWrap)
+        {
+            ProductDto content = new ProductDto();
+            ConditionDto condition = new ConditionDto();
+            //condition.Id = productWrap.Condition.Id;
+            //condition.Name = productWrap.Condition.Name;
+            //content.Condition = condition;
+            GenreDto genre = new GenreDto();
+            //genre.Id = productWrap.Genre.Id;
+            //genre.Description = productWrap.Genre.GenreDescription;
+            //genre.Name = productWrap.Genre.Name;
+            //content.Genre = genre;
+            ProductTypeDto productType = new ProductTypeDto();
+            //productType.Id = productWrap.ProductType.Id;
+            //productType.Name = productWrap.ProductType.Name;
+            //content.ProductType = productType;
+            content.ConditionId = productWrap.ConditionId;
+            content.GenreId = productWrap.GenreId;
+            content.ProductTypeId = productWrap.ProductTypeId;
+            content.Id = productWrap.Id;
+            content.Name = productWrap.Name;
+            content.ProductOwner = _authenticationUser.UserId;
+            //content.Rating = productWrap.Rating;
+            content.SoldCopies = 0;
+            content.Stock = productWrap.Stock;
+            return content;
         }
 
 

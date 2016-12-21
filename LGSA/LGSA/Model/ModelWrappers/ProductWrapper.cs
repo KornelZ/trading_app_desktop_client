@@ -66,6 +66,7 @@ namespace LGSA.Model.ModelWrappers
         public int Id
         {
             get { return product.ID; }
+            set { product.ID = value; Notify(); }
         }
         
         public string Name

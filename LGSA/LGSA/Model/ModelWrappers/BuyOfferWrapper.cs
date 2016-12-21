@@ -73,6 +73,7 @@ namespace LGSA.Model.ModelWrappers
         public int Id
         {
             get { return buyOffer.ID; }
+            set { buyOffer.ID = value; Notify(); }
         }
         public int BuyerId
         {

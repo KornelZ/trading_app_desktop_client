@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:LGSA.Utility"
              xmlns:controls="clr-namespace:LGSA.Utility"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             >
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -21,10 +22,10 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Label Content="name" Grid.Column="0"/>
-        <TextBox Grid.Row="1" Text="{Binding Name}"></TextBox>
+        <TextBox Grid.Row="1" Text="{Binding Name}" VerticalContentAlignment="Center"/>
         <!--nie działa na razie formatowanie-->
         <Label Content="price" Grid.Column="1"/>
-        <TextBox  Grid.Column="1" Grid.Row="1" Text="{Binding Price}"/>
+        <TextBox  Grid.Column="1" Grid.Row="1" Text="{Binding Price}"  VerticalContentAlignment="Center"/>
         <!--select condition-->
         <Label Content="condition" Grid.Column="2"/>
         <ComboBox Grid.Column="2" Grid.Row="1" SelectedValue="{Binding Condition}" SelectedIndex="0"
@@ -46,9 +47,17 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <Label Content="min rating" Grid.Column="4"/>
-        <controls:NumberPicker Grid.Column="4" Grid.Row="1" buttText="{Binding Path=Rating, Mode=TwoWay}"  />
+        <controls:NumberPicker Grid.Column="4" Grid.Row="1" buttText="{Binding Path=Rating, Mode=TwoWay}" VerticalAlignment="Center" VerticalContentAlignment="Center" />
         <Label Content="min stock" Grid.Column="5"/>
-        <controls:NumberPicker Grid.Column="5" Grid.Row="1" buttText="{Binding Path=Stock, Mode=TwoWay}" />
-
+        <controls:NumberPicker Grid.Column="5" Grid.Row="1" buttText="{Binding Path=Stock, Mode=TwoWay}" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+        <Label Content="Product Type" Grid.Column="6"/>
+        <ComboBox Grid.Column="6" Grid.Row="1" SelectedValue="{Binding ProductType}" SelectedIndex="0" 
+        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DictionaryVM.ProductTypes}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
     </Grid>
 </UserControl>

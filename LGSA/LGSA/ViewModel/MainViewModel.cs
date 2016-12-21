@@ -17,6 +17,7 @@ namespace LGSA.ViewModel
         private SellOfferViewModel _sellOfferVM;
         private BuyTransactionViewModel _buyTransactionVM;
         private SellTransactionViewModel _sellTransactionVM;
+        private ManageAccountViewModel _manageAccountVm;
         private IUnitOfWorkFactory _unitOfWorkFactory;
 
         private AsyncRelayCommand _buyOfferVMCommand;
@@ -25,6 +26,7 @@ namespace LGSA.ViewModel
         private AsyncRelayCommand _sellTransactionVMCommand;
         private AsyncRelayCommand _searchCommand;
         private AsyncRelayCommand _productVMCommand;
+        private AsyncRelayCommand _manageAccountVMCommand;
 
         private RelayCommand _logoutCommand;
 
@@ -36,12 +38,13 @@ namespace LGSA.ViewModel
             get { return _productVMCommand; }
             set { _productVMCommand = value; Notify(); }
         }
+        public AsyncRelayCommand ManageAccountVMCommand { get { return _manageAccountVMCommand; } set { _manageAccountVMCommand = value; Notify(); } }
         public FilterViewModel Filter
         {
             get { return _filter; }
             set { _filter = value; Notify(); }
         }
-
+        public ManageAccountViewModel ManageAccountVM { get { return _manageAccountVm; } set { _manageAccountVm = value; Notify(); } }
         public DictionaryViewModel DictionaryVM
         {
             get { return _dictionaryVM; }
@@ -103,6 +106,7 @@ namespace LGSA.ViewModel
             SearchCommand = new AsyncRelayCommand(execute => Search(), canExecute => { return true; });
             BuyTransactionVMCommand = new AsyncRelayCommand(execute => GoToBuyTransactionVM(), canExecute => { return true; });
             SellTransactionVMCommand = new AsyncRelayCommand(execute => GoToSellTransactionVM(), canExecute => { return true; });
+            ManageAccountVMCommand = new AsyncRelayCommand(execute => GoToManageAccountVM(), canExecute => { return true; });
 
             LogoutCommand = new RelayCommand(execute => Logout(), canExecute => { return true; });
 
@@ -119,7 +123,7 @@ namespace LGSA.ViewModel
             }
             if(_productVM == null)
             {
-                _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, DictionaryVM);
+                _productVM = new ProductViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, DictionaryVM, _authenticationVM.User);
             }
             
             await _productVM.Load();
@@ -132,17 +136,25 @@ namespace LGSA.ViewModel
         {
             if(_buyOfferVM == null)
             {
-                _buyOfferVM = new BuyOfferViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+                _buyOfferVM = new BuyOfferViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, _authenticationVM.User);
             }
             await _buyOfferVM.Load();
             DisplayedView = _buyOfferVM;
+        }
+        private async Task GoToManageAccountVM()
+        {
+            if(_manageAccountVm == null)
+            {
+                _manageAccountVm = new ManageAccountViewModel(_authenticationVM.User);
+            }
+            DisplayedView = _manageAccountVm;
         }
 
         private async Task GoToSellOfferVM()
         {
             if (_sellOfferVM == null)
             {
-                _sellOfferVM = new SellOfferViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+                _sellOfferVM = new SellOfferViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, _authenticationVM.User);
             }
             await _sellOfferVM.Load();
             DisplayedView = _sellOfferVM;
@@ -152,7 +164,7 @@ namespace LGSA.ViewModel
         {
             if(_buyTransactionVM == null)
             {
-                _buyTransactionVM = new BuyTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+                _buyTransactionVM = new BuyTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, _authenticationVM.User);
             }
             await _buyTransactionVM.Load();
             DisplayedView = _buyTransactionVM;
@@ -162,7 +174,7 @@ namespace LGSA.ViewModel
         {
             if(_sellTransactionVM == null)
             {
-                _sellTransactionVM = new SellTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User);
+                _sellTransactionVM = new SellTransactionViewModel(_unitOfWorkFactory, Filter, _authenticationVM.User.User, _authenticationVM.User);
             }
             await _sellTransactionVM.Load();
             DisplayedView = _sellTransactionVM;

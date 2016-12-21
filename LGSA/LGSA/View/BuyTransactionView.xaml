@@ -64,17 +64,17 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Buyer's Surname" Width="2*">
+                <DataGridTemplateColumn Header="Buyer's Username" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Buyer.LastName}"/>
+                            <TextBlock Text="{Binding Buyer.Login}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Buyer's Name" Width="2*">
+                <DataGridTemplateColumn Header="Buyer's Rating" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Buyer.FirstName}"/>
+                            <TextBlock Text="{Binding Buyer.Rating}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

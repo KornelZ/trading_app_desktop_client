@@ -13,6 +13,9 @@ namespace LGSA.Model.ModelWrappers
         private ProductWrapper product;
         private UserWrapper seller;
         private OfferStatusWrapper offerStatus;
+        private int rating;
+
+        public int Rating { get { return rating; } set { rating = value; Notify(); } }
         public sell_Offer SellOffer
         {
             get { return sellOffer; }
@@ -72,6 +75,7 @@ namespace LGSA.Model.ModelWrappers
         public int Id
         {
             get { return sellOffer.ID; }
+            set { sellOffer.ID = value;  Notify(); }
         }
         public int SellerId
         {

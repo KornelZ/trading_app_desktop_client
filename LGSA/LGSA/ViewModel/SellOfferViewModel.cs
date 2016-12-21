@@ -3,33 +3,39 @@ using LGSA.Model.ModelWrappers;
 using LGSA.Model.Services;
 using LGSA.Model.UnitOfWork;
 using LGSA.Utility;
+using LGSA_Server.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace LGSA.ViewModel
 {
     public class SellOfferViewModel : BindableBase, IViewModel
     {
         private UserWrapper _user;
+        private UserAuthenticationWrapper _authenticationUser;
         private SellOfferService _sellOfferService;
         private ProductService _productService;
         private BindableCollection<SellOfferWrapper> _sellOffers;
         private BindableCollection<ProductWrapper> _products;
         private SellOfferWrapper _createdOffer;
         private SellOfferWrapper _selectedOffer;
-
+        private readonly string controler = "/api//SellOffer/";
         private FilterViewModel _filter;
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _deleteCommand;
 
         private string _errorString;
-        public SellOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
+        public SellOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, UserAuthenticationWrapper authenticationUser)
         {
+            _authenticationUser = authenticationUser;
             _user = user;
             _sellOfferService = new SellOfferService(factory);
             _productService = new ProductService(factory);
@@ -81,17 +87,28 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
-            var offers = await _sellOfferService.GetData(CreateFilter());
-            SellOffers.Clear();
-            foreach (var o in offers)
+            using (var client = new HttpClient())
             {
-                var product = ProductWrapper.CreateProduct(o.product);
-                SellOffers.Add(new SellOfferWrapper(o)
-                {
-                    Product = product,
-                });
-            }
 
+                //var predicate = CreateFilter();
+                URLBuilder url = new URLBuilder(_filter, controler);
+                url.URL += "&ShowMyOffers=true";
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Get
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+                var contents = await response.Content.ReadAsStringAsync();
+                List<SellOfferDto> result = JsonConvert.DeserializeObject<List<SellOfferDto>>(contents);
+                SellOffers.Clear();
+                foreach (SellOfferDto bo in result)
+                {
+                    SellOfferWrapper boffer = bo.createSellOffer();
+                    SellOffers.Add(boffer);
+                }
+            }
             await RefreshProducts();
         }
 
@@ -132,24 +149,88 @@ namespace LGSA.ViewModel
 
         private async Task RefreshProducts()
         {
-            Expression<Func<product, bool>> filter = p => p.product_owner == _user.Id && p.stock > 0;
-            var products = await _productService.GetData(filter);
-            Products.Clear();
-            foreach(var p in products)
+            using (var client = new HttpClient())
             {
-                var product = ProductWrapper.CreateProduct(p);
-                Products.Add(product);
+                FilterViewModel filter = new FilterViewModel(_filter);
+                filter.clear();
+                URLBuilder url = new URLBuilder(filter, "/api//Product/");
+                url.URL += "&ShowMyOffers=true";
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Get
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+                var contents = await response.Content.ReadAsStringAsync();
+                List<ProductDto> result = JsonConvert.DeserializeObject<List<ProductDto>>(contents);
+                Products.Clear();
+                foreach (ProductDto p in result)
+                {
+                    ProductWrapper product = p.createProduct();
+                    Products.Add(product);
+                }
             }
         }
         public async Task AddOffer()
         {
-            if(CreatedOffer.Name == null || CreatedOffer.Product == null || CreatedOffer.Product.Id == 0 
+            if(CreatedOffer.Name == null || CreatedOffer.Product == null  
                 || CreatedOffer.Amount <= 0  || CreatedOffer?.Price <= 0)
             {
                 CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
                 ErrorString = (string)Application.Current.FindResource("InvalidSellOfferError");
                 return;
             }
+            using (var client = new HttpClient())
+            {
+                FilterViewModel filter = new FilterViewModel(_filter);
+                filter.Name = _createdOffer.Product.Name;
+                URLBuilder url = new URLBuilder(filter, controler);
+                url.URL += "&ShowMyOffers=true";
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Get
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+                var contents = await response.Content.ReadAsStringAsync();
+                List<SellOfferDto> result = JsonConvert.DeserializeObject<List<SellOfferDto>>(contents);
+                var totalAmount = result.Sum(offer => offer.Amount);
+                if (CreatedOffer.Amount + totalAmount > CreatedOffer.Product.Stock)
+                {
+                    CreatedOffer = SellOfferWrapper.CreateSellOffer(_user);
+                    ErrorString = (string)Application.Current.FindResource("StockError");
+                    return;
+                }
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                SellOfferDto content = createOffer(_createdOffer);
+
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                url = new URLBuilder(controler);
+                var request2 = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Post,
+                    Content = new StringContent(json,
+                                    Encoding.UTF8,
+                                    "application/json")
+                };
+                request2.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response1 = await client.SendAsync(request2);
+                if (response.IsSuccessStatusCode)
+                {
+                    await Load();
+                    _createdOffer = SellOfferWrapper.CreateSellOffer(_user);
+
+                }
+                else
+                {
+                    ErrorString = (string)Application.Current.FindResource("InsertSellOfferError");
+                    return;
+                }
+            }
+            /*
             // if all offers' product amount is greater than product stock, then fail
             var productOffers = await _sellOfferService.GetData(offer => offer.seller_id == _user.Id && offer.product_id == CreatedOffer.Product.Id);
             var totalAmount = productOffers.Sum(offer => offer.amount);
@@ -171,31 +252,114 @@ namespace LGSA.ViewModel
             {
                 ErrorString = (string)Application.Current.FindResource("InsertSellOfferError");
                 return;
-            }
+            }*/
             ErrorString = null;
         }
         public async Task UpdateOffer()
         {
-            var x = await _productService.GetData(s => s.Name == _selectedOffer.Product.Name);
-            if(x.Count() == 1)
+            using (var client = new HttpClient())
             {
-                if(x.First().stock < _selectedOffer.Amount)
+                FilterViewModel filter = new FilterViewModel(_filter);
+                filter.clear();
+                filter.Name = _selectedOffer.Product.Name;
+                filter.SellerId = _authenticationUser.UserId;
+                filter.Stock = "1";
+                URLBuilder url = new URLBuilder(filter, "/api//Product/");
+                var request = new HttpRequestMessage()
                 {
-                    ErrorString = (string)Application.Current.FindResource("StockError");
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Get
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+                var contents = await response.Content.ReadAsStringAsync();
+                List<ProductDto> result = JsonConvert.DeserializeObject<List<ProductDto>>(contents);
+                if (result.Count() == 1)
+                {
+                    if (result.First().Stock < _selectedOffer.Amount)
+                    {
+                        ErrorString = (string)Application.Current.FindResource("StockError");
+                        return;
+                    }
+                }
+                /* var x = await _productService.GetData(s => s.Name == _selectedOffer.Product.Name);
+                 if(x.Count() == 1)
+                 {
+                     if(x.First().stock < _selectedOffer.Amount)
+                     {
+                         ErrorString = (string)Application.Current.FindResource("StockError");
+                         return;
+                     }
+                 }*/
+
+
+
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                SellOfferDto content = createOffer(_selectedOffer);
+
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                //var predicate = CreateFilter();
+                url = new URLBuilder(controler);
+                var request2 = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Put,
+                    Content = new StringContent(json,
+                                    Encoding.UTF8,
+                                    "application/json")
+                };
+                request2.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response2 = await client.SendAsync(request2);
+
+                if (!response2.IsSuccessStatusCode)
+                {
+                    ErrorString = (string)Application.Current.FindResource("InvalidBuyOfferError");
                     return;
                 }
             }
-            bool offerUpdated = await _sellOfferService.Update(_selectedOffer.SellOffer);
+            await Load();
+            ErrorString = null;
+            /*bool offerUpdated = await _sellOfferService.Update(_selectedOffer.SellOffer);
             if(offerUpdated == false)
             {
                 ErrorString = (string)Application.Current.FindResource("UpdateSellOfferError");
                 return;
             }
-            ErrorString = null;
+            ErrorString = null;*/
         }
         public async Task DeleteOffer()
         {
-            bool offerDeleted = await _sellOfferService.Delete(_selectedOffer.SellOffer);
+            if (SelectedOffer != null)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    SellOfferDto content = createOffer(_selectedOffer);
+
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                    //var predicate = CreateFilter();
+                    URLBuilder url = new URLBuilder(controler);
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(url.URL),
+                        Method = HttpMethod.Delete,
+                        Content = new StringContent(json,
+                                        Encoding.UTF8,
+                                        "application/json")
+                    };
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                    var response = await client.SendAsync(request);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorString = (string)Application.Current.FindResource("DeleteProductError");
+                        return;
+                    }
+                    await Load();
+                }
+                ErrorString = null;
+            }
+            /*bool offerDeleted = await _sellOfferService.Delete(_selectedOffer.SellOffer);
             if (offerDeleted == true)
             {
                 SellOffers.Remove(_selectedOffer);
@@ -203,7 +367,7 @@ namespace LGSA.ViewModel
             else
             {
                 ErrorString = (string)Application.Current.FindResource("DeleteSellOfferError");
-            }
+            }*/
         }
 
         public bool CanModifyOffer()
@@ -213,6 +377,47 @@ namespace LGSA.ViewModel
                 return false;
             }
             return true;
+        }
+        SellOfferDto createOffer(SellOfferWrapper offer)
+        {
+            SellOfferDto wrap = new SellOfferDto();
+            wrap.Id = offer.Id;
+            wrap.SellerId = _authenticationUser.UserId;
+            wrap.Price = offer.Price;
+            wrap.Amount = offer.Amount;
+            wrap.Name = offer.Name;
+            wrap.ProductId = offer.ProductId;
+            ProductDto product = createProductDto(offer.Product);
+            wrap.Product = product;
+            return wrap;
+        }
+
+        ProductDto createProductDto(ProductWrapper productWrap)
+        {
+            ProductDto content = new ProductDto();
+            ConditionDto condition = new ConditionDto();
+            //condition.Id = productWrap.Condition.Id;
+            //condition.Name = productWrap.Condition.Name;
+            //content.Condition = condition;
+            GenreDto genre = new GenreDto();
+            //genre.Id = productWrap.Genre.Id;
+            //genre.Description = productWrap.Genre.GenreDescription;
+            //genre.Name = productWrap.Genre.Name;
+            //content.Genre = genre;
+            ProductTypeDto productType = new ProductTypeDto();
+            //productType.Id = productWrap.ProductType.Id;
+            //productType.Name = productWrap.ProductType.Name;
+            //content.ProductType = productType;
+            content.ConditionId = productWrap.ConditionId;
+            content.GenreId = productWrap.GenreId;
+            content.ProductTypeId = productWrap.ProductTypeId;
+            content.Id = productWrap.Id;
+            content.Name = productWrap.Name;
+            content.ProductOwner = _authenticationUser.UserId;
+            //content.Rating = productWrap.Rating;
+            content.SoldCopies = 0;
+            content.Stock = productWrap.Stock;
+            return content;
         }
     }
 }

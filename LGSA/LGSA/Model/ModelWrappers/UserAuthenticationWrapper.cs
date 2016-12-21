@@ -23,6 +23,7 @@ namespace LGSA.Model.ModelWrappers
         public int Id
         {
             get { return userAuthentication.ID; }
+            set { UserAuthentication.ID = value; Notify(); }
         }
         public int UserId
         {

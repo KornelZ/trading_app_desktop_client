@@ -7,9 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
+using LGSA_Server.Model.DTO;
+using System.Net.Http.Headers;
 
 namespace LGSA.ViewModel
 {
@@ -20,14 +24,16 @@ namespace LGSA.ViewModel
         private SellOfferService _sellOfferService;
         private ProductService _productService;
         private TransactionService _transactionService;
-
+        private UserAuthenticationWrapper _authenticationUser;
         private SellOfferWrapper _selectedOffer;
         private BindableCollection<SellOfferWrapper> _offers;
         private AsyncRelayCommand _acceptCommand;
+        private readonly string controler = "/api//SellOffer/";
 
         private string _errorString;
-        public SellTransactionViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
+        public SellTransactionViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, UserAuthenticationWrapper authenticationUser)
         {
+            _authenticationUser = authenticationUser;
             _sellOfferService = new SellOfferService(factory);
             _productService = new ProductService(factory);
             _transactionService = new TransactionService(factory);
@@ -62,13 +68,35 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
-            var offers = await _sellOfferService.GetData(CreateFilter());
+            using (var client = new HttpClient())
+            {
+
+                //var predicate = CreateFilter();
+                URLBuilder url = new URLBuilder(_filter, controler);
+                url.URL += "&ShowMyOffers=false";
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Get
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+                var contents = await response.Content.ReadAsStringAsync();
+                List<SellOfferDto> result = JsonConvert.DeserializeObject<List<SellOfferDto>>(contents);
+                Offers.Clear();
+                foreach (SellOfferDto bo in result)
+                {
+                    SellOfferWrapper boffer = bo.createSellOffer();
+                    Offers.Add(boffer);
+                }
+            }
+            /*var offers = await _sellOfferService.GetData(CreateFilter());
             Offers.Clear();
 
             foreach (var offer in offers)
             {
                 Offers.Add(SellOfferWrapper.CreateSellOffer(offer));
-            }
+            }*/
         }
 
         private Expression<Func<sell_Offer, bool>> CreateFilter()
@@ -107,8 +135,54 @@ namespace LGSA.ViewModel
 
         public async Task Accept()
         {
-            product buyerProduct = null;
-            var productQuery = await _productService.GetData(prod => prod.product_owner == _user.Id && prod.Name == SelectedOffer.Product.Name);
+            string rating = "";
+            RateWindow win = new RateWindow();
+            win.ShowDialog();
+            rating = win.Rating;
+
+            BuyOfferDto bOffer = new BuyOfferDto();
+            bOffer.Id = 0;
+            bOffer.BuyerId = _authenticationUser.UserId;
+            bOffer.Price = (decimal?)SelectedOffer.Price;
+            bOffer.Amount = SelectedOffer.Amount;
+            bOffer.Name = "a";
+            bOffer.ProductId = SelectedOffer.ProductId;
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                SellOfferDto sellOffer = createOffer(SelectedOffer);
+                TransactionDto transaction = new TransactionDto();
+                transaction.BuyOffer = bOffer;
+                transaction.SellOffer = sellOffer;
+                if (rating == "")
+                {
+                    transaction.Rating = null;
+                }
+                else
+                {
+                    transaction.Rating = Convert.ToInt32(rating);
+                }
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(transaction);
+                var url = new URLBuilder("/AcceptSellTransaction/");
+                var request2 = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Post,
+                    Content = new StringContent(json,
+                                    Encoding.UTF8,
+                                    "application/json")
+                };
+                request2.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request2);
+                if (!response.IsSuccessStatusCode)
+                {
+                    ErrorString = (string)Application.Current.FindResource("TransactionError");
+                    return;
+                }
+                Offers.Remove(SelectedOffer);
+            }
+            /*var productQuery = await _productService.GetData(prod => prod.product_owner == _user.Id && prod.Name == SelectedOffer.Product.Name);
             if (productQuery.Count() != 0)
             {
                 buyerProduct = productQuery.First();
@@ -151,7 +225,21 @@ namespace LGSA.ViewModel
                 return;
             }
             ErrorString = null;
-            Offers.Remove(SelectedOffer);
+            Offers.Remove(SelectedOffer);*/
+        }
+
+        SellOfferDto createOffer(SellOfferWrapper offer)
+        {
+            SellOfferDto wrap = new SellOfferDto();
+            wrap.Id = offer.Id;
+            wrap.SellerId = _authenticationUser.UserId;
+            wrap.Price = offer.Price;
+            wrap.Amount = offer.Amount;
+            wrap.Name = offer.Name;
+            wrap.ProductId = offer.ProductId;
+            //ProductDto product = createProductDto(offer.Product);
+            //wrap.Product = product;
+            return wrap;
         }
 
         private void NullProductProperties(product buyerProduct)

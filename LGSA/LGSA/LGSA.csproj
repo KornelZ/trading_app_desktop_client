@@ -58,6 +58,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -83,6 +87,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\DTO\AddressDto.cs" />
+    <Compile Include="Model\DTO\AuthenticationDto.cs" />
+    <Compile Include="Model\DTO\BuyOfferDto.cs" />
+    <Compile Include="Model\DTO\ConditionDto.cs" />
+    <Compile Include="Model\DTO\DictionaryDto.cs" />
+    <Compile Include="Model\DTO\GenreDto.cs" />
+    <Compile Include="Model\DTO\ProductDto.cs" />
+    <Compile Include="Model\DTO\ProductTypeDto.cs" />
+    <Compile Include="Model\DTO\SellOfferDto.cs" />
+    <Compile Include="Model\DTO\TransactionDto.cs" />
+    <Compile Include="Model\DTO\UserDto.cs" />
     <Compile Include="Model\Repositories\BuyOfferRepository.cs" />
     <Compile Include="Model\Repositories\SellOfferRepository.cs" />
     <Compile Include="Model\Repositories\ProductRepository.cs" />
@@ -100,11 +115,16 @@
     <Compile Include="Utility\NumberPicker.xaml.cs">
       <DependentUpon>NumberPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utility\RateWindow.xaml.cs">
+      <DependentUpon>RateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\URLBuilder.cs" />
     <Compile Include="ViewModel\BuyOfferViewModel.cs" />
     <Compile Include="ViewModel\BuyTransactionViewModel.cs" />
     <Compile Include="ViewModel\DictionaryViewModel.cs" />
     <Compile Include="ViewModel\FilterViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ManageAccountViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\SellOfferViewModel.cs" />
     <Compile Include="ViewModel\SellTransactionViewModel.cs" />
@@ -212,6 +232,9 @@
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ManageAccountView.xaml.cs">
+      <DependentUpon>ManageAccountView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
     </Compile>
@@ -304,6 +327,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Utility\RateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddBuyOfferDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -329,6 +356,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ManageAccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

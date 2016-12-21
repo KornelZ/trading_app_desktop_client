@@ -51,7 +51,8 @@ namespace LGSA.ViewModel
         {
             dic_Genre generalGenre = new dic_Genre();
             generalGenre.name = "All/Any";
-
+            dic_Product_type generalProductType = new dic_Product_type();
+            generalProductType.name = "All/Any";
             dic_condition generalCondition = new dic_condition();
             generalCondition.name = "All/Any";
             var genres = await _genreService.GetData(null);
@@ -69,6 +70,7 @@ namespace LGSA.ViewModel
             }
 
             var productTypes = await _productTypeService.GetData(null);
+            ProductTypes.Add(new ProductTypeWrapper(generalProductType));
             foreach(var p in productTypes)
             {
                 ProductTypes.Add(new ProductTypeWrapper(p));

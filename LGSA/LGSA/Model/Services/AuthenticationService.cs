@@ -1,8 +1,12 @@
 ﻿using LGSA.Model.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -84,21 +88,25 @@ namespace LGSA.Model.Services
 
         public async Task<IEnumerable<users_Authetication>> GetData(Expression<Func<users_Authetication, bool>> filter)
         {
-            using (var unitOfWork = _factory.CreateUnitOfWork())
-            {
-                try
-                {
-                    var entities = await unitOfWork.AuthenticationRepository.GetData(filter);
-
-                    return entities;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.InnerException.ToString());
-                }
-            }
+            
             return null;
-        }
+            
+            /*
+               using (var unitOfWork = _factory.CreateUnitOfWork())
+                {
+                    try
+                    {
+                        var entities = await unitOfWork.AuthenticationRepository.GetData(filter);
+
+                        return entities;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.InnerException.ToString());
+                    }
+                }
+                return null;*/
+            }
 
         public async Task<bool> Update(users_Authetication entity)
         {

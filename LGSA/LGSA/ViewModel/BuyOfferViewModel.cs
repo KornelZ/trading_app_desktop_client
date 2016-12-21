@@ -3,21 +3,26 @@ using LGSA.Model.ModelWrappers;
 using LGSA.Model.Services;
 using LGSA.Model.UnitOfWork;
 using LGSA.Utility;
+using LGSA_Server.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace LGSA.ViewModel
 {
     public class BuyOfferViewModel : BindableBase, IViewModel
     {
         private UserWrapper _user;
+        private UserAuthenticationWrapper _authenticationUser;
         private BuyOfferService _buyOfferService;
-
+        private readonly string controller = "/api//BuyOffer/";
         private BindableCollection<BuyOfferWrapper> _buyOffers;
 
         private BuyOfferWrapper _createdOffer;
@@ -28,8 +33,9 @@ namespace LGSA.ViewModel
         private FilterViewModel _filter;
 
         private string _errorString;
-        public BuyOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user)
+        public BuyOfferViewModel(IUnitOfWorkFactory factory, FilterViewModel filter, UserWrapper user, UserAuthenticationWrapper authenticationUser)
         {
+            _authenticationUser = authenticationUser;
             _user = user;
             _buyOfferService = new BuyOfferService(factory);
             BuyOffers = new BindableCollection<BuyOfferWrapper>();
@@ -73,6 +79,32 @@ namespace LGSA.ViewModel
         }
         public async Task Load()
         {
+            using (var client = new HttpClient())
+            {
+
+                //var predicate = CreateFilter();
+                URLBuilder url = new URLBuilder(_filter, controller);
+                url.URL += "&ShowMyOffers=true";
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Get
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+                var contents = await response.Content.ReadAsStringAsync();
+                List<BuyOfferDto> result = JsonConvert.DeserializeObject<List<BuyOfferDto>>(contents);
+                //var x = await _productService.GetData(predicate);
+                BuyOffers.Clear();
+                foreach (BuyOfferDto bo in result)
+                {
+
+                    BuyOfferWrapper boffer = bo.createBuyOffer();
+                    BuyOffers.Add(boffer);
+                }
+            }
+
+            /*
             Expression<Func<buy_Offer, bool>> filter = CreateFilter();
             var offers = await _buyOfferService.GetData(filter);
             BuyOffers.Clear();
@@ -83,7 +115,7 @@ namespace LGSA.ViewModel
                 {
                     Product = product,
                 });
-            }
+            }*/
         }
 
         private Expression<Func<buy_Offer, bool>> CreateFilter()
@@ -127,7 +159,40 @@ namespace LGSA.ViewModel
                 return;
             }
             CreatedOffer.Product.CheckForNull();
-            bool offerAdded = await _buyOfferService.Add(_createdOffer.BuyOffer);
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                BuyOfferDto content = createOffer(_createdOffer);
+
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                //var predicate = CreateFilter();
+                URLBuilder url = new URLBuilder(controller);
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(url.URL),
+                    Method = HttpMethod.Post,
+                    Content = new StringContent(json,
+                                    Encoding.UTF8,
+                                    "application/json")
+                };
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                var response = await client.SendAsync(request);
+
+
+                //bool offerAdded = await _productService.Add(_createdProduct.Product);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    BuyOffers.Add(_createdOffer);
+                    _createdOffer = BuyOfferWrapper.CreateEmptyBuyOffer(_user);
+                }
+                else
+                {
+                    ErrorString = (string)Application.Current.FindResource("InvalidBuyOfferError");
+                    return;
+                }
+            }
+            /*bool offerAdded = await _buyOfferService.Add(_createdOffer.BuyOffer);
 
             if(offerAdded == true)
             {
@@ -138,31 +203,79 @@ namespace LGSA.ViewModel
             {
                 ErrorString = (string)Application.Current.FindResource("InsertBuyOfferError");
                 return;
-            }
+            }*/
             ErrorString = null;
         }
         public async Task UpdateOffer()
         {
-            bool offerUpdated = await _buyOfferService.Update(_selectedOffer.BuyOffer);
-            if(offerUpdated == false)
+
+            if (SelectedOffer != null)
             {
-                ErrorString = (string)Application.Current.FindResource("UpdateBuyOfferError");
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    BuyOfferDto content = createOffer(_selectedOffer);
+
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                    //var predicate = CreateFilter();
+                    URLBuilder url = new URLBuilder(controller);
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(url.URL),
+                        Method = HttpMethod.Put,
+                        Content = new StringContent(json,
+                                        Encoding.UTF8,
+                                        "application/json")
+                    };
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                    var response = await client.SendAsync(request);
+
+                    //bool success = await _productService.Update(_selectedProduct.Product);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorString = (string)Application.Current.FindResource("InvalidBuyOfferError");
+                        return;
+                    }
+                }
+                await Load();
+                ErrorString = null;
             }
-            ErrorString = null;
+
+            
         }
         public async Task DeleteOffer()
         {
-            bool offerDeleted = await _buyOfferService.Delete(_selectedOffer.BuyOffer);
-            if(offerDeleted == true)
+            if (SelectedOffer != null)
             {
-                BuyOffers.Remove(_selectedOffer);
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    BuyOfferDto content = createOffer(_selectedOffer);
+
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                    //var predicate = CreateFilter();
+                    URLBuilder url = new URLBuilder(controller);
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = new Uri(url.URL),
+                        Method = HttpMethod.Delete,
+                        Content = new StringContent(json,
+                                        Encoding.UTF8,
+                                        "application/json")
+                    };
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", _authenticationUser.UserId.ToString(), _authenticationUser.Password))));
+                    var response = await client.SendAsync(request);
+
+                    //bool success = await _productService.Update(_selectedProduct.Product);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorString = (string)Application.Current.FindResource("DeleteProductError");
+                        return;
+                    }
+                    await Load();
+                }
+                ErrorString = null;
             }
-            else
-            {
-                ErrorString = (string)Application.Current.FindResource("DeleteBuyOfferError");
-                return;
-            }
-            ErrorString = null;
         }
 
         public bool CanModifyOffer()
@@ -172,6 +285,48 @@ namespace LGSA.ViewModel
                 return false;
             }
             return true;
+        }
+
+        BuyOfferDto createOffer(BuyOfferWrapper offer)
+        {
+            BuyOfferDto wrap = new BuyOfferDto();
+            wrap.Id = offer.Id;
+            wrap.BuyerId = _authenticationUser.UserId;
+            wrap.Price = offer.Price;
+            wrap.Amount = offer.Amount;
+            wrap.Name = offer.Name;
+            wrap.ProductId = offer.ProductId;
+            ProductDto product = createProductDto(offer.Product);
+            wrap.Product = product;
+            return wrap;
+        }
+
+        ProductDto createProductDto(ProductWrapper productWrap)
+        {
+            ProductDto content = new ProductDto();
+            ConditionDto condition = new ConditionDto();
+            //condition.Id = productWrap.Condition.Id;
+            //condition.Name = productWrap.Condition.Name;
+            //content.Condition = condition;
+            GenreDto genre = new GenreDto();
+            //genre.Id = productWrap.Genre.Id;
+            //genre.Description = productWrap.Genre.GenreDescription;
+            //genre.Name = productWrap.Genre.Name;
+            //content.Genre = genre;
+            ProductTypeDto productType = new ProductTypeDto();
+            //productType.Id = productWrap.ProductType.Id;
+            //productType.Name = productWrap.ProductType.Name;
+            //content.ProductType = productType;
+            content.ConditionId = productWrap.ConditionId;
+            content.GenreId = productWrap.GenreId;
+            content.ProductTypeId = productWrap.ProductTypeId;
+            content.Id = productWrap.Id;
+            content.Name = productWrap.Name;
+            content.ProductOwner = _authenticationUser.UserId;
+            //content.Rating = productWrap.Rating;
+            content.SoldCopies = 0;
+            content.Stock = productWrap.Stock;
+            return content;
         }
     }
 }

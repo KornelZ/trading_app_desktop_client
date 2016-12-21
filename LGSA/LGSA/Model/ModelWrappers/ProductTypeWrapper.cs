@@ -29,6 +29,7 @@ namespace LGSA.Model.ModelWrappers
         public int Id
         {
             get { return dicProductType.ID; }
+            set { dicProductType.ID = value; Notify(); }
         }
         public string Name
         {
