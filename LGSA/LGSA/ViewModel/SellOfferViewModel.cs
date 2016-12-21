@@ -136,6 +136,7 @@ namespace LGSA.ViewModel
             }
             using (var client = new HttpClient())
             {
+                CreatedOffer.ProductId = CreatedOffer.Product.Id;
                 FilterViewModel filter = new FilterViewModel(_filter);
                 filter.Name = _createdOffer.Product.Name;
                 URLBuilder url = new URLBuilder(filter, controler);

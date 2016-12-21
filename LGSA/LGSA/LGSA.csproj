@@ -87,6 +87,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\buy_Offer.cs" />
+    <Compile Include="Model\dic_condition.cs" />
+    <Compile Include="Model\dic_Genre.cs" />
+    <Compile Include="Model\dic_Offer_status.cs" />
+    <Compile Include="Model\dic_Product_type.cs" />
+    <Compile Include="Model\dic_Transaction_status.cs" />
     <Compile Include="Model\DTO\AddressDto.cs" />
     <Compile Include="Model\DTO\AuthenticationDto.cs" />
     <Compile Include="Model\DTO\BuyOfferDto.cs" />
@@ -98,6 +104,16 @@
     <Compile Include="Model\DTO\SellOfferDto.cs" />
     <Compile Include="Model\DTO\TransactionDto.cs" />
     <Compile Include="Model\DTO\UserDto.cs" />
+    <Compile Include="Model\MainDatabaseModel.Context.cs" />
+    <Compile Include="Model\MainDatabaseModel.cs" />
+    <Compile Include="Model\MainDatabaseModel.Designer.cs">
+      <DependentUpon>MainDatabaseModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\product.cs" />
+    <Compile Include="Model\sell_Offer.cs" />
+    <Compile Include="Model\transactions.cs" />
+    <Compile Include="Model\users.cs" />
+    <Compile Include="Model\users_Authetication.cs" />
     <Compile Include="Utility\FilterControl.xaml.cs">
       <DependentUpon>FilterControl.xaml</DependentUpon>
     </Compile>
@@ -131,39 +147,6 @@
     <Compile Include="View\AuthenticationView.xaml.cs">
       <DependentUpon>AuthenticationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\buy_Offer.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\dic_condition.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\dic_Genre.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\dic_Offer_status.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\dic_Product_type.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\dic_Transaction_status.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\MainDatabaseModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabaseModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\MainDatabaseModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\MainDatabaseModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabaseModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Model\ModelWrappers\BuyOfferWrapper.cs" />
     <Compile Include="Model\ModelWrappers\ConditionWrapper.cs" />
     <Compile Include="Model\ModelWrappers\GenreWrapper.cs" />
@@ -175,21 +158,6 @@
     <Compile Include="Model\ModelWrappers\TransactionWrapper.cs" />
     <Compile Include="Model\ModelWrappers\UserAuthenticationWrapper.cs" />
     <Compile Include="Model\ModelWrappers\UserWrapper.cs" />
-    <Compile Include="Model\product.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sell_Offer.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\transactions.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\users.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\users_Authetication.cs">
-      <DependentUpon>MainDatabaseModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Utility\AsyncRelayCommand.cs" />
     <Compile Include="Utility\BindableBase.cs" />
     <Compile Include="Utility\BindableCollection.cs" />
@@ -239,13 +207,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model\MainDatabaseModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MainDatabaseModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\MainDatabaseModel.edmx.diagram">
-      <DependentUpon>MainDatabaseModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -263,16 +224,6 @@
     <Content Include="mainDatabase_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>mainDatabase.mdf</DependentUpon>
-    </Content>
-    <Content Include="Model\MainDatabaseModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MainDatabaseModel.edmx</DependentUpon>
-      <LastGenOutput>MainDatabaseModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\MainDatabaseModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MainDatabaseModel.edmx</DependentUpon>
-      <LastGenOutput>MainDatabaseModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

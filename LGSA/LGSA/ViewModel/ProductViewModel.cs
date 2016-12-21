@@ -120,6 +120,7 @@ namespace LGSA.ViewModel
                 var contents = await response.Content.ReadAsStringAsync();
                 List<ProductDto> result = JsonConvert.DeserializeObject<List<ProductDto>>(contents);
                 Products.Clear();
+
                 foreach (ProductDto p in result)
                 {
                     ProductWrapper product = p.createProduct();

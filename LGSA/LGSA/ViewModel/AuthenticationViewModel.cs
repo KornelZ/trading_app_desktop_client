@@ -164,23 +164,29 @@ namespace LGSA.ViewModel
                                     Encoding.UTF8,
                                     "application/json")
                 };
-                var response = await client.SendAsync(request);
-                var contents = await response.Content.ReadAsStringAsync();
-                if(!response.IsSuccessStatusCode)
+                try {
+                    var response = await client.SendAsync(request);
+                    var contents = await response.Content.ReadAsStringAsync();
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorString = (string)Application.Current.FindResource("AuthenticationError");
+                        return;
+                    }
+                    AuthenticationDto result = JsonConvert.DeserializeObject<AuthenticationDto>(contents);
+                    User.UserId = result.User.Id;
+                    User.Id = result.Id;
+                    User.User.FirstName = result.User.FirstName;
+                    User.User.LastName = result.User.LastName;
+                    User.User.Address = new AddressDto();
+                    User.User.Address.Id = result.User.Address.Id;
+                    User.User.Address.City = result.User.Address.City;
+                    User.User.Address.Street = result.User.Address.Street;
+                    User.User.Address.PostalCode = result.User.Address.PostalCode;
+                } catch(Exception e)
                 {
-                    ErrorString = (string)Application.Current.FindResource("AuthenticationError");
-                    return;
+
                 }
-                AuthenticationDto result = JsonConvert.DeserializeObject<AuthenticationDto>(contents);
-                User.UserId =  result.User.Id;
-                User.Id = result.Id;
-                User.User.FirstName = result.User.FirstName;
-                User.User.LastName = result.User.LastName;
-                User.User.Address = new AddressDto();
-                User.User.Address.Id = result.User.Address.Id;
-                User.User.Address.City = result.User.Address.City;
-                User.User.Address.Street = result.User.Address.Street;
-                User.User.Address.PostalCode = result.User.Address.PostalCode;
+                
             }
             ErrorString = null;
             await OnAuthentication(EventArgs.Empty);
