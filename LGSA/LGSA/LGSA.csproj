@@ -98,17 +98,6 @@
     <Compile Include="Model\DTO\SellOfferDto.cs" />
     <Compile Include="Model\DTO\TransactionDto.cs" />
     <Compile Include="Model\DTO\UserDto.cs" />
-    <Compile Include="Model\Repositories\BuyOfferRepository.cs" />
-    <Compile Include="Model\Repositories\SellOfferRepository.cs" />
-    <Compile Include="Model\Repositories\ProductRepository.cs" />
-    <Compile Include="Model\Repositories\TransactionRepository.cs" />
-    <Compile Include="Model\Services\BuyOfferService.cs" />
-    <Compile Include="Model\Services\ConditionService.cs" />
-    <Compile Include="Model\Services\GenreService.cs" />
-    <Compile Include="Model\Services\ProductService.cs" />
-    <Compile Include="Model\Services\ProductTypeService.cs" />
-    <Compile Include="Model\Services\SellOfferService.cs" />
-    <Compile Include="Model\Services\TransactionService.cs" />
     <Compile Include="Utility\FilterControl.xaml.cs">
       <DependentUpon>FilterControl.xaml</DependentUpon>
     </Compile>
@@ -189,19 +178,6 @@
     <Compile Include="Model\product.cs">
       <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Repositories\IRepository.cs" />
-    <Compile Include="Model\Repositories\AuthenticationRepository.cs" />
-    <Compile Include="Model\Repositories\Repository.cs" />
-    <Compile Include="Model\Repositories\UserRepository.cs" />
-    <Compile Include="Model\Services\IService.cs" />
-    <Compile Include="Model\Services\AuthenticationService.cs" />
-    <Compile Include="Model\Services\UserService.cs" />
-    <Compile Include="Model\UnitOfWork\DbUnitOfWorkFactory.cs" />
-    <Compile Include="Model\UnitOfWork\IUnitOfWork.cs" />
-    <Compile Include="Model\UnitOfWork\IUnitOfWorkFactory.cs" />
-    <Compile Include="Model\UnitOfWork\MockUnitOfWork.cs" />
-    <Compile Include="Model\UnitOfWork\DbUnitOfWork.cs" />
-    <Compile Include="Model\UnitOfWork\UnitOfWorkFactory.cs" />
     <Compile Include="Model\sell_Offer.cs">
       <DependentUpon>MainDatabaseModel.tt</DependentUpon>
     </Compile>

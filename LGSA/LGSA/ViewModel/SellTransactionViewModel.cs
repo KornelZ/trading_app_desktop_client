@@ -1,7 +1,5 @@
 ﻿using LGSA.Model;
 using LGSA.Model.ModelWrappers;
-using LGSA.Model.Services;
-using LGSA.Model.UnitOfWork;
 using LGSA.Utility;
 using System;
 using System.Collections.Generic;

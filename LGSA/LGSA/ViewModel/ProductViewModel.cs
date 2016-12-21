@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LGSA.Model.UnitOfWork;
-using LGSA.Model.Services;
 using System.Linq.Expressions;
 using LGSA.Model;
 using System.Runtime.Serialization;

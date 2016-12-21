@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using LGSA.Model.Services;
-using LGSA.Model.UnitOfWork;
 using LGSA.Model.ModelWrappers;
 using LGSA.Utility;
 using System.Windows.Input;

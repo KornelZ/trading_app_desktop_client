@@ -11,7 +11,7 @@ namespace LGSA.Utility
 {
     class URLBuilder
     {
-        private string url = "http://lgsa-server.azurewebsites.net";
+        private string url = "https://lgsa-server.azurewebsites.net";
         public URLBuilder(string controller)
         {
             url += controller;

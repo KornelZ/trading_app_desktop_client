@@ -1,5 +1,4 @@
-﻿using LGSA.Model.UnitOfWork;
-using LGSA.Utility;
+﻿using LGSA.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
