@@ -90,10 +90,10 @@ namespace LGSA.ViewModel
                                 new XElement("Stock", p.Stock),
                                 new XElement("SoldCopies", p.SoldCopies),
                                 new XElement("Owner", _user.FirstName + " " + _user.LastName),
-                                new XElement("Genre", _dictionaryVM.Genres.First(item => item.Id == p.GenreId),
-                                new XElement("Product_Type", _dictionaryVM.ProductTypes.First(item => item.Id == p.ProductTypeId)),
-                                new XElement("Condition", _dictionaryVM.Conditions.First(item => item.Id == p.ConditionId)))
-                                ));
+                                new XElement("Genre", _dictionaryVM.Genres.FirstOrDefault(item => item.Id == p.GenreId)),
+                                new XElement("Product_Type", _dictionaryVM.ProductTypes.FirstOrDefault(item => item.Id == p.ProductTypeId)),
+                                new XElement("Condition", _dictionaryVM.Conditions.FirstOrDefault(item => item.Id == p.ConditionId)))
+                                );
                 String path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Reports\\Products" + saveNow.Date + ".xml";
                 path = "report" + saveNow.Year + "-" + saveNow.Month + "-" + saveNow.Day + ".xml";
                 xmlfromLINQ.Save(path);
